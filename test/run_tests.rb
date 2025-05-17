@@ -20,7 +20,12 @@ Minitest.after_run do
     f.puts "TOTAL: #{total_percent}% (#{total_covered}/#{total_lines})"
   end
 
-  File.write('rubocop_report.txt', 'RuboCop could not run because the rubocop gem is not installed in this environment.')
-  File.write('bundler_audit_report.txt', 'bundler-audit could not run because the bundler-audit gem is not installed in this environment.')
-  File.write('brakeman_report.txt', 'Brakeman could not run because the brakeman gem is not installed in this environment.')
+  rubocop_output = `bundle exec rubocop 2>&1`
+  File.write('rubocop_report.txt', rubocop_output)
+
+  bundler_audit_output = `bundle exec bundler-audit check 2>&1`
+  File.write('bundler_audit_report.txt', bundler_audit_output)
+
+  brakeman_output = `bundle exec brakeman -q 2>&1`
+  File.write('brakeman_report.txt', brakeman_output)
 end
