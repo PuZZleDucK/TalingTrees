@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ "*" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+      - name: Run tests
+        run: ruby test/run_tests.rb
+      - name: Upload coverage
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: coverage.txt
+      - name: Upload rubocop report
+        uses: actions/upload-artifact@v3
+        with:
+          name: rubocop
+          path: rubocop_report.txt
+      - name: Upload bundler audit report
+        uses: actions/upload-artifact@v3
+        with:
+          name: bundler_audit
+          path: bundler_audit_report.txt
+      - name: Upload brakeman report
+        uses: actions/upload-artifact@v3
+        with:
+          name: brakeman
+          path: brakeman_report.txt
