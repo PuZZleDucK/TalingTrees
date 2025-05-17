@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ "*" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+      - name: Run tests
+        run: ruby test/run_tests.rb | tee test_output.txt
+      - name: Summarize results
+        run: |
+          summary=$(grep -E "[0-9]+ runs" test_output.txt | tail -n1)
+          echo "### Tests" >> "$GITHUB_STEP_SUMMARY"
+          echo "$summary" >> "$GITHUB_STEP_SUMMARY"
+          coverage=$(grep '/workspace/TalingTrees/app' coverage.txt | grep -Eo '[0-9]+/[0-9]+' | awk -F/ '{covered += $1; total += $2} END { if (total>0) printf("%.2f%%", covered/total*100) }')
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "### Coverage" >> "$GITHUB_STEP_SUMMARY"
+          echo "$coverage" >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload coverage
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: coverage.txt
+      - name: Upload rubocop report
+        uses: actions/upload-artifact@v3
+        with:
+          name: rubocop
+          path: rubocop_report.txt
+      - name: Upload bundler audit report
+        uses: actions/upload-artifact@v3
+        with:
+          name: bundler_audit
+          path: bundler_audit_report.txt
+      - name: Upload brakeman report
+        uses: actions/upload-artifact@v3
+        with:
+          name: brakeman
+          path: brakeman_report.txt
