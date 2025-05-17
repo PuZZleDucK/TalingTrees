@@ -1,3 +1,4 @@
 Rails.application.routes.draw do
-  root 'home#index'
+  root 'trees#index'
+  resources :trees, only: [:index]
 end
