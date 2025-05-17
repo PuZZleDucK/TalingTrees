@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ "*" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+      - name: Run tests
+        run: |
+          ruby test/run_tests.rb | tee test_output.txt
+      - name: Show reports
+        run: |
+          echo 'Coverage:'
+          cat coverage.txt
+          echo 'RuboCop:'
+          cat rubocop_report.txt
+          echo 'Bundler audit:'
+          cat bundler_audit_report.txt
+          echo 'Brakeman:'
+          cat brakeman_report.txt
+      - name: Comment results on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const lines = fs.readFileSync('test_output.txt', 'utf8').trim().split('\n');
+            const summary = lines[lines.length - 1];
+            const coverageLines = fs.readFileSync('coverage.txt', 'utf8').trim().split('\n');
+            const coverage = coverageLines[coverageLines.length - 1];
+            const body = `**Test Summary**\n\n\`${summary}\`\n\n**Coverage**\n\n\`${coverage}\``;
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body,
+            });
