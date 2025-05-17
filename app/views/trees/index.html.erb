@@ -100,6 +100,13 @@
       }
     });
 
+    input.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter' && event.ctrlKey) {
+        event.preventDefault();
+        document.getElementById('chat-submit').click();
+      }
+    });
+
     if (trees.length > 0) {
       selectTree(0);
     }
