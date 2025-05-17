@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ "*" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+      - name: Run tests
+        run: |
+          ruby test/run_tests.rb | tee test_output.txt
+      - name: Show reports
+        run: |
+          echo 'Coverage:'
+          cat coverage.txt
+          echo
+          echo 'RuboCop report:'
+          cat rubocop_report.txt
+          echo
+          echo 'bundler-audit report:'
+          cat bundler_audit_report.txt
+          echo
+          echo 'Brakeman report:'
+          cat brakeman_report.txt
+      - name: Summarize results
+        run: |
+          TEST_COUNTS=$(grep -E "^[0-9]+ runs" -m 1 test_output.txt || true)
+          COVERAGE=$(grep '^TOTAL' coverage.txt | awk '{print $2}')
+          {
+            echo "### Test Results"
+            if [ -n "$TEST_COUNTS" ]; then
+              echo "$TEST_COUNTS"
+            else
+              echo "Test counts not found"
+            fi
+            echo
+            echo "Coverage: ${COVERAGE:-unknown}"
+          } >> "$GITHUB_STEP_SUMMARY"
