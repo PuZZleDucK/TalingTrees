@@ -9,5 +9,8 @@ gem 'sqlite3', '~> 1.4'
 
 group :development do
   gem 'listen'
+  gem 'rubocop', require: false
+  gem 'bundler-audit', require: false
+  gem 'brakeman', require: false
 end
 
