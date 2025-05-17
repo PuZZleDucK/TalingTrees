@@ -1,0 +1,29 @@
+<h1>Trees</h1>
+<ul>
+  <% @trees.each do |tree| %>
+    <li><%= tree.name %></li>
+  <% end %>
+</ul>
+
+<div id="map" style="height: 400px;">
+</div>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var trees = <%= raw @trees.to_json(only: [:name, :treedb_lat, :treedb_long]) %>;
+    var first = trees[0];
+    var lat = first ? first.treedb_lat : 0;
+    var lng = first ? first.treedb_long : 0;
+    var map = L.map('map').setView([lat, lng], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: 'Map data © OpenStreetMap contributors'
+    }).addTo(map);
+    trees.forEach(function(tree) {
+      if (tree.treedb_lat && tree.treedb_long) {
+        L.marker([tree.treedb_lat, tree.treedb_long]).addTo(map).bindPopup(tree.name);
+      }
+    });
+  });
+</script>
