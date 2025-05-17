@@ -3,8 +3,21 @@
 <head>
   <title>TalingTrees</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
 </head>
 <body>
+  <nav style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ccc;padding:8px;">
+    <div style="display:flex;align-items:center;">
+      <span style="font-size:24px;margin-right:8px;">🌳</span>
+      <span style="font-weight:bold;">TalingTrees</span>
+    </div>
+    <div style="display:flex;align-items:center;">
+      <span style="margin-right:8px;">👤 <%= @current_user&.name %></span>
+      <%= form_with url: select_user_path, method: :post, local: true do %>
+        <%= select_tag :user_id, options_from_collection_for_select(User.all, :id, :name, @current_user&.id), onchange: 'this.form.submit();' %>
+      <% end %>
+    </div>
+  </nav>
   <%= yield %>
 </body>
 </html>
