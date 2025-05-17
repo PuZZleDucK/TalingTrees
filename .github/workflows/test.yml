@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ "*" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+      - name: Run tests
+        run: ruby test/run_tests.rb
+      - name: Show coverage report
+        run: cat coverage.txt
+      - name: Show rubocop report
+        run: cat rubocop_report.txt
+      - name: Show bundler-audit report
+        run: cat bundler_audit_report.txt
+      - name: Show brakeman report
+        run: cat brakeman_report.txt
