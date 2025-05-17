@@ -1,9 +1,11 @@
 <div style="display:flex;height:100vh;">
   <div style="flex:1;padding-right:10px;">
     <h1>Trees</h1>
-    <ul>
-      <% @trees.each do |tree| %>
-        <li><%= tree.name %></li>
+    <ul id="tree-list" style="list-style:none;padding:0;">
+      <% @trees.each_with_index do |tree, idx| %>
+        <li data-index="<%= idx %>" style="cursor:pointer;padding:4px;">
+          <%= tree.name %>
+        </li>
       <% end %>
     </ul>
 
@@ -12,7 +14,7 @@
   <div style="flex:1;display:flex;flex-direction:column;border-left:1px solid #ccc;padding-left:10px;">
     <div style="display:flex;align-items:center;margin-bottom:10px;">
       <span style="font-size:24px;margin-right:8px;">💬</span>
-      <h2 style="margin:0;">Chat</h2>
+      <h2 id="chat-title" style="margin:0;">Chat</h2>
     </div>
     <div id="chat-history" style="overflow-y:auto;border:1px solid #ccc;padding:8px;margin-bottom:10px;">
       <!-- Chat messages will appear here -->
@@ -26,6 +28,9 @@
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  #tree-list li.selected { background-color: #e0f0ff; }
+</style>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     var trees = <%= raw @trees.to_json(only: [:name, :treedb_lat, :treedb_long]) %>;
@@ -36,10 +41,39 @@
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: 'Map data © OpenStreetMap contributors'
     }).addTo(map);
-    trees.forEach(function(tree) {
+    var markers = [];
+    trees.forEach(function(tree, idx) {
       if (tree.treedb_lat && tree.treedb_long) {
-        L.marker([tree.treedb_lat, tree.treedb_long]).addTo(map).bindPopup(tree.name);
+        var m = L.marker([tree.treedb_lat, tree.treedb_long]).addTo(map).bindPopup(tree.name);
+        m.on('click', function(){ selectTree(idx); });
+        markers[idx] = m;
+      } else {
+        markers[idx] = null;
       }
+    });
+
+    function highlightListItem(index) {
+      document.querySelectorAll('#tree-list li').forEach(function(li) {
+        li.classList.toggle('selected', Number(li.dataset.index) === index);
+      });
+    }
+
+    function selectTree(index) {
+      var tree = trees[index];
+      if (!tree) return;
+      highlightListItem(index);
+      if (markers[index]) {
+        markers[index].openPopup();
+        map.setView(markers[index].getLatLng(), 17);
+      }
+      document.getElementById('chat-title').textContent = tree.name;
+    }
+
+    document.querySelectorAll('#tree-list li').forEach(function(li){
+      li.addEventListener('click', function(){
+        var index = Number(li.dataset.index);
+        selectTree(index);
+      });
     });
 
     var input = document.getElementById('chat-input');
@@ -54,5 +88,9 @@
         history.scrollTop = history.scrollHeight;
       }
     });
+
+    if (trees.length > 0) {
+      selectTree(0);
+    }
   });
 </script>
