@@ -1,11 +1,27 @@
-<h1>Trees</h1>
-<ul>
-  <% @trees.each do |tree| %>
-    <li><%= tree.name %></li>
-  <% end %>
-</ul>
+<div style="display:flex;height:100vh;">
+  <div style="flex:1;padding-right:10px;">
+    <h1>Trees</h1>
+    <ul>
+      <% @trees.each do |tree| %>
+        <li><%= tree.name %></li>
+      <% end %>
+    </ul>
 
-<div id="map" style="height: 400px;">
+    <div id="map" style="height:400px;"></div>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;border-left:1px solid #ccc;padding-left:10px;">
+    <div style="display:flex;align-items:center;margin-bottom:10px;">
+      <span style="font-size:24px;margin-right:8px;">💬</span>
+      <h2 style="margin:0;">Chat</h2>
+    </div>
+    <div id="chat-history" style="flex:1;overflow-y:auto;border:1px solid #ccc;padding:8px;margin-bottom:10px;">
+      <!-- Chat messages will appear here -->
+    </div>
+    <div style="display:flex;">
+      <input type="text" id="chat-input" style="flex:1;padding:5px;" placeholder="Type a message...">
+      <button id="chat-submit" style="margin-left:5px;">Send</button>
+    </div>
+  </div>
 </div>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -23,6 +39,19 @@
     trees.forEach(function(tree) {
       if (tree.treedb_lat && tree.treedb_long) {
         L.marker([tree.treedb_lat, tree.treedb_long]).addTo(map).bindPopup(tree.name);
+      }
+    });
+
+    var input = document.getElementById('chat-input');
+    var history = document.getElementById('chat-history');
+    document.getElementById('chat-submit').addEventListener('click', function() {
+      var text = input.value.trim();
+      if (text !== '') {
+        var div = document.createElement('div');
+        div.textContent = text;
+        history.appendChild(div);
+        input.value = '';
+        history.scrollTop = history.scrollHeight;
       }
     });
   });
