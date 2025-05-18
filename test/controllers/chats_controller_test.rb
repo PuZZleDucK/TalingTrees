@@ -5,9 +5,9 @@ require 'ostruct'
 # Minimal stub simulating the Ollama client used in ChatsController
 class Ollama
   def initialize(credentials:, options: {}); end
-  def chat(model:, messages:, stream: nil)
+  def chat(payload)
     # Simulate the gem calling the stream handler without arguments
-    stream&.call
+    yield
   end
 end
 
@@ -21,7 +21,8 @@ class ChatsController
       credentials: { address: 'http://localhost:11434' },
       options: { server_sent_events: true }
     )
-    client.chat(model: tree.llm_model, messages: messages, stream: lambda { |_chunk = nil| })
+    client.chat({ model: tree.llm_model, messages: messages }) do |_chunk = nil, _raw = nil|
+    end
   end
 end
 
