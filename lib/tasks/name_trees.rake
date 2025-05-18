@@ -8,11 +8,16 @@ namespace :db do
     client = Ollama.new(credentials: { address: ENV.fetch('OLLAMA_URL', 'http://localhost:11434') })
 
     Tree.find_each do |tree|
+      identifier = tree.respond_to?(:id) ? "##{tree.id}" : tree.to_s
+      puts "Naming tree #{identifier}"
+
       facts = tree.attributes
                 .except('llm_model', 'llm_sustem_prompt', 'created_at', 'updated_at')
                 .map { |k, v| v.nil? || v.to_s.strip.empty? ? nil : "#{k}: #{v}" }
                 .compact
                 .join("\n")
+
+      puts "Facts:\n#{facts}"
 
       messages = [
         { 'role' => 'system', 'content' => system_prompt },
@@ -20,6 +25,7 @@ namespace :db do
       ]
 
       response = client.chat({ model: 'Qwen3:latest', messages: messages })
+      puts "Response: #{response.inspect}"
       content = response.dig('message', 'content').to_s
       cleaned = content
                 .gsub(/<thinking>.*?<\/thinking>/mi, '')
@@ -27,7 +33,10 @@ namespace :db do
                 .gsub(/"/, '')
                 .strip
 
+      puts "Cleaned name: #{cleaned}"
+
       tree.update!(name: cleaned, llm_model: 'Qwen3:latest', llm_sustem_prompt: system_prompt)
+      puts "Updated tree #{identifier}"
     end
   end
 end
