@@ -26,7 +26,12 @@ namespace :db do
 
       response = client.chat({ model: 'Qwen3:latest', messages: messages })
       puts "Response: #{response.inspect}"
-      content = response.dig('message', 'content').to_s
+
+      content = if response.is_a?(Array)
+                   response.map { |r| r.dig('message', 'content') }.join
+                 else
+                   response.dig('message', 'content')
+                 end.to_s
       cleaned = content
                 .gsub(/<thinking>.*?<\/thinking>/mi, '')
                 .gsub(/\[.*?\]/m, '')
