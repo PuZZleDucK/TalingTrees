@@ -40,10 +40,20 @@
     width: fit-content;
     margin-left: auto;
   }
+  #chat-history .bot-message {
+    background-color: #f0e0d0;
+    padding: 5px 8px;
+    border-radius: 4px;
+    margin: 4px 0;
+    max-width: 70%;
+    display: block;
+    width: fit-content;
+    margin-right: auto;
+  }
 </style>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    var trees = <%= raw @trees.to_json(only: [:name, :treedb_lat, :treedb_long]) %>;
+    var trees = <%= raw @trees.to_json(only: [:id, :name, :treedb_lat, :treedb_long]) %>;
     var first = trees[0];
     var lat = first ? first.treedb_lat : 0;
     var lng = first ? first.treedb_long : 0;
@@ -52,6 +62,8 @@
       attribution: 'Map data © OpenStreetMap contributors'
     }).addTo(map);
     var markers = [];
+    var currentTreeId = null;
+    var chatHistory = [];
     trees.forEach(function(tree, idx) {
       if (tree.treedb_lat && tree.treedb_long) {
         var m = L.marker([tree.treedb_lat, tree.treedb_long]).addTo(map).bindPopup(tree.name);
@@ -77,6 +89,9 @@
         map.setView(markers[index].getLatLng(), 17);
       }
       document.getElementById('chat-title').textContent = tree.name;
+      currentTreeId = tree.id;
+      chatHistory = [];
+      historyDiv.innerHTML = '';
     }
 
     document.querySelectorAll('#tree-list li').forEach(function(li){
@@ -85,20 +100,48 @@
         selectTree(index);
       });
     });
-
     var input = document.getElementById('chat-input');
-    var history = document.getElementById('chat-history');
-    document.getElementById('chat-submit').addEventListener('click', function() {
+    var historyDiv = document.getElementById('chat-history');
+    document.getElementById('chat-submit').addEventListener('click', function(){
       var text = input.value.trim();
-      if (text !== '') {
-        var div = document.createElement('div');
-        div.className = 'user-message';
-        div.textContent = text;
-        history.appendChild(div);
-        input.value = '';
-        history.scrollTop = history.scrollHeight;
-      }
+      if (text === '' || !currentTreeId) return;
+      var userMsg = {role: 'user', content: text};
+      chatHistory.push(userMsg);
+      var div = document.createElement('div');
+      div.className = 'user-message';
+      div.textContent = text;
+      historyDiv.appendChild(div);
+      input.value = '';
+      historyDiv.scrollTop = historyDiv.scrollHeight;
+
+      fetch('<%= tree_chat_path(id: 0).gsub(/0$/, '') %>' + currentTreeId + '/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: JSON.stringify({history: chatHistory})
+      }).then(function(response){
+        var reader = response.body.getReader();
+        var decoder = new TextDecoder();
+        var botDiv = document.createElement('div');
+        botDiv.className = 'bot-message';
+        historyDiv.appendChild(botDiv);
+        function read() {
+          reader.read().then(function(result){
+            if (result.done) {
+              chatHistory.push({role: 'assistant', content: botDiv.textContent});
+              return;
+            }
+            botDiv.textContent += decoder.decode(result.value, {stream: true});
+            historyDiv.scrollTop = historyDiv.scrollHeight;
+            read();
+          });
+        }
+        read();
+      });
     });
+
 
     input.addEventListener('keydown', function(event) {
       if (event.key === 'Enter' && event.ctrlKey) {
