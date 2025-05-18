@@ -15,6 +15,8 @@ class NameTreesTaskTest < Minitest::Test
         end
       end
     end
+
+    attr_accessor :response_data
   end
 
   def setup
@@ -28,6 +30,7 @@ class NameTreesTaskTest < Minitest::Test
       attributes.merge!(attrs.transform_keys(&:to_s))
     end
     Tree.instances = [@tree]
+    self.class.response_data = { 'message' => { 'content' => 'Fancy Tree' } }
 
     Kernel.module_eval do
       alias_method :orig_require, :require
@@ -46,14 +49,14 @@ class NameTreesTaskTest < Minitest::Test
       def initialize(credentials:); end
       def chat(payload, **_opts)
         @last_chat_params = payload
-        { 'message' => { 'content' => 'Fancy Tree' } }
+        NameTreesTaskTest.response_data || { 'message' => { 'content' => 'Fancy Tree' } }
       end
     end
     Object.const_set(:Ollama, stub_ollama)
 
     Rake.application = Rake::Application.new
     Rake::Task.define_task(:environment)
-    Rake.application.rake_require('name_trees', ['lib/tasks'])
+    load File.expand_path('../../lib/tasks/name_trees.rake', __dir__)
   end
 
   def teardown
@@ -69,8 +72,18 @@ class NameTreesTaskTest < Minitest::Test
   end
 
   def test_rake_task_updates_tree_name
-    Rake::Task['db:name_trees'].invoke
+    Rake.application['db:name_trees'].invoke
     assert_equal 'Fancy Tree', @tree.attributes['name']
     assert_equal 'Qwen3:latest', @tree.attributes['llm_model']
+  end
+
+  def test_response_is_cleaned_of_think_tags
+    self.class.response_data = [
+      { 'message' => { 'content' => '<think>thinking</think>' } },
+      { 'message' => { 'content' => "\n\nCrimson Cap" } }
+    ]
+    Rake.application['db:name_trees'].reenable
+    Rake.application['db:name_trees'].invoke
+    assert_equal 'Crimson Cap', @tree.attributes['name']
   end
 end
