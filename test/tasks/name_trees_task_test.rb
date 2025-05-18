@@ -53,7 +53,7 @@ class NameTreesTaskTest < Minitest::Test
 
     Rake.application = Rake::Application.new
     Rake::Task.define_task(:environment)
-    Rake.application.rake_require('name_trees', ['lib/tasks'])
+    Rake.application.rake_require('name_trees', ['lib/tasks'], [])
   end
 
   def teardown
@@ -72,5 +72,21 @@ class NameTreesTaskTest < Minitest::Test
     Rake::Task['db:name_trees'].invoke
     assert_equal 'Fancy Tree', @tree.attributes['name']
     assert_equal 'Qwen3:latest', @tree.attributes['llm_model']
+  end
+
+  def test_think_tags_are_removed_from_response
+    Object.send(:remove_const, :Ollama)
+    custom_stub = Class.new do
+      def initialize(credentials:); end
+      def chat(_payload, **_opts)
+        { 'message' => { 'content' => '<think>processing</think>River Rover' } }
+      end
+    end
+    Object.const_set(:Ollama, custom_stub)
+
+    Rake::Task['db:name_trees'].reenable
+    Rake::Task['db:name_trees'].invoke
+
+    assert_equal 'River Rover', @tree.attributes['name']
   end
 end
