@@ -132,31 +132,45 @@
         botDiv.className = 'bot-message';
         historyDiv.appendChild(botDiv);
         var botContent = '';
+
+        function renderBotContent() {
+          var openIdx = botContent.indexOf('<think>');
+          if (openIdx === -1) {
+            botDiv.textContent = botContent;
+            return;
+          }
+          var closeIdx = botContent.indexOf('</think>', openIdx + 7);
+          var before = botContent.slice(0, openIdx);
+          botDiv.innerHTML = '';
+          if (before) botDiv.appendChild(document.createTextNode(before));
+          var details = document.createElement('details');
+          var summary = document.createElement('summary');
+          summary.textContent = 'LLM thoughts';
+          details.appendChild(summary);
+          var pre = document.createElement('pre');
+          if (closeIdx === -1) {
+            pre.textContent = botContent.slice(openIdx + 7);
+            details.appendChild(pre);
+            botDiv.appendChild(details);
+          } else {
+            pre.textContent = botContent.slice(openIdx + 7, closeIdx);
+            details.appendChild(pre);
+            botDiv.appendChild(details);
+            var after = botContent.slice(closeIdx + 8);
+            if (after) botDiv.appendChild(document.createTextNode(after));
+          }
+        }
+
         function read() {
           reader.read().then(function(result){
             if (result.done) {
-              var thinkMatch = botContent.match(/<think>([\s\S]*?)<\/think>/);
-              if (thinkMatch) {
-                var thinkText = thinkMatch[1].trim();
-                var afterText = botContent.slice(thinkMatch.index + thinkMatch[0].length).trimStart();
-                botDiv.textContent = afterText;
-                var details = document.createElement('details');
-                var summary = document.createElement('summary');
-                summary.textContent = 'LLM thoughts';
-                details.appendChild(summary);
-                var pre = document.createElement('pre');
-                pre.textContent = thinkText;
-                details.appendChild(pre);
-                botDiv.prepend(details);
-                chatHistory.push({role: 'assistant', content: afterText});
-              } else {
-                chatHistory.push({role: 'assistant', content: botContent});
-              }
+              var finalText = botContent.replace(/<think>[\s\S]*?<\/think>/, '');
+              chatHistory.push({role: 'assistant', content: finalText.trimStart()});
               return;
             }
             var chunkText = decoder.decode(result.value, {stream: true});
             botContent += chunkText;
-            botDiv.textContent += chunkText;
+            renderBotContent();
             historyDiv.scrollTop = historyDiv.scrollHeight;
             read();
           });
