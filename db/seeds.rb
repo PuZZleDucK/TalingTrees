@@ -1,4 +1,6 @@
 # Clear out any existing data so the seed is idempotent
+# Remove associated records in the correct order to avoid foreign key issues
+Chat.destroy_all
 Tree.destroy_all
 User.destroy_all
 
