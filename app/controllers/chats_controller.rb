@@ -17,10 +17,10 @@ class ChatsController < ApplicationController
     )
 
     begin
-      client.chat(model: tree.llm_model, messages: messages, stream: lambda { |chunk|
+      client.chat(model: tree.llm_model, messages: messages) do |chunk|
         content = chunk.dig('message', 'content')
         response.stream.write(content.to_s)
-      })
+      end
     ensure
       response.stream.close
     end
