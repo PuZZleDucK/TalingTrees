@@ -3,7 +3,9 @@ class ChatsController < ApplicationController
 
   def create
     tree = Tree.find(params[:id])
-    history = params[:history].is_a?(String) ? JSON.parse(params[:history]) : params[:history]
+    history = params[:history]
+    history = JSON.parse(history) if history.is_a?(String)
+    history = [history] if history.is_a?(Hash)
 
     chat = if params[:chat_id].present?
       Chat.find(params[:chat_id])
@@ -13,11 +15,11 @@ class ChatsController < ApplicationController
       end
     end
 
-    Array(history).each do |msg|
+    history.to_a.each do |msg|
       chat.messages.create!(role: msg['role'], content: msg['content'])
     end
 
-    messages = [{ 'role' => 'system', 'content' => tree.llm_sustem_prompt.to_s }] + Array(history)
+    messages = [{ 'role' => 'system', 'content' => tree.llm_sustem_prompt.to_s }] + history.to_a
 
     response.headers['Content-Type'] = 'text/event-stream'
     client = Ollama.new(
