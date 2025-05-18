@@ -1,21 +1,26 @@
 namespace :db do
-  desc 'Clear all trees and import from Melbourne dataset'
+  desc 'Import tree data from Melbourne dataset'
   task import_trees: :environment do
     require 'open-uri'
     require 'json'
 
-    puts 'Clearing existing trees...'
-    Tree.delete_all
-
     base_url = 'https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records'
-    limit = 1000
+    # The dataset API rejects requests with a very large limit. The
+    # documented maximum is 100 records per request, so fetch in smaller
+    # batches to avoid HTTP 400 errors.
+    limit = 100
     offset = 0
     total = nil
 
     loop do
       url = "#{base_url}?#{URI.encode_www_form(limit: limit, offset: offset)}"
       puts "Fetching #{url}"
-      data = URI.open(url).read
+      begin
+        data = URI.open(url).read
+      rescue OpenURI::HTTPError => e
+        warn "Failed to fetch #{url}: #{e.message}"
+        break
+      end
       json = JSON.parse(data)
       total ||= json['total_count'].to_i
       records = json['records'] || []
@@ -23,24 +28,24 @@ namespace :db do
 
       records.each do |record|
         fields = record.dig('record', 'fields') || {}
-        Tree.create!(
-          name: fields['common_name'] || fields['scientific_name'] || 'Unknown',
-          treedb_com_id: fields['com_id'],
-          treedb_common_name: fields['common_name'],
-          treedb_genus: fields['genus'],
-          treedb_family: fields['family'],
-          treedb_diameter: fields['diameter_breast_height'],
-          treedb_date_planted: fields['date_planted'],
-          treedb_age_description: fields['age_description'],
-          treedb_useful_life_expectency_value: fields['useful_life_expectency_value'],
-          treedb_precinct: fields['precinct'],
-          treedb_located_in: fields['located_in'],
-          treedb_uploaddate: fields['uploaddate'],
-          treedb_lat: fields['latitude'],
-          treedb_long: fields['longitude'],
-          llm_model: nil,
-          llm_sustem_prompt: nil
-        )
+
+        tree = Tree.find_or_initialize_by(treedb_com_id: fields['com_id'])
+
+        tree.name ||= fields['common_name'] || fields['scientific_name'] || 'Unknown'
+        tree.treedb_common_name ||= fields['common_name']
+        tree.treedb_genus ||= fields['genus']
+        tree.treedb_family ||= fields['family']
+        tree.treedb_diameter ||= fields['diameter_breast_height']
+        tree.treedb_date_planted ||= fields['date_planted']
+        tree.treedb_age_description ||= fields['age_description']
+        tree.treedb_useful_life_expectency_value ||= fields['useful_life_expectency_value']
+        tree.treedb_precinct ||= fields['precinct']
+        tree.treedb_located_in ||= fields['located_in']
+        tree.treedb_uploaddate ||= fields['uploaddate']
+        tree.treedb_lat ||= fields['latitude']
+        tree.treedb_long ||= fields['longitude']
+
+        tree.save! if tree.changed?
       end
 
       offset += limit
