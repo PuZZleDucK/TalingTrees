@@ -68,6 +68,7 @@
     var markers = [];
     var currentTreeId = null;
     var chatHistory = [];
+    var currentChatId = null;
     trees.forEach(function(tree, idx) {
       if (tree.treedb_lat && tree.treedb_long) {
         var m = L.marker([tree.treedb_lat, tree.treedb_long]).addTo(map).bindPopup(tree.name);
@@ -95,6 +96,7 @@
       document.getElementById('chat-title').textContent = tree.name;
       currentTreeId = tree.id;
       chatHistory = [];
+      currentChatId = null;
       historyDiv.innerHTML = '';
     }
 
@@ -124,8 +126,11 @@
           'Content-Type': 'application/json',
           'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
         },
-        body: JSON.stringify({history: chatHistory})
+        body: JSON.stringify({history: chatHistory, chat_id: currentChatId})
       }).then(function(response){
+        if (!currentChatId) {
+          currentChatId = response.headers.get('X-Chat-Id');
+        }
         var reader = response.body.getReader();
         var decoder = new TextDecoder();
         var botDiv = document.createElement('div');
