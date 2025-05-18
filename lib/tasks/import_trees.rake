@@ -1,6 +1,6 @@
 namespace :db do
-  desc "Clear all trees and import from Melbourne dataset"
-  task import__trees: :environment do
+  desc 'Clear all trees and import from Melbourne dataset'
+  task import_trees: :environment do
     require 'open-uri'
     require 'json'
 
