@@ -6,6 +6,7 @@ gem 'rails', '~> 7.1'
 
 gem 'puma', '~> 6.0'
 gem 'sqlite3', '~> 1.4'
+gem 'ollama-ai'
 
 group :development do
   gem 'listen'
