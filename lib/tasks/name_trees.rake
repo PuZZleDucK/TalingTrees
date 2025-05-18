@@ -33,7 +33,7 @@ namespace :db do
                    response.dig('message', 'content')
                  end.to_s
       cleaned = content
-                .gsub(/<thinking>.*?<\/thinking>/mi, '')
+                .gsub(/<think(ing)?[^>]*>.*?<\/think(ing)?>/mi, '')
                 .gsub(/\[.*?\]/m, '')
                 .gsub(/"/, '')
                 .strip
