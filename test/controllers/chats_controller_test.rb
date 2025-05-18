@@ -16,7 +16,9 @@ class ChatsController
   def create(params)
     tree = OpenStruct.new(llm_model: 'model', llm_sustem_prompt: 'prompt')
     history = params[:history]
-    messages = [{ 'role' => 'system', 'content' => tree.llm_sustem_prompt.to_s }] + Array(history)
+    history = JSON.parse(history) if history.is_a?(String)
+    history = [history] if history.is_a?(Hash)
+    messages = [{ 'role' => 'system', 'content' => tree.llm_sustem_prompt.to_s }] + history.to_a
     client = Ollama.new(
       credentials: { address: 'http://localhost:11434' },
       options: { server_sent_events: true }
@@ -40,6 +42,13 @@ class ChatsControllerTest < Minitest::Test
     controller = ChatsController.new
     assert_silent do
       controller.create(history: [{ 'role' => 'user', 'content' => 'hi' }])
+    end
+  end
+
+  def test_create_accepts_single_message_hash
+    controller = ChatsController.new
+    assert_silent do
+      controller.create(history: { 'role' => 'user', 'content' => 'hi' })
     end
   end
 
