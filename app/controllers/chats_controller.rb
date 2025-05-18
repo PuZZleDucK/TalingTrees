@@ -44,4 +44,16 @@ class ChatsController < ApplicationController
       response.stream.close
     end
   end
+
+  def history
+    tree = Tree.find(params[:id])
+    chat = Chat.where(user: @current_user, tree: tree).order(created_at: :desc).first
+
+    if chat
+      messages = chat.messages.order(:created_at).map { |m| { role: m.role, content: m.content } }
+      render json: { chat_id: chat.id, messages: messages }
+    else
+      render json: { chat_id: nil, messages: [] }
+    end
+  end
 end

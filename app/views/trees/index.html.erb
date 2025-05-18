@@ -69,6 +69,34 @@
     var currentTreeId = null;
     var chatHistory = [];
     var currentChatId = null;
+
+    function renderBotMessage(div, content) {
+      var openIdx = content.indexOf('<think>');
+      if (openIdx === -1) {
+        div.textContent = content;
+        return;
+      }
+      var closeIdx = content.indexOf('</think>', openIdx + 7);
+      var before = content.slice(0, openIdx);
+      div.innerHTML = '';
+      if (before) div.appendChild(document.createTextNode(before));
+      var details = document.createElement('details');
+      var summary = document.createElement('summary');
+      summary.textContent = 'LLM thoughts';
+      details.appendChild(summary);
+      var pre = document.createElement('pre');
+      if (closeIdx === -1) {
+        pre.textContent = content.slice(openIdx + 7);
+        details.appendChild(pre);
+        div.appendChild(details);
+      } else {
+        pre.textContent = content.slice(openIdx + 7, closeIdx);
+        details.appendChild(pre);
+        div.appendChild(details);
+        var after = content.slice(closeIdx + 8);
+        if (after) div.appendChild(document.createTextNode(after));
+      }
+    }
     trees.forEach(function(tree, idx) {
       if (tree.treedb_lat && tree.treedb_long) {
         var m = L.marker([tree.treedb_lat, tree.treedb_long]).addTo(map).bindPopup(tree.name);
@@ -98,6 +126,26 @@
       chatHistory = [];
       currentChatId = null;
       historyDiv.innerHTML = '';
+
+      fetch('/trees/' + currentTreeId + '/chat')
+        .then(function(resp) { return resp.json(); })
+        .then(function(data) {
+          currentChatId = data.chat_id;
+          chatHistory = [];
+          historyDiv.innerHTML = '';
+          (data.messages || []).forEach(function(msg) {
+            var div = document.createElement('div');
+            div.className = msg.role === 'user' ? 'user-message' : 'bot-message';
+            if (msg.role === 'assistant') {
+              renderBotMessage(div, msg.content);
+            } else {
+              div.textContent = msg.content;
+            }
+            chatHistory.push(msg);
+            historyDiv.appendChild(div);
+          });
+          historyDiv.scrollTop = historyDiv.scrollHeight;
+        });
     }
 
     document.querySelectorAll('#tree-list li').forEach(function(li){
@@ -139,31 +187,7 @@
         var botContent = '';
 
         function renderBotContent() {
-          var openIdx = botContent.indexOf('<think>');
-          if (openIdx === -1) {
-            botDiv.textContent = botContent;
-            return;
-          }
-          var closeIdx = botContent.indexOf('</think>', openIdx + 7);
-          var before = botContent.slice(0, openIdx);
-          botDiv.innerHTML = '';
-          if (before) botDiv.appendChild(document.createTextNode(before));
-          var details = document.createElement('details');
-          var summary = document.createElement('summary');
-          summary.textContent = 'LLM thoughts';
-          details.appendChild(summary);
-          var pre = document.createElement('pre');
-          if (closeIdx === -1) {
-            pre.textContent = botContent.slice(openIdx + 7);
-            details.appendChild(pre);
-            botDiv.appendChild(details);
-          } else {
-            pre.textContent = botContent.slice(openIdx + 7, closeIdx);
-            details.appendChild(pre);
-            botDiv.appendChild(details);
-            var after = botContent.slice(closeIdx + 8);
-            if (after) botDiv.appendChild(document.createTextNode(after));
-          }
+          renderBotMessage(botDiv, botContent);
         }
 
         function read() {
