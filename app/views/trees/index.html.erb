@@ -1,13 +1,15 @@
 <div style="display:flex;height:100vh;">
   <div style="flex:1;padding-right:10px;">
     <h1>Trees</h1>
-    <ul id="tree-list" style="list-style:none;padding:0;">
+    <div style="height:50vh;overflow-y:auto;">
+      <ul id="tree-list" style="list-style:none;padding:0;margin:0;">
       <% @trees.each_with_index do |tree, idx| %>
         <li data-index="<%= idx %>" style="cursor:pointer;padding:4px;">
           <%= tree.name %>
         </li>
       <% end %>
-    </ul>
+      </ul>
+    </div>
 
     <div id="map" style="height:400px;"></div>
   </div>
