@@ -127,13 +127,32 @@
         var botDiv = document.createElement('div');
         botDiv.className = 'bot-message';
         historyDiv.appendChild(botDiv);
+        var botContent = '';
         function read() {
           reader.read().then(function(result){
             if (result.done) {
-              chatHistory.push({role: 'assistant', content: botDiv.textContent});
+              var thinkMatch = botContent.match(/<think>([\s\S]*?)<\/think>/);
+              if (thinkMatch) {
+                var thinkText = thinkMatch[1].trim();
+                var afterText = botContent.slice(thinkMatch.index + thinkMatch[0].length).trimStart();
+                botDiv.textContent = afterText;
+                var details = document.createElement('details');
+                var summary = document.createElement('summary');
+                summary.textContent = 'LLM thoughts';
+                details.appendChild(summary);
+                var pre = document.createElement('pre');
+                pre.textContent = thinkText;
+                details.appendChild(pre);
+                botDiv.prepend(details);
+                chatHistory.push({role: 'assistant', content: afterText});
+              } else {
+                chatHistory.push({role: 'assistant', content: botContent});
+              }
               return;
             }
-            botDiv.textContent += decoder.decode(result.value, {stream: true});
+            var chunkText = decoder.decode(result.value, {stream: true});
+            botContent += chunkText;
+            botDiv.textContent += chunkText;
             historyDiv.scrollTop = historyDiv.scrollHeight;
             read();
           });
