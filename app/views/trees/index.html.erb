@@ -114,7 +114,7 @@
       input.value = '';
       historyDiv.scrollTop = historyDiv.scrollHeight;
 
-      fetch('<%= tree_chat_path(id: 0).gsub(/0$/, '') %>' + currentTreeId + '/chat', {
+      fetch('/trees/' + currentTreeId + '/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
