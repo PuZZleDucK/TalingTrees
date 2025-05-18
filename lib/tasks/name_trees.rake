@@ -19,7 +19,7 @@ namespace :db do
         { 'role' => 'user', 'content' => facts }
       ]
 
-      response = client.chat(model: 'Qwen3:latest', messages: messages)
+      response = client.chat({ model: 'Qwen3:latest', messages: messages })
       content = response.dig('message', 'content').to_s
       cleaned = content
                 .gsub(/<thinking>.*?<\/thinking>/mi, '')
