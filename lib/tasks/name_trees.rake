@@ -24,7 +24,7 @@ namespace :db do
         { 'role' => 'user', 'content' => facts }
       ]
 
-      response = client.chat({ model: 'Qwen3:latest', messages: messages })
+      response = client.chat({ model: 'Qwen3:0.6b', messages: messages })
 
       content = if response.is_a?(Array)
                    response.map { |r| r.dig('message', 'content') }.join
