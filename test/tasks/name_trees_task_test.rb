@@ -44,15 +44,28 @@ class NameTreesTaskTest < Minitest::Test
     @previous_ollama = Object.const_get(:Ollama) if Object.const_defined?(:Ollama)
     Object.send(:remove_const, :Ollama) if Object.const_defined?(:Ollama)
 
-    stub_ollama = Class.new do
-      attr_reader :last_chat_params
-      def initialize(credentials:); end
-      def chat(payload, **_opts)
-        @last_chat_params = payload
-        NameTreesTaskTest.response_data || { 'message' => { 'content' => 'Fancy Tree' } }
+      stub_ollama = Class.new do
+        class << self
+          attr_accessor :call_count
+        end
+
+        attr_reader :last_chat_params
+
+        def initialize(credentials:); end
+
+        def chat(payload, **_opts)
+          self.class.call_count = (self.class.call_count || 0) + 1
+          @last_chat_params = payload
+          data = NameTreesTaskTest.response_data
+          if data.is_a?(Array)
+            NameTreesTaskTest.response_data = data[1..] || []
+            data = data.first
+          end
+          data || { 'message' => { 'content' => 'Fancy Tree' } }
+        end
       end
-    end
-    Object.const_set(:Ollama, stub_ollama)
+      Object.const_set(:Ollama, stub_ollama)
+      Ollama.call_count = 0
 
     Rake.application = Rake::Application.new
     Rake::Task.define_task(:environment)
@@ -85,5 +98,45 @@ class NameTreesTaskTest < Minitest::Test
     Rake.application['db:name_trees'].reenable
     Rake.application['db:name_trees'].invoke
     assert_equal 'Crimson Cap', @tree.attributes['name']
+  end
+
+  def test_skips_update_for_name_too_short
+    self.class.response_data = { 'message' => { 'content' => 'A' } }
+    Rake.application['db:name_trees'].reenable
+    Rake.application['db:name_trees'].invoke
+    assert_nil @tree.attributes['name']
+  end
+
+  def test_skips_update_for_name_too_long
+    long_name = 'A' * 151
+    self.class.response_data = { 'message' => { 'content' => long_name } }
+    Rake.application['db:name_trees'].reenable
+    Rake.application['db:name_trees'].invoke
+    assert_nil @tree.attributes['name']
+  end
+
+  def test_retries_until_valid_name_received
+    self.class.response_data = [
+      { 'message' => { 'content' => 'A' } },
+      { 'message' => { 'content' => 'B' } },
+      { 'message' => { 'content' => 'Valid Name' } }
+    ]
+    Rake.application['db:name_trees'].reenable
+    Rake.application['db:name_trees'].invoke
+    assert_equal 'Valid Name', @tree.attributes['name']
+    assert_equal 3, Ollama.call_count
+  end
+
+  def test_gives_up_after_three_failed_attempts
+    long_name = 'A' * 151
+    self.class.response_data = [
+      { 'message' => { 'content' => long_name } },
+      { 'message' => { 'content' => 'A' } },
+      { 'message' => { 'content' => 'B' } }
+    ]
+    Rake.application['db:name_trees'].reenable
+    Rake.application['db:name_trees'].invoke
+    assert_nil @tree.attributes['name']
+    assert_equal 3, Ollama.call_count
   end
 end

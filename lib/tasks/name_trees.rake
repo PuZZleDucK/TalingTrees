@@ -24,18 +24,37 @@ namespace :db do
         { 'role' => 'user', 'content' => facts }
       ]
 
-      response = client.chat({ model: 'Qwen3:0.6b', messages: messages })
+      attempt = 0
+      cleaned = nil
+      while attempt < 3
+        attempt += 1
 
-      content = if response.is_a?(Array)
-                   response.map { |r| r.dig('message', 'content') }.join
-                 else
-                   response.dig('message', 'content')
-                 end.to_s
-      cleaned = content
-                .gsub(/<think(ing)?[^>]*>.*?<\/think(ing)?>/mi, '')
-                .gsub(/\[.*?\]/m, '')
-                .gsub(/"/, '')
-                .strip
+        response = client.chat({ model: 'Qwen3:0.6b', messages: messages })
+
+        content = if response.is_a?(Array)
+                     response.map { |r| r.dig('message', 'content') }.join
+                   else
+                     response.dig('message', 'content')
+                   end.to_s
+        cleaned = content
+                  .gsub(/<think(ing)?[^>]*>.*?<\/think(ing)?>/mi, '')
+                  .gsub(/\[.*?\]/m, '')
+                  .gsub(/"/, '')
+                  .strip
+
+        if cleaned.length > 150 || cleaned.length < 3
+          puts "Rejected name due to length: #{cleaned.inspect}"
+          cleaned = nil
+        else
+          break
+        end
+      end
+
+      unless cleaned
+        puts "Failed to generate valid name after #{attempt} attempts"
+        puts
+        next
+      end
 
       puts "Cleaned name: #{cleaned}"
 
