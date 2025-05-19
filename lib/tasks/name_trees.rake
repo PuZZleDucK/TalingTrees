@@ -12,7 +12,7 @@ namespace :db do
       puts "Naming tree #{identifier}"
 
       facts = tree.attributes
-                .except('llm_model', 'llm_sustem_prompt', 'created_at', 'updated_at')
+                .except('id', 'treedb_com_id', 'llm_model', 'llm_sustem_prompt', 'created_at', 'updated_at')
                 .map { |k, v| v.nil? || v.to_s.strip.empty? ? nil : "#{k}: #{v}" }
                 .compact
                 .join("\n")
@@ -25,7 +25,6 @@ namespace :db do
       ]
 
       response = client.chat({ model: 'Qwen3:latest', messages: messages })
-      puts "Response: #{response.inspect}"
 
       content = if response.is_a?(Array)
                    response.map { |r| r.dig('message', 'content') }.join
@@ -42,6 +41,7 @@ namespace :db do
 
       tree.update!(name: cleaned, llm_model: 'Qwen3:latest', llm_sustem_prompt: system_prompt)
       puts "Updated tree #{identifier}"
+      puts
     end
   end
 end
