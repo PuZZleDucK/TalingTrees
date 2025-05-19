@@ -31,7 +31,7 @@ namespace :db do
 
         tree = Tree.find_or_initialize_by(treedb_com_id: fields['com_id'])
 
-        tree.name ||= fields['common_name'] || fields['scientific_name'] || 'Unknown'
+        tree.name = nil if tree.name.blank?
         tree.treedb_common_name ||= fields['common_name']
         tree.treedb_genus ||= fields['genus']
         tree.treedb_family ||= fields['family']
