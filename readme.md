@@ -39,7 +39,7 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    ```
 ## Todos
 [ ] add tailwind and style tree list page
-[ ] name should be blank when importing
+[x] name should be blank when importing
 [ ] naming script needs a verification step (llm approves and < 150chars and > 2 chars)
 [ ] naming script should find neighbors within 50m and avoid duplicate names
 [ ] trees should be able to tag users and users should be able to tag trees (limited tag list)
