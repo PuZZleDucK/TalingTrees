@@ -40,7 +40,6 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 ## Todos
 [x] add tailwind and style tree list page
 [x] tree names should be blank when importing
-[ ] name should be blank when importing
 [ ] naming script should not pass in the treedb id and don't debug the raw response and add a linebreak between trees
 [ ] naming script needs a verification step (llm approves and < 150chars and > 2 chars)
 [ ] naming script should find neighbors within 50m and avoid duplicate names
