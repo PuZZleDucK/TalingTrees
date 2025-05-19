@@ -37,3 +37,13 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    ```bash
    bundle exec rails server
    ```
+## Todos
+[ ] name should be blank when importing
+[ ] naming script needs a verification step (llm approves and < 150chars and > 2 chars)
+[ ] naming script should find neighbors within 50m and avoid duplicate names
+[ ] trees should be able to tag users and users should be able to tag trees (limited tag list)
+[ ] add relationships between trees - neighbors - species - random friends
+[ ] naming script should establish relationships
+[ ] users should only see a few trees at the start
+[ ] talking to trees should reveal more trees (mostly near, some distant or same species)
+[ ] trees should have missions/objectives that users can help with
