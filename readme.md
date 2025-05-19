@@ -41,12 +41,13 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [x] add tailwind and style tree list page
 [x] tree names should be blank when importing
 [ ] naming script should not pass in the treedb id and don't debug the raw response and add a linebreak between trees
-[ ] naming script needs a verification step (llm approves and < 150chars and > 2 chars)
-[ ] naming script should find neighbors within 50m and avoid duplicate names
-[ ] trees should be able to tag users and users should be able to tag trees (limited tag list)
+[ ] naming script verification step1 (< 150chars and > 2 chars)
+[ ] naming script verification step2 (llm approves... prompt the same llm in a new chat to verify the response is a single name)
 [ ] add relationships between trees - neighbors - species - random friends
+[ ] trees should be able to tag users and users should be able to tag trees (limited tag list)
 [ ] relationships have tags too
 [ ] naming script should establish relationships
+[ ] naming script should find neighbors within 50m and avoid duplicate names
 [ ] all lat/long to User and get from device
 [ ] users should only see a few trees at the start
 [ ] talking to trees should reveal more trees (mostly near, some distant or same species)
