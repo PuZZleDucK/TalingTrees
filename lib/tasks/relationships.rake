@@ -1,7 +1,7 @@
 namespace :db do
   desc 'Add relationships between trees'
   task add_relationships: :environment do
-    radius = 10
+    radius = 20
     trees = Tree.all.to_a
 
     TreeRelationship.delete_all
