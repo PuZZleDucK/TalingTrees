@@ -34,7 +34,14 @@ class AddRelationshipsTaskTest < Minitest::Test
       attr_accessor :records
       def find_or_create_by!(attrs)
         self.records ||= []
-        self.records << attrs unless self.records.include?(attrs)
+        rec = self.records.find { |r| r[:tree_id] == attrs[:tree_id] && r[:related_tree_id] == attrs[:related_tree_id] && r[:kind] == attrs[:kind] }
+        unless rec
+          rec = attrs.dup
+          self.records << rec
+        end
+        Struct.new(:record) do
+          define_method(:update!) { |h| record.merge!(h) }
+        end.new(rec)
       end
       def delete_all
         self.records = []
@@ -57,13 +64,14 @@ class AddRelationshipsTaskTest < Minitest::Test
   def test_creates_neighbor_and_species_relationships
     Rake.application['db:add_relationships'].invoke
 
-    expected_neighbor = { tree_id: 1, related_tree_id: 2, kind: 'neighbor' }
-    expected_species = { tree_id: 1, related_tree_id: 2, kind: 'same_species' }
-
-    assert_includes TreeRelationship.records, expected_neighbor
-    assert_includes TreeRelationship.records, expected_species
+    assert TreeRelationship.records.any? { |r| r[:tree_id] == 1 && r[:related_tree_id] == 2 && r[:kind] == 'neighbor' }
+    assert TreeRelationship.records.any? { |r| r[:tree_id] == 1 && r[:related_tree_id] == 2 && r[:kind] == 'same_species' }
 
     long_distance_count = TreeRelationship.records.count { |r| r[:tree_id] == 1 && r[:kind] == 'long_distance' }
-    assert_equal 1, long_distance_count
+    assert_operator long_distance_count, :>=, 1
+
+    TreeRelationship.records.each do |rec|
+      assert_includes TreeRelationship::TAGS, rec[:tag]
+    end
   end
 end

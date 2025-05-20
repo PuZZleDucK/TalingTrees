@@ -10,7 +10,8 @@ namespace :db do
       # Neighbor relationships within radius
       neighbors = tree.neighbors_within(radius)
       neighbors.each do |neighbor|
-        TreeRelationship.find_or_create_by!(tree_id: tree.id, related_tree_id: neighbor.id, kind: 'neighbor')
+        rel = TreeRelationship.find_or_create_by!(tree_id: tree.id, related_tree_id: neighbor.id, kind: 'neighbor')
+        rel.update!(tag: TreeRelationship::TAGS.sample)
       end
 
       # Relationships with same species
@@ -20,7 +21,8 @@ namespace :db do
           other.treedb_common_name == tree.treedb_common_name
       end
       species_matches.each do |other|
-        TreeRelationship.find_or_create_by!(tree_id: tree.id, related_tree_id: other.id, kind: 'same_species')
+        rel = TreeRelationship.find_or_create_by!(tree_id: tree.id, related_tree_id: other.id, kind: 'same_species')
+        rel.update!(tag: TreeRelationship::TAGS.sample)
       end
 
       # Long distance friends
@@ -29,7 +31,8 @@ namespace :db do
         max = [candidates.size, 6].min
         num = rand(1..max)
         candidates.sample(num).each do |friend|
-          TreeRelationship.find_or_create_by!(tree_id: tree.id, related_tree_id: friend.id, kind: 'long_distance')
+          rel = TreeRelationship.find_or_create_by!(tree_id: tree.id, related_tree_id: friend.id, kind: 'long_distance')
+          rel.update!(tag: TreeRelationship::TAGS.sample)
         end
       end
     end

@@ -19,7 +19,8 @@ class TreesController < ApplicationController
         neighbor_total: neighbor_ids.length,
         neighbor_known: (neighbor_ids & known_ids).length,
         friend_total: friend_ids.length,
-        friend_known: (friend_ids & known_ids).length
+        friend_known: (friend_ids & known_ids).length,
+        tags: tree.tags_for_user(@current_user)
       }
     end
   end
@@ -37,7 +38,17 @@ class TreesController < ApplicationController
       neighbor_total: neighbor_ids.length,
       neighbor_known: (neighbor_ids & known_ids).length,
       friend_total: friend_ids.length,
-      friend_known: (friend_ids & known_ids).length
+      friend_known: (friend_ids & known_ids).length,
+      tags: tree.tags_for_user(@current_user)
     }
+  end
+
+  def tag
+    tree = Tree.find(params[:id])
+    tag = params[:tag].to_s
+    if TreeTag::ALLOWED_TAGS.include?(tag)
+      TreeTag.find_or_create_by!(tree: tree, user: @current_user, tag: tag)
+    end
+    render json: { tags: tree.tags_for_user(@current_user) }
   end
 end
