@@ -156,7 +156,7 @@
 
     function revealNewTrees(ids) {
       map.setView(map.getCenter(), 13);
-      Promise.all(ids.map(function(id){
+      return Promise.all(ids.map(function(id){
         return fetch('/trees/' + id + '.json')
           .then(function(resp){ return resp.json(); });
       })).then(function(newTrees){
@@ -224,6 +224,18 @@
       });
     }
 
+    function highlightTreeById(id) {
+      var index = trees.findIndex(function(t){ return t.id === id; });
+      if (index !== -1) {
+        selectTree(index);
+        return;
+      }
+      revealNewTrees([id]).then(function(){
+        var idx = trees.findIndex(function(t){ return t.id === id; });
+        if (idx !== -1) selectTree(idx);
+      });
+    }
+
     function selectTree(index) {
       var tree = trees[index];
       if (!tree) return;
@@ -283,6 +295,12 @@
     });
     var input = document.getElementById('chat-input');
     var historyDiv = document.getElementById('chat-history');
+    historyDiv.addEventListener('click', function(e){
+      if (e.target.classList.contains('tree-name')) {
+        var id = parseInt(e.target.dataset.treeId);
+        if (!isNaN(id)) { highlightTreeById(id); }
+      }
+    });
     document.getElementById('chat-submit').addEventListener('click', function(){
       var text = input.value.trim();
       if (text === '' || !currentTreeId) return;
