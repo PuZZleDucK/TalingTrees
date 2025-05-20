@@ -64,6 +64,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_17_152610) do
     t.string "name"
     t.string "email"
     t.text "blurb"
+    t.float "lat"
+    t.float "long"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

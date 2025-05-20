@@ -14,6 +14,7 @@
     </div>
     <div class="flex items-center">
       <span class="mr-2">👤 <%= @current_user&.name %></span>
+      <span class="mr-2">📍 <%= @current_user&.lat && @current_user&.long ? "#{@current_user.lat.round(5)}, #{@current_user.long.round(5)}" : 'unknown' %></span>
       <%= form_with url: select_user_path, method: :post, local: true do %>
         <%= select_tag :user_id,
             options_from_collection_for_select(User.all, :id, :name, @current_user&.id),
@@ -23,5 +24,21 @@
     </div>
   </nav>
   <%= yield %>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(pos) {
+          fetch('<%= update_location_path %>', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({ lat: pos.coords.latitude, long: pos.coords.longitude })
+          });
+        });
+      }
+    });
+  </script>
 </body>
 </html>
