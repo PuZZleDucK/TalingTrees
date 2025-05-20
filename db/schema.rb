@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_05_17_152610) do
+ActiveRecord::Schema[7.2].define(version: 2025_05_17_152620) do
   create_table "chats", force: :cascade do |t|
     t.integer "user_id"
     t.integer "tree_id"
@@ -64,10 +64,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_17_152610) do
     t.string "name"
     t.string "email"
     t.text "blurb"
-    t.float "lat"
-    t.float "long"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "lat"
+    t.float "long"
   end
 
   add_foreign_key "chats", "trees"
