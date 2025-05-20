@@ -30,7 +30,10 @@ class NameTreesTaskTest < Minitest::Test
       attributes.merge!(attrs.transform_keys(&:to_s))
     end
     Tree.instances = [@tree]
-    self.class.response_data = { 'message' => { 'content' => 'Fancy Tree' } }
+    self.class.response_data = [
+      { 'message' => { 'content' => 'Fancy Tree' } },
+      { 'message' => { 'content' => 'YES' } }
+    ]
 
     Kernel.module_eval do
       alias_method :orig_require, :require
@@ -93,7 +96,8 @@ class NameTreesTaskTest < Minitest::Test
   def test_response_is_cleaned_of_think_tags
     self.class.response_data = [
       { 'message' => { 'content' => '<think>thinking</think>' } },
-      { 'message' => { 'content' => "\n\nCrimson Cap" } }
+      { 'message' => { 'content' => "\n\nCrimson Cap" } },
+      { 'message' => { 'content' => 'YES' } }
     ]
     Rake.application['db:name_trees'].reenable
     Rake.application['db:name_trees'].invoke
@@ -119,12 +123,13 @@ class NameTreesTaskTest < Minitest::Test
     self.class.response_data = [
       { 'message' => { 'content' => 'A' } },
       { 'message' => { 'content' => 'B' } },
-      { 'message' => { 'content' => 'Valid Name' } }
+      { 'message' => { 'content' => 'Valid Name' } },
+      { 'message' => { 'content' => 'YES' } }
     ]
     Rake.application['db:name_trees'].reenable
     Rake.application['db:name_trees'].invoke
     assert_equal 'Valid Name', @tree.attributes['name']
-    assert_equal 3, Ollama.call_count
+    assert_equal 4, Ollama.call_count
   end
 
   def test_gives_up_after_three_failed_attempts
@@ -138,5 +143,18 @@ class NameTreesTaskTest < Minitest::Test
     Rake.application['db:name_trees'].invoke
     assert_nil @tree.attributes['name']
     assert_equal 3, Ollama.call_count
+  end
+
+  def test_retries_when_verification_fails
+    self.class.response_data = [
+      { 'message' => { 'content' => 'Bad Name 123' } },
+      { 'message' => { 'content' => 'NO' } },
+      { 'message' => { 'content' => 'Oak' } },
+      { 'message' => { 'content' => 'YES' } }
+    ]
+    Rake.application['db:name_trees'].reenable
+    Rake.application['db:name_trees'].invoke
+    assert_equal 'Oak', @tree.attributes['name']
+    assert_equal 4, Ollama.call_count
   end
 end
