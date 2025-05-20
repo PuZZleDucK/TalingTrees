@@ -70,7 +70,18 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_17_152620) do
     t.float "long"
   end
 
+  create_table "user_trees", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "tree_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tree_id"], name: "index_user_trees_on_tree_id"
+    t.index ["user_id"], name: "index_user_trees_on_user_id"
+  end
+
   add_foreign_key "chats", "trees"
   add_foreign_key "chats", "users"
   add_foreign_key "messages", "chats"
+  add_foreign_key "user_trees", "users"
+  add_foreign_key "user_trees", "trees"
 end
