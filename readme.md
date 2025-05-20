@@ -43,7 +43,7 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [x] naming script should not pass in the treedb id and don't debug the raw response and add a linebreak between trees
 [x] naming script verification step1 (< 150chars and > 2 chars)
 [x] naming script verification step2 (llm approves... prompt the same llm in a new chat to verify the response is a single name)
-[ ] add a function to find other trees within x meters. When a tree is selected to chat count the trees within 10 meters and show this count next to the tree name in chat like this "Tree Name (<count> neighbors). also create a highlighted radius on the map showing the 10 meters
+[x] add a function to find other trees within x meters. When a tree is selected to chat count the trees within 10 meters and show this count next to the tree name in chat like this "Tree Name (<count> neighbors). also create a highlighted radius on the map showing the 10 meters
 [ ] add rake task to add relationships between trees - neighbors (within 10) - all with same species - 3 random long distance friends
 [ ] trees should be able to tag users and users should be able to tag trees (limited tag list)
 [ ] relationships have tags too
