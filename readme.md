@@ -45,7 +45,7 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [x] naming script verification step2 (llm approves... prompt the same llm in a new chat to verify the response is a single name)
 [x] add a function to find other trees within x meters. When a tree is selected to chat count the trees within 10 meters and show this count next to the tree name in chat like this "Tree Name (<count> neighbors). also create a highlighted radius on the map showing the 10 meters
 [x] add rake task to add relationships between trees - neighbors (within 10) - all with same species - 3 random long distance friends
-[ ] naming script should find neighbors within 50m and avoid duplicate names
+[ ] naming script should find trees within 50m and avoid duplicate names
 [ ] all lat/long to User and get from device
 [ ] users should only see a few trees at the start
 [ ] talking to trees should reveal more trees (mostly near, some distant or same species)
