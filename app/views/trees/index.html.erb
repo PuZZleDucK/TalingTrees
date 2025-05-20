@@ -5,7 +5,7 @@
       <ul id="tree-list" class="list-none p-0 m-0">
       <% @trees.each_with_index do |tree, idx| %>
         <li data-index="<%= idx %>" class="cursor-pointer p-1">
-          <%= tree.name %>
+          <%= tree[:name] %>
         </li>
       <% end %>
       </ul>
@@ -59,7 +59,7 @@
 </style>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    var trees = <%= raw @trees.to_json(only: [:id, :name, :treedb_lat, :treedb_long]) %>;
+    var trees = <%= raw @trees.to_json %>;
     var first = trees[0];
     var lat = first ? first.treedb_lat : 0;
     var lng = first ? first.treedb_long : 0;
@@ -151,6 +151,8 @@
       }
 
       var neighborCount = countNeighbors(tree, 10);
+      var speciesCount = tree.species_count || 0;
+      var friendCount = tree.friend_count || 0;
       if (tree.treedb_lat && tree.treedb_long) {
         radiusCircle = L.circle([tree.treedb_lat, tree.treedb_long], {
           radius: 10,
@@ -160,7 +162,10 @@
       }
 
       document.getElementById('chat-title').textContent =
-        tree.name + ' (' + neighborCount + ' neighbors)';
+        tree.name +
+        ' (' + neighborCount + ' neighbors, ' +
+        speciesCount + ' species, ' +
+        friendCount + ' friends)';
       currentTreeId = tree.id;
       chatHistory = [];
       currentChatId = null;
