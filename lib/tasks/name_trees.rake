@@ -7,7 +7,7 @@ namespace :db do
 
     client = Ollama.new(credentials: { address: ENV.fetch('OLLAMA_URL', 'http://localhost:11434') })
 
-    verify_prompt = 'You approve tree names. Tree names should not just be the species or common_name of the tree or a re-ordering of the common_name. Tree names should have some personality. Respond with YES if the provided text is a suitable name, otherwise respond with NO.'
+    verify_prompt_template = 'You approve tree names. Tree names should not just be the species or common_name of the tree or a re-ordering of the common_name. Tree names should have some personality. The tree you are checking has the common name "%{common_name}", the genus "%{genus}" and the family "%{family}". Respond with YES if the provided text is a suitable name, otherwise respond with NO.'
 
     Tree.find_each do |tree|
       identifier = tree.respond_to?(:id) ? "##{tree.id}" : tree.to_s
@@ -56,6 +56,12 @@ namespace :db do
           puts "Rejected name due to length: #{cleaned.inspect}"
           cleaned = nil
         else
+          verify_prompt = format(
+            verify_prompt_template,
+            common_name: tree.respond_to?(:treedb_common_name) ? tree.treedb_common_name.to_s : '',
+            genus: tree.respond_to?(:treedb_genus) ? tree.treedb_genus.to_s : '',
+            family: tree.respond_to?(:treedb_family) ? tree.treedb_family.to_s : ''
+          )
           verify_messages = [
             { 'role' => 'system', 'content' => verify_prompt },
             { 'role' => 'user', 'content' => cleaned }

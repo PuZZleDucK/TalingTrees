@@ -179,4 +179,25 @@ class NameTreesTaskTest < Minitest::Test
     user_content = messages[1]['content']
     assert_includes user_content, 'Nearby tree names to avoid: Oak'
   end
+
+  def test_verify_prompt_includes_tree_details
+    @tree.define_singleton_method(:treedb_common_name) { 'Blue Gum' }
+    @tree.define_singleton_method(:treedb_genus) { 'Eucalyptus' }
+    @tree.define_singleton_method(:treedb_family) { 'Myrtaceae' }
+
+    self.class.response_data = [
+      { 'message' => { 'content' => 'Spruce' } },
+      { 'message' => { 'content' => 'YES' } }
+    ]
+
+    Rake.application['db:name_trees'].reenable
+    Rake.application['db:name_trees'].invoke
+
+    verify_messages = Ollama.params_list[1][:messages]
+    system_content = verify_messages[0]['content']
+
+    assert_includes system_content, 'Blue Gum'
+    assert_includes system_content, 'Eucalyptus'
+    assert_includes system_content, 'Myrtaceae'
+  end
 end
