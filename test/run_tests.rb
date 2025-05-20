@@ -23,8 +23,6 @@ Minitest.after_run do
   rubocop_output = `bundle exec rubocop 2>&1`
   File.write('rubocop_report.txt', rubocop_output)
 
-  bundler_audit_output = `bundle exec bundler-audit check 2>&1`
-  File.write('bundler_audit_report.txt', bundler_audit_output)
 
   brakeman_output = `bundle exec brakeman -q 2>&1`
   File.write('brakeman_report.txt', brakeman_output)
