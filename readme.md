@@ -58,3 +58,7 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [ ] relationships have tags too
 [ ] trees should be able to tag users
 [ ] dark mode
+[ ] cleanup punctuation in tree names
+[ ] address brakeman issues
+[ ] address bundler-audit issues
+[ ] address rubocop issues
