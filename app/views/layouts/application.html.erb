@@ -14,7 +14,12 @@
     </div>
     <div class="flex items-center">
       <span class="mr-2">👤 <%= @current_user&.name %></span>
-      <span class="mr-2">📍 <%= @current_user&.lat && @current_user&.long ? "#{@current_user.lat.round(5)}, #{@current_user.long.round(5)}" : 'unknown' %></span>
+      <span id="location-info" class="mr-2" data-lat="<%= @current_user&.lat %>" data-long="<%= @current_user&.long %>">
+        <span id="locate-icon" class="cursor-pointer">📍</span>
+        <span id="location-text">
+          <%= @current_user&.lat && @current_user&.long ? "#{@current_user.lat.round(5)}, #{@current_user.long.round(5)}" : 'unknown' %>
+        </span>
+      </span>
       <%= form_with url: select_user_path, method: :post, local: true do %>
         <%= select_tag :user_id,
             options_from_collection_for_select(User.all, :id, :name, @current_user&.id),
@@ -28,6 +33,15 @@
     document.addEventListener('DOMContentLoaded', function() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(pos) {
+          var info = document.getElementById('location-info');
+          if (info) {
+            info.dataset.lat = pos.coords.latitude;
+            info.dataset.long = pos.coords.longitude;
+            var txtSpan = info.querySelector('#location-text');
+            if (txtSpan) {
+              txtSpan.textContent = pos.coords.latitude.toFixed(5) + ', ' + pos.coords.longitude.toFixed(5);
+            }
+          }
           fetch('<%= update_location_path %>', {
             method: 'POST',
             headers: {
