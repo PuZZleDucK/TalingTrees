@@ -75,6 +75,7 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [ ] address bundler-audit issues
 [ ] address rubocop issues
 [ ] deploy to heroku or similar
+[ ] when the user clicks on the neighbors or friends count in the chat title a dropdown with the list of related trees should appear with ones not known by the user in light grey with the text "unknown"
 [ ] make the found-a-new-tree animation size relative to zoom
 [ ] make zooming more smooth and slightly overzoom when zooming out to reveal new trees
 [ ] the llm naming the trees should be given the reasons for previous rejections failure in it's prompt
