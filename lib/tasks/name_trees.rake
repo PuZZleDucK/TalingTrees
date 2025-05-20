@@ -7,6 +7,8 @@ namespace :db do
 
     client = Ollama.new(credentials: { address: ENV.fetch('OLLAMA_URL', 'http://localhost:11434') })
 
+    verify_prompt = 'You approve tree names. Respond with YES if the provided text is a single suitable name, otherwise respond with NO.'
+
     Tree.find_each do |tree|
       identifier = tree.respond_to?(:id) ? "##{tree.id}" : tree.to_s
       puts "Naming tree #{identifier}"
@@ -46,7 +48,22 @@ namespace :db do
           puts "Rejected name due to length: #{cleaned.inspect}"
           cleaned = nil
         else
-          break
+          verify_messages = [
+            { 'role' => 'system', 'content' => verify_prompt },
+            { 'role' => 'user', 'content' => cleaned }
+          ]
+          verify = client.chat({ model: 'Qwen3:0.6b', messages: verify_messages })
+          verify_content = if verify.is_a?(Array)
+                             verify.map { |r| r.dig('message', 'content') }.join
+                           else
+                             verify.dig('message', 'content')
+                           end.to_s.strip
+          if verify_content =~ /^y(es)?/i
+            break
+          else
+            puts "Rejected name after verification: #{cleaned.inspect}"
+            cleaned = nil
+          end
         end
       end
 
