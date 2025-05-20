@@ -56,10 +56,18 @@
     white-space: pre-wrap;
     margin: 0;
   }
+  #chat-history .tree-name {
+    font-weight: bold;
+    color: #006400;
+  }
 </style>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     var trees = <%= raw @trees.to_json(only: [:id, :name, :treedb_lat, :treedb_long]) %>;
+    var allTrees = <%= raw Tree.where.not(name: [nil, '']).to_json(only: [:id, :name]) %>;
+    var treeNameMap = {};
+    allTrees.forEach(function(t){ treeNameMap[t.name.toLowerCase()] = t.id; });
+    var namesRegex = new RegExp('\\b(' + allTrees.map(function(t){return t.name.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&');}).join('|') + ')\\b', 'gi');
     var first = trees[0];
     var lat = first ? first.treedb_lat : 0;
     var lng = first ? first.treedb_long : 0;
@@ -113,32 +121,47 @@
       }).length;
     }
 
+    function escapeHtml(text) {
+      var div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function highlightContent(text) {
+      var escaped = escapeHtml(text);
+      return escaped.replace(namesRegex, function(m) {
+        var id = treeNameMap[m.toLowerCase()];
+        return '<span class="tree-name font-bold text-green-600" data-tree-id="' + id + '">' + m + '</span>';
+      });
+    }
+
+    function recordKnownTrees(text) {
+      var match;
+      while ((match = namesRegex.exec(text)) !== null) {
+        var id = treeNameMap[match[0].toLowerCase()];
+        fetch('/know_tree/' + id, {
+          method: 'POST',
+          headers: { 'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content }
+        });
+      }
+      namesRegex.lastIndex = 0;
+    }
+
     function renderBotMessage(div, content) {
       var openIdx = content.indexOf('<think>');
       if (openIdx === -1) {
-        div.textContent = content;
+        div.innerHTML = highlightContent(content);
         return;
       }
       var closeIdx = content.indexOf('</think>', openIdx + 7);
       var before = content.slice(0, openIdx);
-      div.innerHTML = '';
-      if (before) div.appendChild(document.createTextNode(before));
-      var details = document.createElement('details');
-      var summary = document.createElement('summary');
-      summary.textContent = 'LLM thoughts';
-      details.appendChild(summary);
-      var pre = document.createElement('pre');
-      if (closeIdx === -1) {
-        pre.textContent = content.slice(openIdx + 7);
-        details.appendChild(pre);
-        div.appendChild(details);
-      } else {
-        pre.textContent = content.slice(openIdx + 7, closeIdx);
-        details.appendChild(pre);
-        div.appendChild(details);
-        var after = content.slice(closeIdx + 8);
-        if (after) div.appendChild(document.createTextNode(after));
-      }
+      var think = closeIdx === -1 ? content.slice(openIdx + 7) : content.slice(openIdx + 7, closeIdx);
+      var after = closeIdx === -1 ? '' : content.slice(closeIdx + 8);
+      var html = '';
+      if (before) html += highlightContent(before);
+      html += '<details><summary>LLM thoughts</summary><pre>' + escapeHtml(think) + '</pre></details>';
+      if (after) html += highlightContent(after);
+      div.innerHTML = html;
     }
     trees.forEach(function(tree, idx) {
       if (tree.treedb_lat && tree.treedb_long) {
@@ -254,6 +277,7 @@
             if (result.done) {
               var finalText = botContent.replace(/<think>[\s\S]*?<\/think>/, '');
               chatHistory.push({role: 'assistant', content: finalText.trimStart()});
+              recordKnownTrees(finalText);
               return;
             }
             var chunkText = decoder.decode(result.value, {stream: true});
