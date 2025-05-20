@@ -62,7 +62,7 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [ ] tags a user gives a tree should be shown under its title
 [ ] relationships have tags too (eg best-friend, nemesis, secret-friend, lost-friend, ...). allocate some tags randomly when generating relationships
 [ ] include what kind of relations the tree has in it's prompt
-[ ] trees should be able to tag users (helpful, friendly, cheeky, funny, ...)
+[ ] trees should be able to tag users (helpful, friendly, cheeky, funny, bossy, ...)
 [ ] trees should not allow their thoughts to be expanded unless they are tagged friendly
 [ ] display user tags in the nav bar to the left of their name. trees should be given the users tags as additional context in the first chat with a user, it should be framed as things the tree has heard from other trees
 [ ] trees should know more about their neighbors and friends in their context (species, tags...)
@@ -75,4 +75,6 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [ ] address bundler-audit issues
 [ ] address rubocop issues
 [ ] deploy to heroku or similar
+[ ] make the found-a-new-tree animation size relative to zoom
+[ ] make zooming more smooth
 [ ] the llm naming the trees should be given the reasons for previous rejections failure in it's prompt
