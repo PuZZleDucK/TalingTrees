@@ -3,6 +3,7 @@ class Tree < ApplicationRecord
 
   has_many :user_trees, dependent: :destroy
   has_many :users, through: :user_trees
+  has_many :tree_tags, dependent: :destroy
 
   def self.haversine_distance(lat1, lon1, lat2, lon2)
     rad_per_deg = Math::PI / 180
@@ -67,5 +68,15 @@ class Tree < ApplicationRecord
     relationships_of_kind('long_distance').map do |rel|
       rel.respond_to?(:related_tree_id) ? rel.related_tree_id : rel[:related_tree_id]
     end
+  end
+
+  def tags_for_user(user)
+    return [] unless user && respond_to?(:id)
+    scope = if TreeTag.respond_to?(:where)
+              TreeTag.where(tree_id: id, user_id: user.id)
+            else
+              Array(TreeTag.records).select { |t| t[:tree_id] == id && t[:user_id] == user.id }
+            end
+    scope.map { |t| t.respond_to?(:tag) ? t.tag : t[:tag] }
   end
 end
