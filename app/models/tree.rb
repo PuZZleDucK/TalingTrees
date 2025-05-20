@@ -27,4 +27,25 @@ class Tree < ApplicationRecord
                                     tree.treedb_lat, tree.treedb_long) <= radius
     end
   end
+
+  def chat_relationship_prompt
+    return '' unless respond_to?(:id) && id
+
+    kinds = %w[neighbor long_distance]
+    rels = TreeRelationship.respond_to?(:where) ?
+             TreeRelationship.where(tree_id: id, kind: kinds) :
+             Array(TreeRelationship.records).select do |r|
+               r[:tree_id] == id && kinds.include?(r[:kind])
+             end
+
+    names = rels.map do |rel|
+      rel.respond_to?(:related_tree) ? rel.related_tree&.name.to_s.strip :
+        rel[:related_tree]&.name.to_s.strip
+    end
+    names.reject! { |n| n.nil? || n.empty? }
+    return '' if names.empty?
+
+    "\nYour neighbors and friends are named: #{names.uniq.join(', ')}. " \
+    'Feel free to mention them casually by their FULL personal names.'
+  end
 end
