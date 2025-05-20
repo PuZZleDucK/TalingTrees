@@ -56,8 +56,8 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [x] when a user chats with a tree, the tree should be given knowledge about it's neighbors and friends personal names and should be encouraged to casually mention them by their FULL personal names
 [x] the naming task should skip any trees that already have a name
 [x] when a tree response contains a personal name of a tree they know it should be in bold green text and the user should now know about the new tree if they did not already know it
-[ ] clicking on the bold green name of a tree in a chat should highlight that tree on the map
-[ ] in the heading of the chat trees should show their neighbors and friends total counts and the number the user knows (eg "Bark Apple Tree Street (2/5 neighbors - 1/3 friends)"). trees should be given a random number of friends (1-6) in the relationships task. update readme to include all tasks
+[x] clicking on the bold green name of a tree in a chat should highlight that tree on the map
+[ ] in the heading of the chat trees should show their neighbors and friends total counts and the number the user knows (eg "Bark Apple Tree Street (2/5 neighbors - 1/3 friends)"). trees should be given a random number of friends (1-6) in the relationships task
 [ ] users should be able to tag trees (limited tag list - good, funny, friendly, unique, ...)
 [ ] tags a user gives a tree should be shown under its title
 [ ] relationships have tags too (eg best-friend, nemesis, secret-friend, lost-friend, ...). allocate some tags randomly when generating relationships
