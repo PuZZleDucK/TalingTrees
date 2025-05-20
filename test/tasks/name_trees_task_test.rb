@@ -49,7 +49,7 @@ class NameTreesTaskTest < Minitest::Test
 
       stub_ollama = Class.new do
         class << self
-          attr_accessor :call_count
+          attr_accessor :call_count, :last_params, :params_list
         end
 
         attr_reader :last_chat_params
@@ -58,6 +58,9 @@ class NameTreesTaskTest < Minitest::Test
 
         def chat(payload, **_opts)
           self.class.call_count = (self.class.call_count || 0) + 1
+          self.class.last_params = payload
+          self.class.params_list ||= []
+          self.class.params_list << payload
           @last_chat_params = payload
           data = NameTreesTaskTest.response_data
           if data.is_a?(Array)
@@ -156,5 +159,24 @@ class NameTreesTaskTest < Minitest::Test
     Rake.application['db:name_trees'].invoke
     assert_equal 'Oak', @tree.attributes['name']
     assert_equal 4, Ollama.call_count
+  end
+
+  def test_neighbor_names_included_in_prompt
+    @tree.define_singleton_method(:treedb_lat) { 0.0 }
+    @tree.define_singleton_method(:treedb_long) { 0.0 }
+    neighbor = Struct.new(:name).new('Oak')
+    @tree.define_singleton_method(:neighbors_within) { |_radius| [neighbor] }
+
+    self.class.response_data = [
+      { 'message' => { 'content' => 'Spruce' } },
+      { 'message' => { 'content' => 'YES' } }
+    ]
+
+    Rake.application['db:name_trees'].reenable
+    Rake.application['db:name_trees'].invoke
+
+    messages = Ollama.params_list.first[:messages]
+    user_content = messages[1]['content']
+    assert_includes user_content, 'Nearby tree names to avoid: Oak'
   end
 end
