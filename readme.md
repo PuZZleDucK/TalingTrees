@@ -51,7 +51,7 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [x] add rake task to add relationships between trees - neighbors (within 20) - all with same species - 3 random long distance friends
 [x] naming script should find trees within 50m and avoid duplicate names
 [x] add lat/long to User and get from device. display it in the nav bar
-[ ] add relation model between users and the trees they know about. users should only see the closest five trees at the start
+[x] add relation model between users and the trees they know about. users should only see the closest five trees at the start
 [ ] talking to trees should reveal more trees (mostly near, some distant or same species)
 [ ] trees should have missions/objectives that users can help with
 [ ] users should be able to tag trees (limited tag list - good, funny, friendly, unique)

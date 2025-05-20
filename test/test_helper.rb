@@ -11,6 +11,7 @@ end
 
 require_relative '../app/models/application_record'
 require_relative '../app/models/tree'
+require_relative '../app/models/user_tree'
 require_relative '../app/models/user'
 require_relative '../app/models/chat'
 require_relative '../app/models/message'
