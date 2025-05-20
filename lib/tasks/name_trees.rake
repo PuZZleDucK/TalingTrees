@@ -3,11 +3,11 @@ namespace :db do
   task name_trees: :environment do
     require 'ollama-ai'
 
-    system_prompt = 'You are a creative and colorful individual who had a deep understanding of trees and the attitudes of school children. Your job is to take factual information about a tree and give it a fun personal name that kids will like. Do not just use the trees common_name or a re-ordering of the common_name. You must only respond with the name you think the tree should have. Do not quote or decorate or introduce the name in any way you must only respond with the name.'
+    system_prompt = 'You are a creative and colorful individual who had a deep understanding of trees and the attitudes of school children. Your job is to take factual information about a tree and give it a fun personal name that kids will like. It should be the kind of name that could be used to identify the tree by its friends. Do not just use the trees common_name or a re-ordering of the common_name You should not even include the common_name in the personal name at all, but rather use it as inspiration and a jumping off point. You must only respond with the name you think the tree should have. Do not quote or decorate or introduce the name in any way you must only respond with the name.'
 
     client = Ollama.new(credentials: { address: ENV.fetch('OLLAMA_URL', 'http://localhost:11434') })
 
-    verify_prompt_template = 'You approve tree names. Tree names should not just be the species or common_name of the tree or a re-ordering of the common_name. Tree names should have some personality. The tree you are checking has the common name "%{common_name}", the genus "%{genus}" and the family "%{family}". Respond with YES if the provided text is a suitable name, otherwise respond with NO.'
+    verify_prompt_template = 'Your job is to approve tree names if they are good valid names. Tree names should not just be the species or common_name of the tree or a re-ordering of the common_name. Tree names should have some personality. The tree you are checking has the common name "%{common_name}", the genus "%{genus}" and the family "%{family}". Respond with YES if the provided text is a suitable name, otherwise respond with NO. Do not quote or decorate or introduce or explain the response in any way. You must only respond with YES or NO.'
 
     Tree.find_each do |tree|
       identifier = tree.respond_to?(:id) ? "##{tree.id}" : tree.to_s

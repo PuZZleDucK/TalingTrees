@@ -53,15 +53,24 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [x] add lat/long to User and get from device. display it in the nav bar
 [x] add relation model between users and the trees they know about. users should only see the closest five trees at the start
 [x] when a user chats with a tree, the tree should be given knowledge about it's neighbors and friends personal names and should be encouraged to casually mention them by their FULL personal names
+[ ] the naming task should skip any trees that already have a name
 [ ] when a tree response contains a personal name of a tree they know it should be in bold green text and the user should now know about the new tree if they did not already know it
 [ ] clicking on the bold green name of a tree in a chat should highlight that tree on the map
-[ ] users should be able to tag trees (limited tag list - good, funny, friendly, unique)
-[ ] relationships have tags too
-[ ] trees should be able to tag users
-[ ] trees should know more about their neighbors and friends (species, tags...)
-[ ] trees should have missions/objectives that users can help with... find my lost friend, find the only..., find all the ...
+[ ] in the heading of the chat trees should show their neighbors and friends total counts and the number the user knows (eg "Bark Apple Tree Street (2/5 neighbors - 1/3 friends)"). trees should be given a random number of friends (1-6) in the relationships task
+[ ] users should be able to tag trees (limited tag list - good, funny, friendly, unique, ...)
+[ ] tags a user gives a tree should be shown under its title
+[ ] relationships have tags too (eg best-friend, nemesis, secret-friend, lost-friend, ...). allocate some tags randomly when generating relationships
+[ ] include what kind of relations the tree has in it's prompt
+[ ] trees should be able to tag users (helpful, friendly, cheeky, funny, ...)
+[ ] display user tags in the nav bar to the left of their name. trees should be given the users tags as additional context in the first chat with a user, it should be framed as things the tree has heard from other trees
+[ ] trees should know more about their neighbors and friends in their context (species, tags...)
+[ ] trees should have missions/objectives that users can help with... find my enemy, find my lost friend, ... (tree must have relation)
+[ ] new tree mission: find the only... tree of a species, tree planted on x date, ... (must be unique in db)
+[ ] new tree mission: find all the ... trees named bob, trees of a species, trees on x road, trees in x park, ... (must be less than 6 in db)
 [ ] dark mode
 [ ] cleanup punctuation in tree names
 [ ] address brakeman issues
 [ ] address bundler-audit issues
 [ ] address rubocop issues
+[ ] deploy to heroku or similar
+[ ] the llm naming the trees should be given the reasons for previous rejections failure in it's prompt
