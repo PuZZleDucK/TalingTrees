@@ -48,4 +48,24 @@ class Tree < ApplicationRecord
     "\nYour neighbors and friends are named: #{names.uniq.join(', ')}. " \
     'Feel free to mention them casually by their FULL personal names.'
   end
+
+  def relationships_of_kind(kind)
+    if TreeRelationship.respond_to?(:where)
+      TreeRelationship.where(tree_id: id, kind: kind)
+    else
+      Array(TreeRelationship.records).select { |r| r[:tree_id] == id && r[:kind] == kind }
+    end
+  end
+
+  def neighbor_ids
+    relationships_of_kind('neighbor').map do |rel|
+      rel.respond_to?(:related_tree_id) ? rel.related_tree_id : rel[:related_tree_id]
+    end
+  end
+
+  def friend_ids
+    relationships_of_kind('long_distance').map do |rel|
+      rel.respond_to?(:related_tree_id) ? rel.related_tree_id : rel[:related_tree_id]
+    end
+  end
 end

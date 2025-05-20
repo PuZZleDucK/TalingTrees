@@ -25,13 +25,12 @@ namespace :db do
 
       # Long distance friends
       candidates = trees.reject { |t| t == tree }
-      sampled = if candidates.size <= 3
-                   candidates
-                 else
-                   candidates.sample(3)
-                 end
-      sampled.each do |friend|
-        TreeRelationship.find_or_create_by!(tree_id: tree.id, related_tree_id: friend.id, kind: 'long_distance')
+      unless candidates.empty?
+        max = [candidates.size, 6].min
+        num = rand(1..max)
+        candidates.sample(num).each do |friend|
+          TreeRelationship.find_or_create_by!(tree_id: tree.id, related_tree_id: friend.id, kind: 'long_distance')
+        end
       end
     end
   end
