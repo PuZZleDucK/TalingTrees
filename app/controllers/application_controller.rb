@@ -13,6 +13,14 @@ class ApplicationController < ActionController::Base
     head :ok
   end
 
+  def know_tree
+    if @current_user && params[:id]
+      tree = Tree.find_by(id: params[:id])
+      UserTree.find_or_create_by!(user: @current_user, tree: tree) if tree
+    end
+    head :ok
+  end
+
   private
 
   def set_current_user
