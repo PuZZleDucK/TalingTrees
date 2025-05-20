@@ -6,4 +6,9 @@ class TreesController < ApplicationController
       @trees = @current_user ? @current_user.closest_trees : Tree.all
     end
   end
+
+  def show
+    tree = Tree.find(params[:id])
+    render json: tree.slice(:id, :name, :treedb_lat, :treedb_long)
+  end
 end

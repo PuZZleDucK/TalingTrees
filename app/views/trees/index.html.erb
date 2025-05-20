@@ -137,14 +137,48 @@
 
     function recordKnownTrees(text) {
       var match;
+      var newIds = [];
       while ((match = namesRegex.exec(text)) !== null) {
         var id = treeNameMap[match[0].toLowerCase()];
+        if (!trees.some(function(t){ return t.id === id; })) {
+          newIds.push(id);
+        }
         fetch('/know_tree/' + id, {
           method: 'POST',
           headers: { 'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content }
         });
       }
       namesRegex.lastIndex = 0;
+      if (newIds.length > 0) {
+        revealNewTrees(newIds);
+      }
+    }
+
+    function revealNewTrees(ids) {
+      map.setView(map.getCenter(), 13);
+      Promise.all(ids.map(function(id){
+        return fetch('/trees/' + id + '.json')
+          .then(function(resp){ return resp.json(); });
+      })).then(function(newTrees){
+        newTrees.forEach(function(tree){
+          trees.push(tree);
+          var idx = trees.length - 1;
+          var li = document.createElement('li');
+          li.dataset.index = idx;
+          li.className = 'cursor-pointer p-1';
+          li.textContent = tree.name;
+          li.addEventListener('click', function(){ selectTree(idx); });
+          document.getElementById('tree-list').appendChild(li);
+          if (tree.treedb_lat && tree.treedb_long) {
+            var m = L.marker([tree.treedb_lat, tree.treedb_long])
+                      .addTo(map).bindPopup(tree.name);
+            m.on('click', function(){ selectTree(idx); });
+            markers[idx] = m;
+          } else {
+            markers[idx] = null;
+          }
+        });
+      });
     }
 
     function renderBotMessage(div, content) {
