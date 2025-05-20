@@ -33,9 +33,10 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    ```bash
    ruby test/run_tests.rb
    ```
-   bundler-audit will run automatically but you can run it manually with:
+   bundler-audit and Brakeman will run automatically but you can run them manually with:
    ```bash
    bundle exec bundler-audit check
+   bundle exec brakeman -q
    ```
 6. Start the Rails server:
    ```bash
@@ -53,7 +54,7 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [x] add lat/long to User and get from device. display it in the nav bar
 [x] add relation model between users and the trees they know about. users should only see the closest five trees at the start
 [x] when a user chats with a tree, the tree should be given knowledge about it's neighbors and friends personal names and should be encouraged to casually mention them by their FULL personal names
-[ ] the naming task should skip any trees that already have a name
+[x] the naming task should skip any trees that already have a name
 [ ] when a tree response contains a personal name of a tree they know it should be in bold green text and the user should now know about the new tree if they did not already know it
 [ ] clicking on the bold green name of a tree in a chat should highlight that tree on the map
 [ ] in the heading of the chat trees should show their neighbors and friends total counts and the number the user knows (eg "Bark Apple Tree Street (2/5 neighbors - 1/3 friends)"). trees should be given a random number of friends (1-6) in the relationships task
