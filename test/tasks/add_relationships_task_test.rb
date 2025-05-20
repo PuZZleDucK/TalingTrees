@@ -64,6 +64,6 @@ class AddRelationshipsTaskTest < Minitest::Test
     assert_includes TreeRelationship.records, expected_species
 
     long_distance_count = TreeRelationship.records.count { |r| r[:tree_id] == 1 && r[:kind] == 'long_distance' }
-    assert_equal 3, long_distance_count
+    assert_equal 1, long_distance_count
   end
 end

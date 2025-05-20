@@ -63,7 +63,7 @@
 </style>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    var trees = <%= raw @trees.to_json(only: [:id, :name, :treedb_lat, :treedb_long]) %>;
+    var trees = <%= raw @tree_data.to_json %>;
     var allTrees = <%= raw Tree.where.not(name: [nil, '']).to_json(only: [:id, :name]) %>;
     var treeNameMap = {};
     allTrees.forEach(function(t){ treeNameMap[t.name.toLowerCase()] = t.id; });
@@ -250,7 +250,6 @@
         radiusCircle = null;
       }
 
-      var neighborCount = countNeighbors(tree, 20);
       if (tree.treedb_lat && tree.treedb_long) {
         radiusCircle = L.circle([tree.treedb_lat, tree.treedb_long], {
           radius: 20,
@@ -260,7 +259,9 @@
       }
 
       document.getElementById('chat-title').textContent =
-        tree.name + ' (' + neighborCount + ' neighbors)';
+        tree.name + ' (' +
+        tree.neighbor_known + '/' + tree.neighbor_total + ' neighbors - ' +
+        tree.friend_known + '/' + tree.friend_total + ' friends)';
       currentTreeId = tree.id;
       chatHistory = [];
       currentChatId = null;
