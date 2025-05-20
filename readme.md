@@ -76,5 +76,7 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [ ] address rubocop issues
 [ ] deploy to heroku or similar
 [ ] make the found-a-new-tree animation size relative to zoom
-[ ] make zooming more smooth
+[ ] make zooming more smooth and slightly overzoom when zooming out to reveal new trees
 [ ] the llm naming the trees should be given the reasons for previous rejections failure in it's prompt
+[ ] the cursor should change to the same as a link when the user hovers over a green tree name in the chat
+[ ] we should keep track of the last tree the user spoke to when they move to a new chat and above the title of the chat we should show a "back to <tree-name>" button that returns them to chatting with the last tree
