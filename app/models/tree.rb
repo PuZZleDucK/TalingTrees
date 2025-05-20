@@ -1,6 +1,9 @@
 class Tree < ApplicationRecord
   EARTH_RADIUS = 6_371_000.0
 
+  has_many :user_trees, dependent: :destroy
+  has_many :users, through: :user_trees
+
   def self.haversine_distance(lat1, lon1, lat2, lon2)
     rad_per_deg = Math::PI / 180
     dlat_rad = (lat2 - lat1) * rad_per_deg
