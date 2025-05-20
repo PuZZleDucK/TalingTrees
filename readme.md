@@ -52,11 +52,14 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [x] naming script should find trees within 50m and avoid duplicate names
 [x] add lat/long to User and get from device. display it in the nav bar
 [x] add relation model between users and the trees they know about. users should only see the closest five trees at the start
-[ ] talking to trees should reveal more trees (mostly near, some distant or same species)
-[ ] trees should have missions/objectives that users can help with
+[ ] when a user chats with a tree, the tree should be given knowledge about it's neighbors and friends personal names and should be encouraged to casually mention them by their FULL personal names
+[ ] when a tree response contains a personal name of a tree they know it should be in bold green text and the user should now know about the new tree if they did not already know it
+[ ] clicking on the bold green name of a tree in a chat should highlight that tree on the map
 [ ] users should be able to tag trees (limited tag list - good, funny, friendly, unique)
 [ ] relationships have tags too
 [ ] trees should be able to tag users
+[ ] trees should know more about their neighbors and friends (species, tags...)
+[ ] trees should have missions/objectives that users can help with... find my lost friend, find the only..., find all the ...
 [ ] dark mode
 [ ] cleanup punctuation in tree names
 [ ] address brakeman issues
