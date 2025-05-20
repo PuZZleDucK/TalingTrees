@@ -107,6 +107,14 @@ class NameTreesTaskTest < Minitest::Test
     assert_equal 'Crimson Cap', @tree.attributes['name']
   end
 
+  def test_skips_trees_with_existing_name
+    @tree.attributes['name'] = 'Existing'
+    Rake.application['db:name_trees'].reenable
+    Rake.application['db:name_trees'].invoke
+    assert_equal 'Existing', @tree.attributes['name']
+    assert_equal 0, Ollama.call_count
+  end
+
   def test_skips_update_for_name_too_short
     self.class.response_data = { 'message' => { 'content' => 'A' } }
     Rake.application['db:name_trees'].reenable

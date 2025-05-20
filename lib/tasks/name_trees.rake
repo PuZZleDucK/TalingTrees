@@ -10,6 +10,13 @@ namespace :db do
     verify_prompt_template = 'Your job is to approve tree names if they are good valid names. Tree names should not just be the species or common_name of the tree or a re-ordering of the common_name. Tree names should have some personality. The tree you are checking has the common name "%{common_name}", the genus "%{genus}" and the family "%{family}". Respond with YES if the provided text is a suitable name, otherwise respond with NO. Do not quote or decorate or introduce or explain the response in any way. You must only respond with YES or NO.'
 
     Tree.find_each do |tree|
+      name_val = if tree.respond_to?(:attributes)
+                    tree.attributes['name']
+                  elsif tree.respond_to?(:name)
+                    tree.name
+                  end
+      next if name_val && !name_val.to_s.strip.empty?
+
       identifier = tree.respond_to?(:id) ? "##{tree.id}" : tree.to_s
       puts "Naming tree #{identifier}"
 

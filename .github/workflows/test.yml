@@ -20,6 +20,9 @@ jobs:
       - name: Run tests
         run: |
           ruby test/run_tests.rb | tee test_output.txt
+      - name: Run Brakeman
+        run: |
+          bundle exec brakeman -q | tee brakeman_report.txt
       - name: Show reports
         run: |
           echo '### RuboCop' && cat rubocop_report.txt
