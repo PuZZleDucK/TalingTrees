@@ -150,10 +150,10 @@
         radiusCircle = null;
       }
 
-      var neighborCount = countNeighbors(tree, 10);
+      var neighborCount = countNeighbors(tree, 20);
       if (tree.treedb_lat && tree.treedb_long) {
         radiusCircle = L.circle([tree.treedb_lat, tree.treedb_long], {
-          radius: 10,
+          radius: 20,
           color: '#ff0000',
           fillOpacity: 0.1
         }).addTo(map);

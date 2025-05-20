@@ -59,7 +59,19 @@ namespace :db do
                              verify.dig('message', 'content')
                            end.to_s.strip
           if verify_content =~ /^y(es)?/i
-            break
+            neighbor_names = if tree.respond_to?(:treedb_lat) && tree.respond_to?(:treedb_long)
+                               tree.neighbors_within(50)
+                                   .map { |n| n.name.to_s.downcase.strip }
+                                   .reject(&:empty?)
+                             else
+                               []
+                             end
+            if neighbor_names.include?(cleaned.downcase)
+              puts "Rejected duplicate name within 50m: #{cleaned.inspect}"
+              cleaned = nil
+            else
+              break
+            end
           else
             puts "Rejected name after verification: #{cleaned.inspect}"
             cleaned = nil
