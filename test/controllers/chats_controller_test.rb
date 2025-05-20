@@ -4,8 +4,14 @@ require 'ostruct'
 
 # Minimal stub simulating the Ollama client used in ChatsController
 class Ollama
+  class << self
+    attr_accessor :last_payload
+  end
+
   def initialize(credentials:, options: {}); end
+
   def chat(payload)
+    self.class.last_payload = payload
     # Simulate the gem calling the stream handler without arguments
     yield
   end
@@ -14,11 +20,14 @@ end
 # Minimal version of ChatsController#create focusing on the Ollama call
 class ChatsController
   def create(params)
-    tree = OpenStruct.new(llm_model: 'model', llm_sustem_prompt: 'prompt')
+    tree = params[:tree] || OpenStruct.new(llm_model: 'model', llm_sustem_prompt: 'prompt', chat_relationship_prompt: '')
     history = params[:history]
     history = JSON.parse(history) if history.is_a?(String)
     history = [history] if history.is_a?(Hash)
-    messages = [{ 'role' => 'system', 'content' => tree.llm_sustem_prompt.to_s }] + history.to_a
+
+    system_prompt = tree.llm_sustem_prompt.to_s + tree.chat_relationship_prompt.to_s
+    messages = [{ 'role' => 'system', 'content' => system_prompt }] + history.to_a
+
     client = Ollama.new(
       credentials: { address: 'http://localhost:11434' },
       options: { server_sent_events: true }
@@ -63,5 +72,13 @@ class ChatsControllerTest < Minitest::Test
       ]
     }
     assert_equal expected, controller.history(chat)
+  end
+
+  def test_create_includes_relationship_prompt
+    controller = ChatsController.new
+    tree = OpenStruct.new(llm_model: 'model', llm_sustem_prompt: 'base', chat_relationship_prompt: ' extras')
+    controller.create(history: { 'role' => 'user', 'content' => 'hi' }, tree: tree)
+    messages = Ollama.last_payload[:messages]
+    assert_equal 'base extras', messages.first['content']
   end
 end

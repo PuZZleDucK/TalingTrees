@@ -19,7 +19,8 @@ class ChatsController < ApplicationController
       chat.messages.create!(role: msg['role'], content: msg['content'])
     end
 
-    messages = [{ 'role' => 'system', 'content' => tree.llm_sustem_prompt.to_s }] + history.to_a
+    system_prompt = tree.llm_sustem_prompt.to_s + tree.chat_relationship_prompt.to_s
+    messages = [{ 'role' => 'system', 'content' => system_prompt }] + history.to_a
 
     response.headers['Content-Type'] = 'text/event-stream'
     client = Ollama.new(
