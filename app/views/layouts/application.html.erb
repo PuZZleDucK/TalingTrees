@@ -42,6 +42,7 @@
               txtSpan.textContent = pos.coords.latitude.toFixed(5) + ', ' + pos.coords.longitude.toFixed(5);
             }
           }
+          document.dispatchEvent(new CustomEvent('location-updated', { detail: { lat: pos.coords.latitude, lon: pos.coords.longitude } }));
           fetch('<%= update_location_path %>', {
             method: 'POST',
             headers: {
