@@ -50,6 +50,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_17_152600) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "tree_relationships", force: :cascade do |t|
+    t.integer "tree_id"
+    t.integer "related_tree_id"
+    t.string "kind"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tree_id", "related_tree_id", "kind"], name: "index_tree_relationships_unique", unique: true
+    t.index ["related_tree_id"], name: "index_tree_relationships_on_related_tree_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
