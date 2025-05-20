@@ -6,6 +6,13 @@ class ApplicationController < ActionController::Base
     redirect_back fallback_location: root_path
   end
 
+  def update_location
+    if @current_user && params[:lat] && params[:long]
+      @current_user.update!(lat: params[:lat], long: params[:long])
+    end
+    head :ok
+  end
+
   private
 
   def set_current_user
