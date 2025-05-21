@@ -13,9 +13,19 @@
       <span class="font-bold text-lg">TalingTrees</span>
     </div>
     <div class="flex items-center">
+      <% tag_colors = {
+           'good' => 'bg-green-200 text-green-800',
+           'funny' => 'bg-yellow-200 text-yellow-800',
+           'friendly' => 'bg-blue-200 text-blue-800',
+           'unique' => 'bg-purple-200 text-purple-800',
+           'helpful' => 'bg-blue-200 text-blue-800',
+           'cheeky' => 'bg-pink-200 text-pink-800',
+           'bossy' => 'bg-red-200 text-red-800'
+         } %>
       <span id="user-tags" class="flex mr-2">
-        <% (@current_user&.tags_from_trees || []).each do |t| %>
-          <span class="bg-gray-200 rounded px-1 text-xs mr-1"><%= t %></span>
+        <% (@current_user&.tag_details_from_trees || {}).each do |tag, info| %>
+          <% cls = tag_colors[tag] || 'bg-gray-200 text-gray-800' %>
+          <span class="tag-pill inline-block px-2 py-1 mr-1 mb-1 rounded-full text-xs <%= cls %>" title="<%= info[:names].join(', ') %>"><%= tag %><%= " (#{info[:count]})" if info[:count] > 1 %></span>
         <% end %>
       </span>
       <span class="mr-2">👤 <%= @current_user&.name %></span>
