@@ -20,6 +20,7 @@ class ChatsController < ApplicationController
     end
 
     system_prompt = tree.llm_sustem_prompt.to_s + tree.chat_relationship_prompt.to_s
+    system_prompt += @current_user.chat_tags_prompt if chat.messages.empty?
     messages = [{ 'role' => 'system', 'content' => system_prompt }] + history.to_a
 
     response.headers['Content-Type'] = 'text/event-stream'
@@ -44,6 +45,7 @@ class ChatsController < ApplicationController
       end
     ensure
       chat.messages.create!(role: 'assistant', content: assistant_content)
+      maybe_mark_friendly(chat)
       response.stream.close
     end
   end
@@ -57,6 +59,36 @@ class ChatsController < ApplicationController
       render json: { chat_id: chat.id, messages: messages }
     else
       render json: { chat_id: nil, messages: [] }
+    end
+  end
+
+  private
+
+  def maybe_mark_friendly(chat)
+    user = chat.user
+    tree = chat.tree
+
+    count = if Message.respond_to?(:joins)
+               Message.joins(:chat).where(role: 'user', chats: { user_id: user.id, tree_id: tree.id }).count
+             else
+               msgs = Array(Message.records)
+               chats = Array(Chat.records)
+               msgs.count do |m|
+                 next false unless m[:role] == 'user'
+                 chat_rec = chats.find { |c| c[:id] == m[:chat_id] }
+                 chat_rec && chat_rec[:user_id] == user.id && chat_rec[:tree_id] == tree.id
+               end
+             end
+
+    return unless count >= 3
+
+    if UserTag.respond_to?(:find_or_create_by!)
+      UserTag.find_or_create_by!(tree: tree, user: user, tag: 'friendly')
+    else
+      UserTag.records ||= []
+      unless UserTag.records.any? { |r| r[:tree_id] == tree.id && r[:user_id] == user.id && r[:tag] == 'friendly' }
+        UserTag.records << { tree_id: tree.id, user_id: user.id, tag: 'friendly' }
+      end
     end
   end
 end

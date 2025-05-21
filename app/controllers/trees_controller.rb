@@ -51,4 +51,13 @@ class TreesController < ApplicationController
     end
     render json: { tags: tree.tags_for_user(@current_user) }
   end
+
+  def tag_user
+    tree = Tree.find(params[:id])
+    tag = params[:tag].to_s
+    if UserTag::ALLOWED_TAGS.include?(tag)
+      UserTag.find_or_create_by!(tree: tree, user: @current_user, tag: tag)
+    end
+    render json: { tags: @current_user.tags_from_trees }
+  end
 end

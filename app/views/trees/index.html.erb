@@ -181,6 +181,39 @@
       });
     }
 
+    var userTagsDiv = document.getElementById('user-tags');
+    var userTagRegex = /user_tag:([a-zA-Z_-]+)/gi;
+
+    function renderUserTags(tags) {
+      if (!userTagsDiv) return;
+      userTagsDiv.innerHTML = '';
+      tags.forEach(function(tag) {
+        var span = document.createElement('span');
+        var cls = tagColors[tag] || 'bg-gray-200 text-gray-800';
+        span.className = 'bg-gray-200 rounded px-1 text-xs mr-1 ' + cls;
+        span.textContent = tag;
+        userTagsDiv.appendChild(span);
+      });
+    }
+
+    function recordUserTags(text) {
+      var match;
+      while ((match = userTagRegex.exec(text)) !== null) {
+        var tag = match[1];
+        fetch('/trees/' + currentTreeId + '/tag_user', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+          },
+          body: JSON.stringify({ tag: tag })
+        }).then(function(resp){ return resp.json(); }).then(function(data){
+          renderUserTags(data.tags || []);
+        });
+      }
+      userTagRegex.lastIndex = 0;
+    }
+
     function recordKnownTrees(text) {
       var match;
       var newIds = [];
@@ -402,6 +435,7 @@
               var finalText = botContent.replace(/<think>[\s\S]*?<\/think>/, '');
               chatHistory.push({role: 'assistant', content: finalText.trimStart()});
               recordKnownTrees(finalText);
+              recordUserTags(finalText);
               return;
             }
             var chunkText = decoder.decode(result.value, {stream: true});
