@@ -32,22 +32,46 @@ class Tree < ApplicationRecord
   def chat_relationship_prompt
     return '' unless respond_to?(:id) && id
 
-    kinds = %w[neighbor long_distance]
-    rels = TreeRelationship.respond_to?(:where) ?
-             TreeRelationship.where(tree_id: id, kind: kinds) :
-             Array(TreeRelationship.records).select do |r|
-               r[:tree_id] == id && kinds.include?(r[:kind])
+    mapping = { 'neighbor' => 'neighbors', 'long_distance' => 'friends' }
+    parts = []
+
+    mapping.each do |rel_kind, label|
+      rels = if TreeRelationship.respond_to?(:where)
+               TreeRelationship.where(tree_id: id, kind: rel_kind)
+             else
+               Array(TreeRelationship.records).select do |r|
+                 r[:tree_id] == id && r[:kind] == rel_kind
+               end
              end
 
-    names = rels.map do |rel|
-      rel.respond_to?(:related_tree) ? rel.related_tree&.name.to_s.strip :
-        rel[:related_tree]&.name.to_s.strip
-    end
-    names.reject! { |n| n.nil? || n.empty? }
-    return '' if names.empty?
+      info = rels.map do |rel|
+        related = if rel.respond_to?(:related_tree)
+                     rel.related_tree
+                   else
+                     rel[:related_tree]
+                   end
+        name = related&.name.to_s.strip
+        next nil if name.empty?
 
-    "\nYour neighbors and friends are named: #{names.uniq.join(', ')}. " \
-    'Feel free to mention them casually by their FULL personal names.'
+        species = if related.respond_to?(:treedb_common_name)
+                     related.treedb_common_name.to_s.strip
+                   else
+                     related[:treedb_common_name].to_s.strip
+                   end
+        tag = rel.respond_to?(:tag) ? rel.tag.to_s : rel[:tag].to_s
+
+        details = []
+        details << "tag: #{tag}" unless tag.nil? || tag.empty?
+        details << "species: #{species}" unless species.empty?
+        "#{name} (#{details.join(', ')})"
+      end.compact
+
+      parts << "#{label.capitalize} include: #{info.join(', ')}." unless info.empty?
+    end
+
+    return '' if parts.empty?
+
+    "\n#{parts.join(' ')} Feel free to mention them casually by their FULL personal names."
   end
 
   def relationships_of_kind(kind)
