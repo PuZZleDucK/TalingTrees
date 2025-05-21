@@ -3,7 +3,7 @@ namespace :db do
   task name_trees: :environment do
     require 'ollama-ai'
 
-    system_prompt = 'You are a creative and colorful individual who had a deep understanding of trees and the attitudes of school children. Your job is to take factual information about a tree and give it a fun personal name that kids will like. It should be the kind of name that could be used to identify the tree by its friends. Do not just use the trees common_name or a re-ordering of the common_name You should not even include the common_name in the personal name at all, but rather use it as inspiration and a jumping off point. You must only respond with the name you think the tree should have. Do not quote or decorate or introduce the name in any way you must only respond with the name.'
+    system_prompt = 'You are a creative and colorful individual who had a deep understanding of trees and the attitudes of school children. Your job is to take factual information about a tree and give it a fun personal name that kids will like. It should be the kind of name that could be used to identify the tree by its friends. Do not just use the trees common_name or a re-ordering of the common_name You should not even include the common_name in the personal name at all, but rather use it as inspiration and a jumping off point. The name should sound like a fantasy character name. You must only respond with the name you think the tree should have. Do not quote or decorate or introduce the name in any way you must only respond with the name.'
 
     client = Ollama.new(credentials: { address: ENV.fetch('OLLAMA_URL', 'http://localhost:11434') })
 
@@ -36,15 +36,19 @@ namespace :db do
 
       puts "Facts:\n#{facts}"
 
-      messages = [
-        { 'role' => 'system', 'content' => system_prompt },
-        { 'role' => 'user', 'content' => facts }
-      ]
-
       attempt = 0
       cleaned = nil
+      reasons = []
       while attempt < 3
         attempt += 1
+
+        user_content = facts.dup
+        user_content += "\nPrevious failures: #{reasons.join('; ')}" if reasons.any?
+
+        messages = [
+          { 'role' => 'system', 'content' => system_prompt },
+          { 'role' => 'user', 'content' => user_content }
+        ]
 
         response = client.chat({ model: 'Qwen3:0.6b', messages: messages })
 
@@ -61,6 +65,7 @@ namespace :db do
 
         if cleaned.length > 150 || cleaned.length < 3
           puts "Rejected name due to length: #{cleaned.inspect}"
+          reasons << 'name too long or short'
           cleaned = nil
         else
           verify_prompt = format(
@@ -89,12 +94,14 @@ namespace :db do
                              end
             if neighbor_names.include?(cleaned.downcase)
               puts "Rejected duplicate name within 50m: #{cleaned.inspect}"
+              reasons << 'duplicate within 50m'
               cleaned = nil
             else
               break
             end
           else
             puts "Rejected name after verification: #{cleaned.inspect}"
+            reasons << 'failed verification'
             cleaned = nil
           end
         end

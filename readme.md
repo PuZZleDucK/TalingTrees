@@ -67,9 +67,9 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [x] trees should not allow their thoughts to be expanded unless they are tagged friendly
 [x] user tags should be colored pills. if a user has a tag applied by many trees it should show one tag with a counter of how many times it's applied.
 [x] user tags should display and update without having to reload
-[ ] trees should be given the context of the users tags and which trees applied those tags to the user
-[ ] the llm naming the trees should be given the reasons for previous rejections failure in it's prompt
-[ ] tree names should be more like fantasy character names
+[x] trees should be given the context of the users tags and which trees applied those tags to the user
+[x] the llm naming the trees should be given the reasons for previous rejections failure in it's prompt
+[x] tree names should be more like fantasy character names
 [ ] update import trees job to take an optional parameter to limit the import count.
 [ ] when creating trees the system prompt should be blank. create a script to give trees a system prompt. update readme to specify setting up db: seed -> import trees -> name trees -> add relations -> system prompts
 [ ] tree system prompts should encourage the roleplay of the tree character. should encourage trees to hint at trees they know and only reveal them when asked.

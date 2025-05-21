@@ -208,4 +208,20 @@ class NameTreesTaskTest < Minitest::Test
     assert_includes system_content, 'Eucalyptus'
     assert_includes system_content, 'Myrtaceae'
   end
+
+  def test_followup_prompt_includes_rejection_reasons
+    long_name = 'A' * 151
+    self.class.response_data = [
+      { 'message' => { 'content' => long_name } },
+      { 'message' => { 'content' => 'Spruce' } },
+      { 'message' => { 'content' => 'YES' } }
+    ]
+
+    Rake.application['db:name_trees'].reenable
+    Rake.application['db:name_trees'].invoke
+
+    follow_up = Ollama.params_list[1][:messages][1]['content']
+    assert_includes follow_up, 'Previous failures'
+    assert_includes follow_up, 'name too long or short'
+  end
 end

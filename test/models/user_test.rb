@@ -50,4 +50,18 @@ class UserTest < Minitest::Test
   ensure
     UserTag.records = nil
   end
+
+  def test_chat_tags_prompt_includes_tree_names
+    UserTag.singleton_class.class_eval { attr_accessor :records }
+    UserTag.records = [
+      { tree_id: 1, user_id: 2, tag: 'friendly', tree_name: 'Oak' },
+      { tree_id: 2, user_id: 2, tag: 'helpful', tree_name: 'Pine' }
+    ]
+    user = User.new(id: 2)
+    prompt = user.chat_tags_prompt
+    assert_includes prompt, 'friendly (Oak)'
+    assert_includes prompt, 'helpful (Pine)'
+  ensure
+    UserTag.records = nil
+  end
 end
