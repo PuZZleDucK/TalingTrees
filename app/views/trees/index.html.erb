@@ -72,6 +72,10 @@
     font-weight: bold;
     color: #006400;
   }
+  #chat-history .locked-thoughts {
+    color: #888;
+    font-style: italic;
+  }
 </style>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
@@ -209,6 +213,9 @@
           body: JSON.stringify({ tag: tag })
         }).then(function(resp){ return resp.json(); }).then(function(data){
           renderUserTags(data.tags || []);
+          var tree = trees.find(function(t){ return t.id === currentTreeId; });
+          if (tree) { tree.user_tags = data.user_tags || tree.user_tags || []; }
+          reRenderBotMessages();
         });
       }
       userTagRegex.lastIndex = 0;
@@ -268,26 +275,52 @@
             markers[idx] = null;
           }
           tree.tags = tree.tags || [];
+          tree.user_tags = tree.user_tags || [];
         });
       });
     }
 
-    function renderBotMessage(div, content) {
-      var openIdx = content.indexOf('<think>');
-      if (openIdx === -1) {
-        div.innerHTML = highlightContent(content);
-        return;
+      function renderBotMessage(div, content) {
+        var openIdx = content.indexOf('<think>');
+        if (openIdx === -1) {
+          div.innerHTML = highlightContent(content);
+          return;
+        }
+        var closeIdx = content.indexOf('</think>', openIdx + 7);
+        var before = content.slice(0, openIdx);
+        var think = closeIdx === -1 ? content.slice(openIdx + 7) : content.slice(openIdx + 7, closeIdx);
+        var after = closeIdx === -1 ? '' : content.slice(closeIdx + 8);
+        var html = '';
+        if (before) html += highlightContent(before);
+        var tree = trees.find(function(t){ return t.id === currentTreeId; });
+        var friendly = tree && Array.isArray(tree.user_tags) && tree.user_tags.indexOf('friendly') !== -1;
+        if (friendly) {
+          html += '<details><summary>LLM thoughts</summary><pre>' + escapeHtml(think) + '</pre></details>';
+        } else {
+          html += '<div class="locked-thoughts">LLM thoughts (requires friendly tag)</div>';
+        }
+        if (after) html += highlightContent(after);
+        div.innerHTML = html;
       }
-      var closeIdx = content.indexOf('</think>', openIdx + 7);
-      var before = content.slice(0, openIdx);
-      var think = closeIdx === -1 ? content.slice(openIdx + 7) : content.slice(openIdx + 7, closeIdx);
-      var after = closeIdx === -1 ? '' : content.slice(closeIdx + 8);
-      var html = '';
-      if (before) html += highlightContent(before);
-      html += '<details><summary>LLM thoughts</summary><pre>' + escapeHtml(think) + '</pre></details>';
-      if (after) html += highlightContent(after);
-      div.innerHTML = html;
-    }
+
+      function reRenderBotMessages() {
+        chatHistory.forEach(function(msg) {
+          if (msg.role === 'assistant' && msg.div) {
+            renderBotMessage(msg.div, msg.content);
+          }
+        });
+      }
+
+      function refreshCurrentTree() {
+        if (!currentTreeId) return;
+        fetch('/trees/' + currentTreeId + '.json')
+          .then(function(resp){ return resp.json(); })
+          .then(function(data){
+            var tree = trees.find(function(t){ return t.id === currentTreeId; });
+            if (tree) { tree.user_tags = data.user_tags || []; }
+            reRenderBotMessages();
+          });
+      }
     trees.forEach(function(tree, idx) {
       if (tree.treedb_lat && tree.treedb_long) {
         var m = L.marker([tree.treedb_lat, tree.treedb_long]).addTo(map).bindPopup(tree.name);
@@ -343,6 +376,7 @@
         tree.neighbor_known + '/' + tree.neighbor_total + ' neighbors - ' +
         tree.friend_known + '/' + tree.friend_total + ' friends)';
       currentTreeId = tree.id;
+      tree.user_tags = tree.user_tags || [];
       renderTags(tree.tags || []);
       chatHistory = [];
       currentChatId = null;
@@ -362,7 +396,7 @@
             } else {
               div.textContent = msg.content;
             }
-            chatHistory.push(msg);
+            chatHistory.push({ role: msg.role, content: msg.content, div: div });
             historyDiv.appendChild(div);
           });
           historyDiv.scrollTop = historyDiv.scrollHeight;
@@ -399,11 +433,11 @@
       var text = input.value.trim();
       if (text === '' || !currentTreeId) return;
       var userMsg = {role: 'user', content: text};
-      chatHistory.push(userMsg);
       var div = document.createElement('div');
       div.className = 'user-message';
       div.textContent = text;
       historyDiv.appendChild(div);
+      chatHistory.push({ role: 'user', content: text, div: div });
       input.value = '';
       historyDiv.scrollTop = historyDiv.scrollHeight;
 
@@ -413,7 +447,10 @@
           'Content-Type': 'application/json',
           'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
         },
-        body: JSON.stringify({history: chatHistory, chat_id: currentChatId})
+        body: JSON.stringify({
+          history: chatHistory.map(function(m){ return { role: m.role, content: m.content }; }),
+          chat_id: currentChatId
+        })
       }).then(function(response){
         if (!currentChatId) {
           currentChatId = response.headers.get('X-Chat-Id');
@@ -433,9 +470,10 @@
           reader.read().then(function(result){
             if (result.done) {
               var finalText = botContent.replace(/<think>[\s\S]*?<\/think>/, '');
-              chatHistory.push({role: 'assistant', content: finalText.trimStart()});
+              chatHistory.push({ role: 'assistant', content: botContent, div: botDiv });
               recordKnownTrees(finalText);
               recordUserTags(finalText);
+              refreshCurrentTree();
               return;
             }
             var chunkText = decoder.decode(result.value, {stream: true});
