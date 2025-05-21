@@ -18,11 +18,16 @@
       <span class="text-2xl mr-2">💬</span>
       <h2 id="chat-title" class="m-0 text-xl">Chat</h2>
     </div>
-    <div id="tree-tags" class="text-sm text-gray-600 mb-2"></div>
-    <div id="tag-buttons" class="mb-2">
-      <% TreeTag::ALLOWED_TAGS.each do |t| %>
-        <button class="tag-btn bg-gray-200 rounded px-2 py-1 mr-1" data-tag="<%= t %>"><%= t %></button>
-      <% end %>
+    <div class="flex items-center mb-2">
+      <div id="tree-tags" class="flex flex-wrap text-sm text-gray-600"></div>
+      <div class="relative ml-2">
+        <button id="tag-dropdown-btn" class="bg-gray-200 rounded px-2 py-1">+ Tag</button>
+        <div id="tag-dropdown" class="hidden absolute left-0 mt-1 bg-white border rounded shadow z-10">
+          <% TreeTag::ALLOWED_TAGS.each do |t| %>
+            <div class="tag-option px-3 py-1 cursor-pointer hover:bg-gray-100" data-tag="<%= t %>"><%= t %></div>
+          <% end %>
+        </div>
+      </div>
     </div>
     <div id="chat-history" class="overflow-y-auto border rounded p-2 mb-2 flex-1">
       <!-- Chat messages will appear here -->
@@ -38,6 +43,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
   #tree-list li.selected { background-color: #e0f0ff; }
+  #tag-dropdown { min-width: 6rem; }
   #chat-history .user-message {
     background-color: #e0ffe0;
     padding: 5px 8px;
@@ -142,8 +148,22 @@
       });
     }
 
+    var tagColors = {
+      good: 'bg-green-200 text-green-800',
+      funny: 'bg-yellow-200 text-yellow-800',
+      friendly: 'bg-blue-200 text-blue-800',
+      unique: 'bg-purple-200 text-purple-800'
+    };
+
     function renderTags(tags) {
-      treeTags.textContent = tags.join(', ');
+      treeTags.innerHTML = '';
+      tags.forEach(function(tag) {
+        var span = document.createElement('span');
+        var cls = tagColors[tag] || 'bg-gray-200 text-gray-800';
+        span.className = 'tag-pill inline-block px-2 py-1 mr-1 mb-1 rounded-full text-xs ' + cls;
+        span.textContent = tag;
+        treeTags.appendChild(span);
+      });
     }
 
     function addTag(tag) {
@@ -322,10 +342,16 @@
         selectTree(index);
       });
     });
-    document.querySelectorAll('.tag-btn').forEach(function(btn){
-      btn.addEventListener('click', function(){
+    var tagDropdownBtn = document.getElementById('tag-dropdown-btn');
+    var tagDropdown = document.getElementById('tag-dropdown');
+    tagDropdownBtn.addEventListener('click', function(){
+      tagDropdown.classList.toggle('hidden');
+    });
+    document.querySelectorAll('.tag-option').forEach(function(opt){
+      opt.addEventListener('click', function(){
         if (!currentTreeId) return;
-        addTag(btn.dataset.tag);
+        addTag(opt.dataset.tag);
+        tagDropdown.classList.add('hidden');
       });
     });
     var input = document.getElementById('chat-input');
