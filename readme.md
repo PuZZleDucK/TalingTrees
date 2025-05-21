@@ -61,11 +61,10 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [x] users should be able to tag trees (limited tag list - good, funny, friendly, unique, ...)
 [x] tags a user gives a tree should be shown under its title
 [x] relationships have tags too (eg best-friend, nemesis, secret-friend, lost-friend, ...). allocate some tags randomly when generating relationships
-[ ] include what kind of relations the tree has in it's prompt
 [ ] trees should be able to tag users (helpful, friendly, cheeky, funny, bossy, ...)
-[ ] trees should not allow their thoughts to be expanded unless they are tagged friendly
 [ ] display user tags in the nav bar to the left of their name. trees should be given the users tags as additional context in the first chat with a user, it should be framed as things the tree has heard from other trees
-[ ] trees should know more about their neighbors and friends in their context (species, tags...)
+[ ] trees should know more about their neighbors and friends in their context (species, tags, relation types...)
+[ ] trees should not allow their thoughts to be expanded unless they are tagged friendly
 [ ] trees should have missions/objectives that users can help with... find my enemy, find my lost friend, ... (tree must have relation)
 [ ] new tree mission: find the only... tree of a species, tree planted on x date, ... (must be unique in db)
 [ ] new tree mission: find all the ... trees named bob, trees of a species, trees on x road, trees in x park, ... (must be less than 6 in db)
@@ -76,6 +75,7 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [ ] address rubocop issues
 [ ] deploy to heroku or similar
 [ ] tree names should be more like fantasy character names
+[ ] users should be able to remove tags they applied to a tree
 [ ] when the user clicks on the neighbors or friends count in the chat title a dropdown with the list of related trees should appear with ones not known by the user in light grey with the text "unknown"
 [ ] make the found-a-new-tree animation size relative to zoom
 [ ] make zooming more smooth and slightly overzoom when zooming out to reveal new trees
