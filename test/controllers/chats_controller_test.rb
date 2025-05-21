@@ -20,12 +20,12 @@ end
 # Minimal version of ChatsController#create focusing on the Ollama call
 class ChatsController
   def create(params)
-    tree = params[:tree] || OpenStruct.new(llm_model: 'model', llm_sustem_prompt: 'prompt', chat_relationship_prompt: '')
+    tree = params[:tree] || OpenStruct.new(llm_model: 'model', llm_sustem_prompt: 'prompt')
     history = params[:history]
     history = JSON.parse(history) if history.is_a?(String)
     history = [history] if history.is_a?(Hash)
 
-    system_prompt = tree.llm_sustem_prompt.to_s + tree.chat_relationship_prompt.to_s
+    system_prompt = tree.llm_sustem_prompt.to_s
     messages = [{ 'role' => 'system', 'content' => system_prompt }] + history.to_a
 
     client = Ollama.new(
@@ -117,12 +117,12 @@ class ChatsControllerTest < Minitest::Test
     assert_equal expected, controller.history(chat)
   end
 
-  def test_create_includes_relationship_prompt
+  def test_create_uses_only_system_prompt
     controller = ChatsController.new
     tree = OpenStruct.new(llm_model: 'model', llm_sustem_prompt: 'base', chat_relationship_prompt: ' extras')
     controller.create(history: { 'role' => 'user', 'content' => 'hi' }, tree: tree)
     messages = Ollama.last_payload[:messages]
-    assert_equal 'base extras', messages.first['content']
+    assert_equal 'base', messages.first['content']
   end
 
   def test_maybe_mark_friendly_adds_tag_after_three_messages

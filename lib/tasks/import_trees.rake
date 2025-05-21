@@ -1,8 +1,11 @@
 namespace :db do
   desc 'Import tree data from Melbourne dataset'
-  task import_trees: :environment do
+  task :import_trees, [:count] => :environment do |_, args|
     require 'open-uri'
     require 'json'
+
+    count = args[:count]&.to_i
+    count = nil if count && count <= 0
 
     base_url = 'https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records'
     # The dataset API rejects requests with a very large limit. The
@@ -11,9 +14,14 @@ namespace :db do
     limit = 100
     offset = 0
     total = nil
+    imported = 0
 
     loop do
-      url = "#{base_url}?#{URI.encode_www_form(limit: limit, offset: offset)}"
+      current_limit = limit
+      if count && (count - imported) < current_limit
+        current_limit = count - imported
+      end
+      url = "#{base_url}?#{URI.encode_www_form(limit: current_limit, offset: offset)}"
       puts "Fetching #{url}"
       begin
         data = URI.open(url).read
@@ -45,10 +53,14 @@ namespace :db do
         tree.treedb_lat ||= fields['latitude']
         tree.treedb_long ||= fields['longitude']
 
+        tree.llm_sustem_prompt = nil if tree.new_record?
         tree.save! if tree.changed?
+        imported += 1
+        break if count && imported >= count
       end
+      break if count && imported >= count
 
-      offset += limit
+      offset += current_limit
       break if offset >= total
     end
   end
