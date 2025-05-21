@@ -23,6 +23,19 @@ class User < ApplicationRecord
     end
   end
 
+  def tags_for_tree(tree)
+    return [] unless tree && respond_to?(:id)
+
+    scope = if UserTag.respond_to?(:where)
+              UserTag.where(tree_id: tree.id, user_id: id)
+            else
+              Array(UserTag.records).select do |t|
+                t[:tree_id] == tree.id && t[:user_id] == id
+              end
+            end
+    scope.map { |t| t.respond_to?(:tag) ? t.tag : t[:tag] }
+  end
+
   def chat_tags_prompt
     tags = tags_from_trees.uniq
     return '' if tags.empty?
