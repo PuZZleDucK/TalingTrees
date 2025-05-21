@@ -82,3 +82,5 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [ ] the llm naming the trees should be given the reasons for previous rejections failure in it's prompt
 [ ] the cursor should change to the same as a link when the user hovers over a green tree name in the chat
 [ ] we should keep track of the last tree the user spoke to when they move to a new chat and above the title of the chat we should show a "back to <tree-name>" button that returns them to chatting with the last tree
+[ ] user tags should display without having to reload... other reloading issues
+[ ] user tags should be colored pills.
