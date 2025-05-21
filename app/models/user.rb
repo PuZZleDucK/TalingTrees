@@ -66,8 +66,18 @@ class User < ApplicationRecord
   end
 
   def chat_tags_prompt
-    tags = tags_from_trees.uniq
-    return '' if tags.empty?
-    "\nOther trees have said this user is: #{tags.join(', ')}."
+    details = tag_details_from_trees
+    return '' if details.empty?
+
+    parts = details.map do |tag, info|
+      names = Array(info[:names]).map(&:to_s).reject(&:empty?)
+      if names.any?
+        "#{tag} (#{names.join(', ')})"
+      else
+        tag
+      end
+    end
+
+    "\nOther trees have said this user is: #{parts.join(', ')}."
   end
 end
