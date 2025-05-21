@@ -61,8 +61,8 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [x] users should be able to tag trees (limited tag list - good, funny, friendly, unique, ...)
 [x] tags a user gives a tree should be shown under its title
 [x] relationships have tags too (eg best-friend, nemesis, secret-friend, lost-friend, ...). allocate some tags randomly when generating relationships
-[ ] trees should be able to tag users (helpful, friendly, cheeky, funny, bossy, ...)
-[ ] display user tags in the nav bar to the left of their name. trees should be given the users tags as additional context in the first chat with a user, it should be framed as things the tree has heard from other trees
+[x] trees should be able to tag users (helpful, friendly, cheeky, funny, bossy, ...)
+[x] display user tags in the nav bar to the left of their name. trees should be given the users tags as additional context in the first chat with a user, it should be framed as things the tree has heard from other trees
 [ ] trees should know more about their neighbors and friends in their context (species, tags, relation types...)
 [ ] trees should not allow their thoughts to be expanded unless they are tagged friendly
 [ ] trees should have missions/objectives that users can help with... find my enemy, find my lost friend, ... (tree must have relation)

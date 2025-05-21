@@ -13,6 +13,11 @@
       <span class="font-bold text-lg">TalingTrees</span>
     </div>
     <div class="flex items-center">
+      <span id="user-tags" class="flex mr-2">
+        <% (@current_user&.tags_from_trees || []).each do |t| %>
+          <span class="bg-gray-200 rounded px-1 text-xs mr-1"><%= t %></span>
+        <% end %>
+      </span>
       <span class="mr-2">👤 <%= @current_user&.name %></span>
       <span id="location-info" class="mr-2" data-lat="<%= @current_user&.lat %>" data-long="<%= @current_user&.long %>">
         <span id="locate-icon" class="cursor-pointer">📍</span>
