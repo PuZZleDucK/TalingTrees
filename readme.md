@@ -65,6 +65,21 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [x] display user tags in the nav bar to the left of their name. trees should be given the users tags as additional context in the first chat with a user, it should be framed as things the tree has heard from other trees
 [x] trees should know more about their neighbors and friends in their context (species, tags, relation types...)
 [x] trees should not allow their thoughts to be expanded unless they are tagged friendly
+[ ] user tags should be colored pills. if a user has a tag applied by many trees it should show one tag with a counter of how many times it's applied.
+[ ] user tags should display and update without having to reload
+[ ] trees should be given the context of the users tags and which trees applied those tags to the user
+[ ] tree names should be more like fantasy character names
+[ ] update import trees job to take an optional parameter to limit the import count.
+[ ] when creating trees the system prompt should be blank. create a script to give trees a system prompt. update readme to specify setting up db: seed -> import trees -> name trees -> add relations -> system prompts
+[ ] tree system prompts should encourage the roleplay of the tree character. should encourage trees to hint at trees they know and only reveal them when asked.
+[ ] move info about tree relations to the tree system prompts
+[ ] users should be able to remove tags they applied to a tree
+[ ] when the user clicks on the neighbors or friends count in the chat title a dropdown with the list of related trees should appear with ones not known by the user in light grey with the text "unknown"
+[ ] make the found-a-new-tree animation size relative to zoom
+[ ] make zooming more smooth and slightly overzoom when zooming out to reveal new trees
+[ ] the llm naming the trees should be given the reasons for previous rejections failure in it's prompt
+[ ] the cursor should change to the same as a link when the user hovers over a green tree name in the chat
+[ ] we should keep track of the last tree the user spoke to when they move to a new chat and above the title of the chat we should show a "back to <tree-name>" button that returns them to chatting with the last tree
 [ ] trees should have missions/objectives that users can help with... find my enemy, find my lost friend, ... (tree must have relation)
 [ ] new tree mission: find the only... tree of a species, tree planted on x date, ... (must be unique in db)
 [ ] new tree mission: find all the ... trees named bob, trees of a species, trees on x road, trees in x park, ... (must be less than 6 in db)
@@ -74,13 +89,3 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [ ] address bundler-audit issues
 [ ] address rubocop issues
 [ ] deploy to heroku or similar
-[ ] tree names should be more like fantasy character names
-[ ] users should be able to remove tags they applied to a tree
-[ ] when the user clicks on the neighbors or friends count in the chat title a dropdown with the list of related trees should appear with ones not known by the user in light grey with the text "unknown"
-[ ] make the found-a-new-tree animation size relative to zoom
-[ ] make zooming more smooth and slightly overzoom when zooming out to reveal new trees
-[ ] the llm naming the trees should be given the reasons for previous rejections failure in it's prompt
-[ ] the cursor should change to the same as a link when the user hovers over a green tree name in the chat
-[ ] we should keep track of the last tree the user spoke to when they move to a new chat and above the title of the chat we should show a "back to <tree-name>" button that returns them to chatting with the last tree
-[ ] user tags should display without having to reload... other reloading issues
-[ ] user tags should be colored pills.
