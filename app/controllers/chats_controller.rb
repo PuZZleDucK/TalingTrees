@@ -19,7 +19,7 @@ class ChatsController < ApplicationController
       chat.messages.create!(role: msg['role'], content: msg['content'])
     end
 
-    system_prompt = tree.llm_sustem_prompt.to_s + tree.chat_relationship_prompt.to_s
+    system_prompt = tree.llm_sustem_prompt.to_s
     system_prompt += @current_user.chat_tags_prompt if chat.messages.empty?
     messages = [{ 'role' => 'system', 'content' => system_prompt }] + history.to_a
 
