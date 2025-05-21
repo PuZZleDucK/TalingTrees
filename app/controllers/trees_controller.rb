@@ -62,6 +62,7 @@ class TreesController < ApplicationController
     end
     render json: {
       tags: @current_user.tags_from_trees,
+      tag_details: @current_user.tag_details_from_trees,
       user_tags: @current_user.tags_for_tree(tree)
     }
   end

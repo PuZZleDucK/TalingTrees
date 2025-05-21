@@ -188,14 +188,27 @@
     var userTagsDiv = document.getElementById('user-tags');
     var userTagRegex = /user_tag:([a-zA-Z_-]+)/gi;
 
-    function renderUserTags(tags) {
+    function renderUserTags(details) {
       if (!userTagsDiv) return;
       userTagsDiv.innerHTML = '';
-      tags.forEach(function(tag) {
+      if (Array.isArray(details)) {
+        var counts = {};
+        details.forEach(function(tag){
+          if (!counts[tag]) counts[tag] = { count: 0, names: [] };
+          counts[tag].count += 1;
+        });
+        details = counts;
+      }
+      Object.keys(details || {}).forEach(function(tag){
+        var info = details[tag] || {};
         var span = document.createElement('span');
         var cls = tagColors[tag] || 'bg-gray-200 text-gray-800';
-        span.className = 'bg-gray-200 rounded px-1 text-xs mr-1 ' + cls;
-        span.textContent = tag;
+        span.className = 'tag-pill inline-block px-2 py-1 mr-1 mb-1 rounded-full text-xs ' + cls;
+        if (Array.isArray(info.names) && info.names.length > 0) {
+          span.title = info.names.join(', ');
+        }
+        var count = info.count || 1;
+        span.textContent = count > 1 ? tag + ' (' + count + ')' : tag;
         userTagsDiv.appendChild(span);
       });
     }
@@ -212,7 +225,7 @@
           },
           body: JSON.stringify({ tag: tag })
         }).then(function(resp){ return resp.json(); }).then(function(data){
-          renderUserTags(data.tags || []);
+          renderUserTags(data.tag_details || data.tags || []);
           var tree = trees.find(function(t){ return t.id === currentTreeId; });
           if (tree) { tree.user_tags = data.user_tags || tree.user_tags || []; }
           reRenderBotMessages();

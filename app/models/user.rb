@@ -23,6 +23,35 @@ class User < ApplicationRecord
     end
   end
 
+  def tag_counts_from_trees
+    tags_from_trees.tally
+  end
+
+  def tag_details_from_trees
+    records = if UserTag.respond_to?(:where)
+                UserTag.includes(:tree).where(user_id: id)
+              else
+                Array(UserTag.records).select { |t| t[:user_id] == id }
+              end
+
+    grouped = records.group_by do |rec|
+      rec.respond_to?(:tag) ? rec.tag : rec[:tag]
+    end
+
+    grouped.transform_values do |recs|
+      {
+        count: recs.length,
+        names: recs.map do |r|
+          if r.respond_to?(:tree)
+            r.tree.name
+          else
+            r[:tree_name]
+          end
+        end.compact
+      }
+    end
+  end
+
   def tags_for_tree(tree)
     return [] unless tree && respond_to?(:id)
 

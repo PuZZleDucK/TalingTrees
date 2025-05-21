@@ -65,8 +65,8 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [x] display user tags in the nav bar to the left of their name. trees should be given the users tags as additional context in the first chat with a user, it should be framed as things the tree has heard from other trees
 [x] trees should know more about their neighbors and friends in their context (species, tags, relation types...)
 [x] trees should not allow their thoughts to be expanded unless they are tagged friendly
-[ ] user tags should be colored pills. if a user has a tag applied by many trees it should show one tag with a counter of how many times it's applied.
-[ ] user tags should display and update without having to reload
+[x] user tags should be colored pills. if a user has a tag applied by many trees it should show one tag with a counter of how many times it's applied.
+[x] user tags should display and update without having to reload
 [ ] trees should be given the context of the users tags and which trees applied those tags to the user
 [ ] tree names should be more like fantasy character names
 [ ] update import trees job to take an optional parameter to limit the import count.
