@@ -14,12 +14,13 @@
     <div id="map" class="h-96"></div>
   </div>
   <div class="flex-1 flex flex-col border-l border-gray-300 pl-4">
+    <button id="back-button" class="hidden mb-2 bg-gray-200 rounded px-2 py-1 text-sm self-start"></button>
     <div class="flex items-center mb-2 relative">
       <span class="text-2xl mr-2">💬</span>
       <h2 id="chat-title" class="m-0 text-xl">
         <span id="chat-title-name">Chat</span>
-        (<span id="neighbor-count" class="hover:underline cursor-pointer">0/0</span> neighbors -
-        <span id="friend-count" class="hover:underline cursor-pointer">0/0</span> friends)
+        (<span id="neighbor-info" class="hover:underline cursor-pointer"><span id="neighbor-count">0/0</span> neighbors</span> -
+        <span id="friend-info" class="hover:underline cursor-pointer"><span id="friend-count">0/0</span> friends</span>)
       </h2>
       <div id="relation-dropdown" class="hidden absolute left-0 top-full mt-1 bg-white border rounded shadow p-2 text-sm z-10"></div>
     </div>
@@ -110,7 +111,13 @@
     var treeTags = document.getElementById('tree-tags');
     var neighborCountSpan = document.getElementById('neighbor-count');
     var friendCountSpan = document.getElementById('friend-count');
+    var neighborInfo = document.getElementById('neighbor-info');
+    var friendInfo = document.getElementById('friend-info');
     var relationDropdown = document.getElementById('relation-dropdown');
+    var backButton = document.getElementById('back-button');
+    var lastTreeId = null;
+    var relationCircles = [];
+    var relationLines = [];
     var radiusCircle = null;
     var userCircle = null;
     var userMarker = null;
@@ -432,7 +439,53 @@
               document.getElementById('friend-count').textContent = tree.friend_known + '/' + tree.friend_total;
             }
             reRenderBotMessages();
+            showRelationHighlights();
           });
+      }
+
+      function updateBackButton() {
+        if (!backButton) return;
+        if (lastTreeId) {
+          var t = trees.find(function(tr){ return tr.id === lastTreeId; });
+          if (t) {
+            backButton.textContent = 'Back to ' + t.name;
+            backButton.classList.remove('hidden');
+            return;
+          }
+        }
+        backButton.classList.add('hidden');
+      }
+
+      function clearRelationHighlights() {
+        relationCircles.forEach(function(c){ map.removeLayer(c); });
+        relationLines.forEach(function(l){ map.removeLayer(l); });
+        relationCircles = [];
+        relationLines = [];
+      }
+
+      function showRelationHighlights() {
+        clearRelationHighlights();
+        if (!currentTreeId) return;
+        var tree = trees.find(function(t){ return t.id === currentTreeId; });
+        if (!tree) return;
+        var idx = trees.indexOf(tree);
+        var start = markers[idx] ? markers[idx].getLatLng() : null;
+        if (!start) return;
+        var colors = { neighbor: '#00aa00', friend: '#0000ff' };
+        (tree.neighbors || []).forEach(function(rel){
+          var i = trees.findIndex(function(t){ return t.id === rel.id; });
+          if (i === -1 || !markers[i]) return;
+          var pos = markers[i].getLatLng();
+          relationCircles.push(L.circle(pos, {radius:25,color:'#00ff00',weight:2,fillOpacity:0}).addTo(map));
+          relationLines.push(L.polyline([start,pos], {color: colors.neighbor}).bindTooltip('neighbor').addTo(map));
+        });
+        (tree.friends || []).forEach(function(rel){
+          var i = trees.findIndex(function(t){ return t.id === rel.id; });
+          if (i === -1 || !markers[i]) return;
+          var pos = markers[i].getLatLng();
+          relationCircles.push(L.circle(pos, {radius:25,color:'#00ff00',weight:2,fillOpacity:0}).addTo(map));
+          relationLines.push(L.polyline([start,pos], {color: colors.friend}).bindTooltip('friend').addTo(map));
+        });
       }
 
       var hideDropdownTimeout = null;
@@ -445,12 +498,17 @@
         relationDropdown.innerHTML = '';
         items.forEach(function(it){
           var div = document.createElement('div');
-          var known = trees.some(function(t){ return t.id === it.id; });
+          var knownIdx = trees.findIndex(function(t){ return t.id === it.id; });
+          var known = knownIdx !== -1;
           div.textContent = known ? it.name : 'unknown';
-          if (!known) div.className = 'text-gray-400';
+          if (known) {
+            div.className = 'text-green-700 cursor-pointer hover:underline';
+            div.dataset.treeId = it.id;
+          } else {
+            div.className = 'text-gray-400';
+          }
           relationDropdown.appendChild(div);
         });
-        var rect = target.getBoundingClientRect();
         relationDropdown.style.left = (target.offsetLeft) + 'px';
         relationDropdown.classList.remove('hidden');
       }
@@ -465,6 +523,14 @@
         clearTimeout(hideDropdownTimeout);
       });
       relationDropdown.addEventListener('mouseleave', scheduleHideDropdown);
+      relationDropdown.addEventListener('click', function(e){
+        var t = e.target.closest('[data-tree-id]');
+        if (t) {
+          var id = parseInt(t.dataset.treeId);
+          if (!isNaN(id)) highlightTreeById(id);
+          relationDropdown.classList.add('hidden');
+        }
+      });
     trees.forEach(function(tree, idx) {
       if (tree.treedb_lat && tree.treedb_long) {
         var m = L.marker([tree.treedb_lat, tree.treedb_long]).addTo(map).bindPopup(tree.name);
@@ -493,9 +559,13 @@
       });
     }
 
-    function selectTree(index) {
-      var tree = trees[index];
-      if (!tree) return;
+   function selectTree(index) {
+     var tree = trees[index];
+     if (!tree) return;
+      clearRelationHighlights();
+      if (currentTreeId && currentTreeId !== tree.id) {
+        lastTreeId = currentTreeId;
+      }
       highlightListItem(index);
       if (markers[index]) {
         markers[index].openPopup();
@@ -521,6 +591,7 @@
       document.getElementById('friend-count').textContent =
         tree.friend_known + '/' + tree.friend_total;
       currentTreeId = tree.id;
+      updateBackButton();
       tree.user_tags = tree.user_tags || [];
       renderTags(tree.tag_counts || {}, tree.user_tags || []);
       chatHistory = [];
@@ -555,6 +626,13 @@
         selectTree(index);
       });
     });
+    if (backButton) {
+      backButton.addEventListener('click', function(){
+        if (!lastTreeId) return;
+        var idx = trees.findIndex(function(t){ return t.id === lastTreeId; });
+        if (idx !== -1) selectTree(idx);
+      });
+    }
     var tagDropdownBtn = document.getElementById('tag-dropdown-btn');
     var tagDropdown = document.getElementById('tag-dropdown');
     tagDropdownBtn.addEventListener('click', function(){
@@ -568,17 +646,17 @@
       });
     });
 
-    neighborCountSpan.addEventListener('mouseenter', function(e){
+    neighborInfo.addEventListener('mouseenter', function(e){
       clearTimeout(hideDropdownTimeout);
-      showRelationDropdown('neighbor', neighborCountSpan);
+      showRelationDropdown('neighbor', neighborInfo);
     });
-    neighborCountSpan.addEventListener('mouseleave', scheduleHideDropdown);
+    neighborInfo.addEventListener('mouseleave', scheduleHideDropdown);
 
-    friendCountSpan.addEventListener('mouseenter', function(e){
+    friendInfo.addEventListener('mouseenter', function(e){
       clearTimeout(hideDropdownTimeout);
-      showRelationDropdown('friend', friendCountSpan);
+      showRelationDropdown('friend', friendInfo);
     });
-    friendCountSpan.addEventListener('mouseleave', scheduleHideDropdown);
+    friendInfo.addEventListener('mouseleave', scheduleHideDropdown);
     var input = document.getElementById('chat-input');
     var historyDiv = document.getElementById('chat-history');
     historyDiv.addEventListener('click', function(e){
