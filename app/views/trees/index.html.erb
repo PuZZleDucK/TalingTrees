@@ -77,6 +77,10 @@
     font-weight: bold;
     color: #006400;
   }
+  #chat-history .tree-name:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
   #chat-history .locked-thoughts {
     color: #888;
     font-style: italic;
@@ -188,6 +192,31 @@
         treeTags.appendChild(span);
       });
     }
+    function pulseHighlight(lat, lon) {
+      var maxRadius = 50;
+      var ring = L.circle([lat, lon], {radius: 0, color: "#00ff00", weight: 2, fillOpacity: 0}).addTo(map);
+      var start = Date.now();
+      var duration = 1500;
+      var pulses = 0;
+      var interval = setInterval(function(){
+        var elapsed = Date.now() - start - pulses * duration;
+        var progress = elapsed / duration;
+        if (progress >= 1) {
+          pulses++;
+          if (pulses >= 2) {
+            clearInterval(interval);
+            map.removeLayer(ring);
+            return;
+          }
+          progress -= 1;
+        }
+        var radius = maxRadius * progress;
+        ring.setRadius(radius);
+        var opacity = 1 - progress;
+        ring.setStyle({opacity: opacity, fillOpacity: 0.4 * opacity});
+      }, 50);
+    }
+
 
     function addTag(tag) {
       fetch('/trees/' + currentTreeId + '/tag', {
@@ -306,7 +335,16 @@
     }
 
     function revealNewTrees(ids) {
-      map.setView(map.getCenter(), 13);
+      var center = map.getCenter();
+      var bounds = map.getBounds();
+      var shift = (bounds.getNorth() - bounds.getSouth()) * 0.1;
+      var offsetCenter = L.latLng(center.lat + shift, center.lng);
+      var finalZoom = 13;
+      var overshoot = finalZoom - 1;
+      map.flyTo(offsetCenter, overshoot, {animate: true});
+      setTimeout(function(){
+        map.flyTo(offsetCenter, finalZoom, {animate: true});
+      }, 500);
       return Promise.all(ids.map(function(id){
         return fetch('/trees/' + id + '.json')
           .then(function(resp){ return resp.json(); });
@@ -328,14 +366,7 @@
 
             // Highlight new tree with a green radius and show its name
             m.openPopup();
-            var highlight = L.circle([tree.treedb_lat, tree.treedb_long], {
-              radius: 20,
-              color: '#00ff00',
-              fillOpacity: 0.2
-            }).addTo(map);
-            setTimeout(function() {
-              map.removeLayer(highlight);
-            }, 3000);
+            pulseHighlight(tree.treedb_lat, tree.treedb_long);
           } else {
             markers[idx] = null;
           }
