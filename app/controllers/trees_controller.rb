@@ -20,8 +20,8 @@ class TreesController < ApplicationController
         neighbor_known: (neighbor_ids & known_ids).length,
         friend_total: friend_ids.length,
         friend_known: (friend_ids & known_ids).length,
-        tags: tree.tags_for_user(@current_user),
-        user_tags: @current_user.tags_for_tree(tree)
+        tag_counts: tree.tag_counts,
+        user_tags: tree.tags_for_user(@current_user)
       }
     end
   end
@@ -40,8 +40,8 @@ class TreesController < ApplicationController
       neighbor_known: (neighbor_ids & known_ids).length,
       friend_total: friend_ids.length,
       friend_known: (friend_ids & known_ids).length,
-      tags: tree.tags_for_user(@current_user),
-      user_tags: @current_user.tags_for_tree(tree)
+      tag_counts: tree.tag_counts,
+      user_tags: tree.tags_for_user(@current_user)
     }
   end
 
@@ -51,7 +51,10 @@ class TreesController < ApplicationController
     if TreeTag::ALLOWED_TAGS.include?(tag)
       TreeTag.find_or_create_by!(tree: tree, user: @current_user, tag: tag)
     end
-    render json: { tags: tree.tags_for_user(@current_user) }
+    render json: {
+      tag_counts: tree.tag_counts,
+      user_tags: tree.tags_for_user(@current_user)
+    }
   end
 
   def tag_user
@@ -64,6 +67,19 @@ class TreesController < ApplicationController
       tags: @current_user.tags_from_trees,
       tag_details: @current_user.tag_details_from_trees,
       user_tags: @current_user.tags_for_tree(tree)
+    }
+  end
+
+  def untag
+    tree = Tree.find(params[:id])
+    tag = params[:tag].to_s
+    if TreeTag::ALLOWED_TAGS.include?(tag)
+      rec = TreeTag.where(tree: tree, user: @current_user, tag: tag).first
+      rec&.destroy
+    end
+    render json: {
+      tag_counts: tree.tag_counts,
+      user_tags: tree.tags_for_user(@current_user)
     }
   end
 end

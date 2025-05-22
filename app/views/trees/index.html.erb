@@ -159,13 +159,21 @@
       unique: 'bg-purple-200 text-purple-800'
     };
 
-    function renderTags(tags) {
+    function renderTags(counts, userTags) {
       treeTags.innerHTML = '';
-      tags.forEach(function(tag) {
+      Object.keys(counts || {}).forEach(function(tag) {
         var span = document.createElement('span');
         var cls = tagColors[tag] || 'bg-gray-200 text-gray-800';
-        span.className = 'tag-pill inline-block px-2 py-1 mr-1 mb-1 rounded-full text-xs ' + cls;
-        span.textContent = tag;
+        span.className = 'tag-pill inline-flex items-center px-2 py-1 mr-1 mb-1 rounded-full text-xs ' + cls;
+        span.dataset.tag = tag;
+        var count = counts[tag];
+        span.textContent = count > 1 ? tag + ' (' + count + ')' : tag;
+        if (Array.isArray(userTags) && userTags.indexOf(tag) !== -1) {
+          var trash = document.createElement('span');
+          trash.className = 'delete-tag cursor-pointer ml-1';
+          trash.textContent = '🗑';
+          span.appendChild(trash);
+        }
         treeTags.appendChild(span);
       });
     }
@@ -179,11 +187,44 @@
         },
         body: JSON.stringify({ tag: tag })
       }).then(function(resp){ return resp.json(); }).then(function(data){
-        renderTags(data.tags || []);
+        renderTags(data.tag_counts || {}, data.user_tags || []);
         var tree = trees.find(function(t){ return t.id === currentTreeId; });
-        if (tree) { tree.tags = data.tags || []; }
+        if (tree) {
+          tree.tag_counts = data.tag_counts || {};
+          tree.user_tags = data.user_tags || tree.user_tags || [];
+        }
       });
     }
+
+    function removeTag(tag) {
+      fetch('/trees/' + currentTreeId + '/tag', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: JSON.stringify({ tag: tag })
+      }).then(function(resp){ return resp.json(); }).then(function(data){
+        renderTags(data.tag_counts || {}, data.user_tags || []);
+        var tree = trees.find(function(t){ return t.id === currentTreeId; });
+        if (tree) {
+          tree.tag_counts = data.tag_counts || {};
+          tree.user_tags = data.user_tags || tree.user_tags || [];
+        }
+      });
+    }
+
+    treeTags.addEventListener('click', function(e) {
+      var pill = e.target.closest('.tag-pill');
+      if (!pill) return;
+      var tag = pill.dataset.tag;
+      if (!tag) return;
+      if (e.target.classList.contains('delete-tag')) {
+        removeTag(tag);
+      } else {
+        addTag(tag);
+      }
+    });
 
     var userTagsDiv = document.getElementById('user-tags');
     var userTagRegex = /user_tag:([a-zA-Z_-]+)/gi;
@@ -287,7 +328,7 @@
           } else {
             markers[idx] = null;
           }
-          tree.tags = tree.tags || [];
+          tree.tag_counts = tree.tag_counts || {};
           tree.user_tags = tree.user_tags || [];
         });
       });
@@ -330,7 +371,11 @@
           .then(function(resp){ return resp.json(); })
           .then(function(data){
             var tree = trees.find(function(t){ return t.id === currentTreeId; });
-            if (tree) { tree.user_tags = data.user_tags || []; }
+            if (tree) {
+              tree.user_tags = data.user_tags || [];
+              tree.tag_counts = data.tag_counts || {};
+            }
+            renderTags(data.tag_counts || {}, data.user_tags || []);
             reRenderBotMessages();
           });
       }
@@ -390,7 +435,7 @@
         tree.friend_known + '/' + tree.friend_total + ' friends)';
       currentTreeId = tree.id;
       tree.user_tags = tree.user_tags || [];
-      renderTags(tree.tags || []);
+      renderTags(tree.tag_counts || {}, tree.user_tags || []);
       chatHistory = [];
       currentChatId = null;
       historyDiv.innerHTML = '';
