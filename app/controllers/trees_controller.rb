@@ -40,6 +40,8 @@ class TreesController < ApplicationController
       neighbor_known: (neighbor_ids & known_ids).length,
       friend_total: friend_ids.length,
       friend_known: (friend_ids & known_ids).length,
+      neighbors: neighbor_ids.map { |nid| { id: nid, name: Tree.find(nid).name } },
+      friends: friend_ids.map { |fid| { id: fid, name: Tree.find(fid).name } },
       tag_counts: tree.tag_counts,
       user_tags: tree.tags_for_user(@current_user)
     }
