@@ -29,7 +29,19 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    ```bash
    bundle exec rake db:import_trees
    ```
-5. Run the test suite:
+5. Name the trees:
+   ```bash
+   bundle exec rake db:name_trees
+   ```
+6. Add tree relationships:
+   ```bash
+   bundle exec rake db:add_relationships
+   ```
+7. Generate system prompts:
+   ```bash
+   bundle exec rake db:system_prompts
+   ```
+8. Run the test suite:
    ```bash
    ruby test/run_tests.rb
    ```
@@ -38,7 +50,7 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    bundle exec bundler-audit check
    bundle exec brakeman -q
    ```
-6. Start the Rails server:
+9. Start the Rails server:
    ```bash
    bundle exec rails server
    ```
@@ -70,10 +82,10 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [x] trees should be given the context of the users tags and which trees applied those tags to the user
 [x] the llm naming the trees should be given the reasons for previous rejections failure in it's prompt
 [x] tree names should be more like fantasy character names
-[ ] update import trees job to take an optional parameter to limit the import count.
-[ ] when creating trees the system prompt should be blank. create a script to give trees a system prompt. update readme to specify setting up db: seed -> import trees -> name trees -> add relations -> system prompts
-[ ] tree system prompts should encourage the roleplay of the tree character. should encourage trees to hint at trees they know and only reveal them when asked.
-[ ] move info about tree relations to the tree system prompts
+[x] update import trees job to take an optional parameter to limit the import count.
+[x] when creating trees the system prompt should be blank. create a script to give trees a system prompt. update readme to specify setting up db: seed -> import trees -> name trees -> add relations -> system prompts
+[x] tree system prompts should encourage the roleplay of the tree character. should encourage trees to hint at trees they know and only reveal them when asked.
+[x] move info about tree relations to the tree system prompts
 [ ] users should be able to remove tags they applied to a tree
 [ ] when the user clicks on the neighbors or friends count in the chat title a dropdown with the list of related trees should appear with ones not known by the user in light grey with the text "unknown"
 [ ] make the found-a-new-tree animation size relative to zoom

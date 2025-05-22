@@ -19,16 +19,20 @@ jobs:
           bundler-cache: true
       - name: Run tests
         run: |
-          ruby test/run_tests.rb | tee test_output.txt
+          bundle exec ruby test/run_tests.rb | tee test_output.txt
       - name: Run Brakeman
         run: |
           bundle exec brakeman -q | tee brakeman_report.txt
       - name: Show reports
         run: |
-          echo '### RuboCop' && cat rubocop_report.txt
-          echo '### bundler-audit' && cat bundler_audit_report.txt
-          echo '### Brakeman' && cat brakeman_report.txt
-          echo '### Coverage' && cat coverage.txt
+          echo '### RuboCop'
+          if [ -f rubocop_report.txt ]; then cat rubocop_report.txt; else echo "rubocop_report.txt not found"; fi
+          echo '### bundler-audit'
+          if [ -f bundler_audit_report.txt ]; then cat bundler_audit_report.txt; else echo "bundler_audit_report.txt not found"; fi
+          echo '### Brakeman'
+          if [ -f brakeman_report.txt ]; then cat brakeman_report.txt; else echo "brakeman_report.txt not found"; fi
+          echo '### Coverage'
+          if [ -f coverage.txt ]; then cat coverage.txt; else echo "coverage.txt not found"; fi
       - name: Comment summary
         uses: actions/github-script@v6
         with:
