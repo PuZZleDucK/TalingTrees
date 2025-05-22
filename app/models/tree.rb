@@ -103,4 +103,17 @@ class Tree < ApplicationRecord
             end
     scope.map { |t| t.respond_to?(:tag) ? t.tag : t[:tag] }
   end
+
+  def tag_counts
+    return {} unless respond_to?(:id)
+    scope = if TreeTag.respond_to?(:where)
+              TreeTag.where(tree_id: id)
+            else
+              Array(TreeTag.records).select { |t| t[:tree_id] == id }
+            end
+    scope.each_with_object(Hash.new(0)) do |rec, h|
+      tag = rec.respond_to?(:tag) ? rec.tag : rec[:tag]
+      h[tag] += 1
+    end
+  end
 end
