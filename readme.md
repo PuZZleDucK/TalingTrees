@@ -90,9 +90,9 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [x] users should be able to tag a tree by clicking on the tag showing how many other users have tagged the tree
 [x] users should be able to remove tags they applied to a tree by clicking a trash icon in the pill showing the counter
 [x] when the user hovers over the neighbors or friends count in the title of the chat title a dropdown with the list of related trees should appear with ones not known by the user in light grey with the text "unknown"
-[ ] make zooming more smooth and slightly overzoom when zooming out to reveal new trees
-[ ] make the found-a-new-tree animation size relative to zoom (larger diameter highlight rings)
-[ ] the cursor should change to the same as a link when the user hovers over a green tree name in the chat
+[x] make zooming more smooth and slightly overzoom when zooming out to reveal new trees
+[x] make the found-a-new-tree animation size relative to zoom (larger diameter highlight rings)
+[x] the cursor should change to the same as a link when the user hovers over a green tree name in the chat
 [ ] we should keep track of the last tree the user spoke to when they move to a new chat and above the title of the chat we should show a "back to <tree-name>" button that returns them to chatting with the last tree
 [ ] trees should have missions/objectives that users can help with... find my enemy, find my lost friend, ... (tree must have relation)
 [ ] new tree mission: find the only... tree of a species, tree planted on x date, ... (must be unique in db)
