@@ -86,8 +86,10 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [x] when creating trees the system prompt should be blank. create a script to give trees a system prompt. update readme to specify setting up db: seed -> import trees -> name trees -> add relations -> system prompts
 [x] tree system prompts should encourage the roleplay of the tree character. should encourage trees to hint at trees they know and only reveal them when asked.
 [x] move info about tree relations to the tree system prompts
-[ ] users should be able to remove tags they applied to a tree
-[ ] when the user clicks on the neighbors or friends count in the chat title a dropdown with the list of related trees should appear with ones not known by the user in light grey with the text "unknown"
+[ ] if a tree has been tagd by any user, it should show a count of the number of times they have been tagged rather than just showing the current user tags
+[ ] users should be able to tag a tree by clicking on the tag showing how many other users have tagged the tree
+[ ] users should be able to remove tags they applied to a tree by clicking a trash icon in the pill showing the counter
+[ ] when the user hovers over the neighbors or friends count in the title of the chat title a dropdown with the list of related trees should appear with ones not known by the user in light grey with the text "unknown"
 [ ] make the found-a-new-tree animation size relative to zoom
 [ ] make zooming more smooth and slightly overzoom when zooming out to reveal new trees
 [ ] the cursor should change to the same as a link when the user hovers over a green tree name in the chat
