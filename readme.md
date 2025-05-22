@@ -95,6 +95,8 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [ ] trees should have missions/objectives that users can help with... find my enemy, find my lost friend, ... (tree must have relation)
 [ ] new tree mission: find the only... tree of a species, tree planted on x date, ... (must be unique in db)
 [ ] new tree mission: find all the ... trees named bob, trees of a species, trees on x road, trees in x park, ... (must be less than 6 in db)
+[ ] move naming and checking prompts and models to a config file
+[ ] create task to setup ollama and download configured models
 [ ] dark mode
 [ ] cleanup punctuation in tree names
 [ ] address brakeman issues

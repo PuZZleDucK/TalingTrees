@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_05_20_100010) do
+ActiveRecord::Schema[7.2].define(version: 2025_05_20_100020) do
   create_table "chats", force: :cascade do |t|
     t.integer "user_id"
     t.integer "tree_id"
@@ -72,6 +72,17 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_20_100010) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "user_tags", force: :cascade do |t|
+    t.integer "tree_id"
+    t.integer "user_id"
+    t.string "tag"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tree_id", "user_id", "tag"], name: "index_user_tags_on_tree_id_and_user_id_and_tag", unique: true
+    t.index ["tree_id"], name: "index_user_tags_on_tree_id"
+    t.index ["user_id"], name: "index_user_tags_on_user_id"
+  end
+
   create_table "user_trees", force: :cascade do |t|
     t.integer "user_id"
     t.integer "tree_id"
@@ -96,6 +107,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_20_100010) do
   add_foreign_key "messages", "chats"
   add_foreign_key "tree_tags", "trees"
   add_foreign_key "tree_tags", "users"
+  add_foreign_key "user_tags", "trees"
+  add_foreign_key "user_tags", "users"
   add_foreign_key "user_trees", "trees"
   add_foreign_key "user_trees", "users"
 end
