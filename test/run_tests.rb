@@ -7,10 +7,14 @@ Dir[File.join(__dir__, '**/*_test.rb')].each { |f| require_relative f }
 
 Minitest.after_run do
   coverage = Coverage.result
+  project_root = File.expand_path('..', __dir__)
   total_covered = 0
   total_lines = 0
   File.open('coverage.txt', 'w') do |f|
     coverage.each do |file, data|
+      next unless file.start_with?(project_root)
+      next if file.include?('/test/')
+
       covered_lines = data.count { |line| line&.positive? }
       total_lines_file = data.size
       percent = total_lines_file.positive? ? (covered_lines.to_f / total_lines_file * 100).round(2) : 0

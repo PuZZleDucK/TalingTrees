@@ -111,7 +111,7 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [x] address bundler-audit issues
 [x] add rubocop report to github action as another new comment
 [x] address rubocop issues
-[ ] get test coverage up to 50%
+[x] get test coverage up to 50%
 [ ] create new github action to trigger deploy to Render if all tests pass
 [ ] review agents-advice.md and create AGENTS.md for project
 [ ] dark mode
