@@ -19,7 +19,7 @@ jobs:
         run: |
           curl -L https://github.com/render-oss/cli/releases/download/v2.1.4/cli_2.1.4_linux_amd64.zip -o render.zip
           unzip render.zip
-          sudo mv cli /usr/local/bin/render
+          sudo mv cli_v2.1.4 /usr/local/bin/render
           render version
           sudo apt-get update && sudo apt-get install -y jq
       - name: Deploy to Render
