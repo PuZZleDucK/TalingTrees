@@ -1,0 +1,56 @@
+name: Deploy
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Deploy to Render
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          PR_NUMBER: ${{ github.event.workflow_run.pull_requests[0].number }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -e
+          SERVICE_NAME="tree-talker"
+          API="https://api.render.com/v1/services"
+          echo "Checking for service $SERVICE_NAME"
+          SERVICES=$(curl -s -H "Authorization: Bearer $RENDER_API_KEY" "$API")
+          SERVICE_ID=$(echo "$SERVICES" | jq -r '.[] | select(.name=="'"$SERVICE_NAME"'") | .id')
+          if [ -z "$SERVICE_ID" ]; then
+            echo "Creating service $SERVICE_NAME"
+            BODY=$(jq -n --arg name "$SERVICE_NAME" --arg repo "https://github.com/$REPO" '{name:$name, type:"web_service", repo:$repo, branch:"master"}')
+            SERVICE_ID=$(curl -s -H "Authorization: Bearer $RENDER_API_KEY" -H "Content-Type: application/json" -d "$BODY" "$API" | jq -r '.id')
+          else
+            echo "Found service $SERVICE_ID"
+          fi
+          echo "Triggering deploy"
+          DEPLOY=$(curl -s -X POST -H "Authorization: Bearer $RENDER_API_KEY" -H "Content-Type: application/json" -d '{}' "$API/$SERVICE_ID/deploys")
+          DEPLOY_URL=$(echo "$DEPLOY" | jq -r '.service.url // .url // empty')
+          if [ -z "$DEPLOY_URL" ]; then
+            DEPLOY_URL="https://dashboard.render.com/web/$SERVICE_ID"
+          fi
+          echo "DEPLOY_URL=$DEPLOY_URL" >> "$GITHUB_ENV"
+      - name: Comment deployment
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const pr = process.env.PR_NUMBER;
+            const url = process.env.DEPLOY_URL;
+            if (pr) {
+              github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr,
+                body: `Deployment started: ${url}`
+              });
+            }
