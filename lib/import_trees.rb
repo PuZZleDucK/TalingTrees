@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Tasks
+  # Imports tree data from the Melbourne open dataset.
   class ImportTrees
     BASE_URL = 'https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records'
     DEFAULT_LIMIT = 100
