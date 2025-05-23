@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Tasks
   class NameTrees
     def run
@@ -95,12 +97,12 @@ module Tasks
                              end.to_s.strip
             if verify_content =~ /^y(es)?/i
               neighbor_names = if tree.respond_to?(:treedb_lat) && tree.respond_to?(:treedb_long)
-                                   tree.neighbors_within(50)
-                                       .map { |n| n.name.to_s.downcase.strip }
-                                       .reject(&:empty?)
-                                 else
-                                   []
-                                 end
+                                 tree.neighbors_within(50)
+                                     .map { |n| n.name.to_s.downcase.strip }
+                                     .reject(&:empty?)
+                               else
+                                 []
+                               end
               break unless neighbor_names.include?(cleaned.downcase)
 
               puts "Rejected duplicate name within 50m: #{cleaned.inspect}"

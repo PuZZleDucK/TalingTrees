@@ -3,7 +3,7 @@
 require_relative 'test_helper'
 require 'minitest/autorun'
 
-Dir[File.join(__dir__, '**/*_test.rb')].sort.each { |f| require_relative f }
+Dir[File.join(__dir__, '**/*_test.rb')].each { |f| require_relative f }
 
 Minitest.after_run do
   coverage = Coverage.result
