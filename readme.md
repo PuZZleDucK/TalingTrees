@@ -104,7 +104,7 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [x] the line connecting the trees should be labeled with the relation type and have a color based on the relation type
 [x] move naming and checking prompts and llm models to a config file
 [x] create task to setup ollama and download configured models
-[ ] cleanup punctuation in tree names
+[x] cleanup punctuation in tree names
 [ ] add brakeman report to github action as another new comment
 [ ] address brakeman issues
 [ ] add bundler-audit report to github action as another new comment
