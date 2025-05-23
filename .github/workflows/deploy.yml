@@ -14,43 +14,59 @@ jobs:
       contents: read
       pull-requests: write
     steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Install Render CLI and jq
+        run: |
+          npm install -g render-cli
+          sudo apt-get update && sudo apt-get install -y jq
       - name: Deploy to Render
         env:
           RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
           PR_NUMBER: ${{ github.event.workflow_run.pull_requests[0].number }}
-          REPO: ${{ github.repository }}
         run: |
-          set -e
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          render login --token "$RENDER_API_KEY"
+
           SERVICE_NAME="tree-talker"
-          API="https://api.render.com/v1/services"
-          echo "Checking for service $SERVICE_NAME"
-          SERVICES=$(curl -s -H "Authorization: Bearer $RENDER_API_KEY" "$API")
-          SERVICE_ID=$(echo "$SERVICES" | jq -r '.[] | select(.name=="'"$SERVICE_NAME"'") | .id')
-          if [ -z "$SERVICE_ID" ]; then
-            echo "Creating service $SERVICE_NAME"
-            BODY=$(jq -n --arg name "$SERVICE_NAME" --arg repo "https://github.com/$REPO" '{name:$name, type:"web_service", repo:$repo, branch:"master"}')
-            SERVICE_ID=$(curl -s -H "Authorization: Bearer $RENDER_API_KEY" -H "Content-Type: application/json" -d "$BODY" "$API" | jq -r '.id')
+          EXISTING_ID=$(render services list --json \
+            | jq -r --arg NAME "$SERVICE_NAME" '.[] | select(.name==$NAME) | .id')
+
+          if [[ -n "$EXISTING_ID" ]]; then
+            echo "✅ Found existing Render service '$SERVICE_NAME' (ID: $EXISTING_ID)."
+            SERVICE_ID="$EXISTING_ID"
           else
-            echo "Found service $SERVICE_ID"
+            echo "⚙️ Creating new Render service '$SERVICE_NAME'…"
+            SERVICE_ID=$(render services create web \
+              --name "$SERVICE_NAME" \
+              --env ruby \
+              --region oregon \
+              --repo https://github.com/${{ github.repository }}.git \
+              --branch main \
+              --build-command "bundle install && yarn install && rake assets:precompile" \
+              --start-command "bundle exec puma -C config/puma.rb" \
+              --output json \
+              | jq -r '.id')
+            echo "✅ Created service with ID: $SERVICE_ID"
           fi
-          echo "Triggering deploy"
-          DEPLOY=$(curl -s -X POST -H "Authorization: Bearer $RENDER_API_KEY" -H "Content-Type: application/json" -d '{}' "$API/$SERVICE_ID/deploys")
-          DEPLOY_URL=$(echo "$DEPLOY" | jq -r '.service.url // .url // empty')
-          if [ -z "$DEPLOY_URL" ]; then
-            DEPLOY_URL="https://dashboard.render.com/web/$SERVICE_ID"
-          fi
-          echo "DEPLOY_URL=$DEPLOY_URL" >> "$GITHUB_ENV"
+
+          render services deploy \
+            --service-id "$SERVICE_ID" \
+            --branch main
       - name: Comment deployment
         uses: actions/github-script@v6
         with:
           script: |
             const pr = process.env.PR_NUMBER;
-            const url = process.env.DEPLOY_URL;
             if (pr) {
               github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: pr,
-                body: `Deployment started: ${url}`
+                body: 'Deploy triggered on Render'
               });
             }
