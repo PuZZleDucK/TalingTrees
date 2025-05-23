@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Migration to create the tree_tags table.
 class CreateTreeTags < ActiveRecord::Migration[7.1]
   def change
     create_table :tree_tags do |t|

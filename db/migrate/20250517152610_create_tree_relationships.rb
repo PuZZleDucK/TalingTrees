@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Migration to create the tree_relationships table.
 class CreateTreeRelationships < ActiveRecord::Migration[7.1]
   def change
     create_table :tree_relationships do |t|

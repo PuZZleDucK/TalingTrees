@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Handles chat interactions between users and trees using server sent events.
 class ChatsController < ApplicationController
   include ActionController::Live
 

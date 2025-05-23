@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Migration to create the user_tags table.
 class CreateUserTags < ActiveRecord::Migration[7.1]
   def change
     create_table :user_tags do |t|
