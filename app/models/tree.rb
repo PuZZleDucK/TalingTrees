@@ -37,46 +37,35 @@ class Tree < ApplicationRecord
   def chat_relationship_prompt
     return '' unless respond_to?(:id) && id
 
-    mapping = { 'neighbor' => 'neighbors', 'long_distance' => 'friends' }
-    parts = []
-
-    mapping.each do |rel_kind, label|
-      rels = if TreeRelationship.respond_to?(:where)
-               TreeRelationship.where(tree_id: id, kind: rel_kind)
-             else
-               Array(TreeRelationship.records).select do |r|
-                 r[:tree_id] == id && r[:kind] == rel_kind
-               end
-             end
-
-      info = rels.map do |rel|
-        related = if rel.respond_to?(:related_tree)
-                    rel.related_tree
-                  else
-                    rel[:related_tree]
-                  end
-        name = related&.name.to_s.strip
-        next nil if name.empty?
-
-        species = if related.respond_to?(:treedb_common_name)
-                    related.treedb_common_name.to_s.strip
-                  else
-                    related[:treedb_common_name].to_s.strip
-                  end
-        tag = rel.respond_to?(:tag) ? rel.tag.to_s : rel[:tag].to_s
-
-        details = []
-        details << "tag: #{tag}" unless tag.nil? || tag.empty?
-        details << "species: #{species}" unless species.empty?
-        "#{name} (#{details.join(', ')})"
-      end.compact
-
-      parts << "#{label.capitalize} include: #{info.join(', ')}." unless info.empty?
-    end
-
+    parts = relationship_parts
     return '' if parts.empty?
 
     "\n#{parts.join(' ')} Feel free to mention them casually by their FULL personal names."
+  end
+
+  def relationship_parts
+    { 'neighbor' => 'neighbors', 'long_distance' => 'friends' }.filter_map do |kind, label|
+      info = relationships_of_kind(kind).filter_map { |rel| format_relationship(rel) }
+      "#{label.capitalize} include: #{info.join(', ')}." if info.any?
+    end
+  end
+
+  def format_relationship(rel)
+    related = rel.respond_to?(:related_tree) ? rel.related_tree : rel[:related_tree]
+    name = related&.name.to_s.strip
+    return if name.empty?
+
+    species = if related.respond_to?(:treedb_common_name)
+                related.treedb_common_name.to_s.strip
+              else
+                related[:treedb_common_name].to_s.strip
+              end
+    tag = rel.respond_to?(:tag) ? rel.tag.to_s : rel[:tag].to_s
+
+    details = []
+    details << "tag: #{tag}" unless tag.nil? || tag.empty?
+    details << "species: #{species}" unless species.empty?
+    "#{name} (#{details.join(', ')})"
   end
 
   def relationships_of_kind(kind)
@@ -108,12 +97,19 @@ class Tree < ApplicationRecord
   def tags_for_user(user)
     return [] unless user && respond_to?(:id)
 
-    scope = if TreeTag.respond_to?(:where)
-              TreeTag.where(tree_id: id, user_id: user.id)
-            else
-              Array(TreeTag.records).select { |t| t[:tree_id] == id && t[:user_id] == user.id }
-            end
-    scope.map { |t| t.respond_to?(:tag) ? t.tag : t[:tag] }
+    user_tree_tags(user).map { |t| tag_value(t) }
+  end
+
+  def user_tree_tags(user)
+    if TreeTag.respond_to?(:where)
+      TreeTag.where(tree_id: id, user_id: user.id)
+    else
+      Array(TreeTag.records).select { |t| t[:tree_id] == id && t[:user_id] == user.id }
+    end
+  end
+
+  def tag_value(record)
+    record.respond_to?(:tag) ? record.tag : record[:tag]
   end
 
   def tag_counts
@@ -129,4 +125,6 @@ class Tree < ApplicationRecord
       h[tag] += 1
     end
   end
+
+  private :relationship_parts, :format_relationship, :user_tree_tags, :tag_value
 end

@@ -6,51 +6,17 @@ class ChatsController < ApplicationController
 
   def create
     tree = Tree.find(params[:id])
-    history = params[:history]
-    history = JSON.parse(history) if history.is_a?(String)
-    history = [history] if history.is_a?(Hash)
+    history = parse_history(params[:history])
+    chat = find_or_create_chat(tree)
+    add_history(chat, history)
+    messages = build_messages(tree, chat, history)
 
-    chat = if params[:chat_id].present?
-             Chat.find(params[:chat_id])
-           else
-             Chat.create!(user: @current_user, tree: tree).tap do |c|
-               response.headers['X-Chat-Id'] = c.id.to_s
-             end
-           end
+    assistant_content = stream_chat(tree, messages)
 
-    history.to_a.each do |msg|
-      chat.messages.create!(role: msg['role'], content: msg['content'])
-    end
-
-    system_prompt = tree.llm_sustem_prompt.to_s
-    system_prompt += @current_user.chat_tags_prompt if chat.messages.empty?
-    messages = [{ 'role' => 'system', 'content' => system_prompt }] + history.to_a
-
-    response.headers['Content-Type'] = 'text/event-stream'
-    client = Ollama.new(
-      credentials: {
-        address: ENV.fetch('OLLAMA_URL', 'http://localhost:11434')
-      },
-      options: {
-        server_sent_events: true
-      }
-    )
-
-    assistant_content = ''
-
-    begin
-      client.chat({ model: tree.llm_model, messages: messages }) do |chunk = nil, _raw = nil|
-        content = chunk&.dig('message', 'content')
-        if content
-          assistant_content << content
-          response.stream.write(content)
-        end
-      end
-    ensure
-      chat.messages.create!(role: 'assistant', content: assistant_content)
-      maybe_mark_friendly(chat)
-      response.stream.close
-    end
+    chat.messages.create!(role: 'assistant', content: assistant_content)
+    maybe_mark_friendly(chat)
+  ensure
+    response.stream.close
   end
 
   def history
@@ -68,24 +34,75 @@ class ChatsController < ApplicationController
   private
 
   def maybe_mark_friendly(chat)
+    return unless user_message_count(chat) >= 3
+
+    create_friendly_tag(chat.user, chat.tree)
+  end
+
+  def parse_history(hist)
+    hist = JSON.parse(hist) if hist.is_a?(String)
+    hist = [hist] if hist.is_a?(Hash)
+    hist
+  end
+
+  def find_or_create_chat(tree)
+    if params[:chat_id].present?
+      Chat.find(params[:chat_id])
+    else
+      Chat.create!(user: @current_user, tree: tree).tap do |c|
+        response.headers['X-Chat-Id'] = c.id.to_s
+      end
+    end
+  end
+
+  def add_history(chat, history)
+    history.to_a.each do |msg|
+      chat.messages.create!(role: msg['role'], content: msg['content'])
+    end
+  end
+
+  def build_messages(tree, chat, history)
+    system_prompt = tree.llm_sustem_prompt.to_s
+    system_prompt += @current_user.chat_tags_prompt if chat.messages.empty?
+    [{ 'role' => 'system', 'content' => system_prompt }] + history.to_a
+  end
+
+  def stream_chat(tree, messages)
+    response.headers['Content-Type'] = 'text/event-stream'
+    client = Ollama.new(
+      credentials: { address: ENV.fetch('OLLAMA_URL', 'http://localhost:11434') },
+      options: { server_sent_events: true }
+    )
+
+    assistant_content = ''
+    client.chat({ model: tree.llm_model, messages: messages }) do |chunk = nil, _raw = nil|
+      content = chunk&.dig('message', 'content')
+      next unless content
+
+      assistant_content << content
+      response.stream.write(content)
+    end
+    assistant_content
+  end
+
+  def user_message_count(chat)
     user = chat.user
     tree = chat.tree
+    if Message.respond_to?(:joins)
+      Message.joins(:chat).where(role: 'user', chats: { user_id: user.id, tree_id: tree.id }).count
+    else
+      msgs = Array(Message.records)
+      chats = Array(Chat.records)
+      msgs.count do |m|
+        next false unless m[:role] == 'user'
 
-    count = if Message.respond_to?(:joins)
-              Message.joins(:chat).where(role: 'user', chats: { user_id: user.id, tree_id: tree.id }).count
-            else
-              msgs = Array(Message.records)
-              chats = Array(Chat.records)
-              msgs.count do |m|
-                next false unless m[:role] == 'user'
+        chat_rec = chats.find { |c| c[:id] == m[:chat_id] }
+        chat_rec && chat_rec[:user_id] == user.id && chat_rec[:tree_id] == tree.id
+      end
+    end
+  end
 
-                chat_rec = chats.find { |c| c[:id] == m[:chat_id] }
-                chat_rec && chat_rec[:user_id] == user.id && chat_rec[:tree_id] == tree.id
-              end
-            end
-
-    return unless count >= 3
-
+  def create_friendly_tag(user, tree)
     if UserTag.respond_to?(:find_or_create_by!)
       UserTag.find_or_create_by!(tree: tree, user: user, tag: 'friendly')
     else

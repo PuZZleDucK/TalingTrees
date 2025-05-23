@@ -31,41 +31,49 @@ class User < ApplicationRecord
   end
 
   def tag_details_from_trees
+    grouped_records.transform_values do |recs|
+      {
+        count: recs.length,
+        names: extract_tree_names(recs)
+      }
+    end
+  end
+
+  def grouped_records
     records = if UserTag.respond_to?(:where)
                 UserTag.includes(:tree).where(user_id: id)
               else
                 Array(UserTag.records).select { |t| t[:user_id] == id }
               end
+    records.group_by { |rec| rec.respond_to?(:tag) ? rec.tag : rec[:tag] }
+  end
 
-    grouped = records.group_by do |rec|
-      rec.respond_to?(:tag) ? rec.tag : rec[:tag]
-    end
-
-    grouped.transform_values do |recs|
-      {
-        count: recs.length,
-        names: recs.map do |r|
-          if r.respond_to?(:tree)
-            r.tree.name
-          else
-            r[:tree_name]
-          end
-        end.compact
-      }
-    end
+  def extract_tree_names(records)
+    records.map do |r|
+      if r.respond_to?(:tree)
+        r.tree.name
+      else
+        r[:tree_name]
+      end
+    end.compact
   end
 
   def tags_for_tree(tree)
     return [] unless tree && respond_to?(:id)
 
-    scope = if UserTag.respond_to?(:where)
-              UserTag.where(tree_id: tree.id, user_id: id)
-            else
-              Array(UserTag.records).select do |t|
-                t[:tree_id] == tree.id && t[:user_id] == id
-              end
-            end
-    scope.map { |t| t.respond_to?(:tag) ? t.tag : t[:tag] }
+    tree_user_tags(tree).map { |t| tag_value(t) }
+  end
+
+  def tree_user_tags(tree)
+    if UserTag.respond_to?(:where)
+      UserTag.where(tree_id: tree.id, user_id: id)
+    else
+      Array(UserTag.records).select { |t| t[:tree_id] == tree.id && t[:user_id] == id }
+    end
+  end
+
+  def tag_value(record)
+    record.respond_to?(:tag) ? record.tag : record[:tag]
   end
 
   def chat_tags_prompt
@@ -83,4 +91,6 @@ class User < ApplicationRecord
 
     "\nOther trees have said this user is: #{parts.join(', ')}."
   end
+
+  private :grouped_records, :extract_tree_names, :tree_user_tags, :tag_value
 end

@@ -7,6 +7,7 @@ require 'stringio'
 require 'uri'
 require 'cgi'
 require 'open-uri'
+require 'net/http'
 require 'active_support/core_ext/object/blank'
 
 class ImportTreesTaskTest < Minitest::Test
@@ -71,18 +72,17 @@ class ImportTreesTaskTest < Minitest::Test
   def test_respects_count_parameter
     total = 3
     method_ref = method(:stub_response)
-    OpenURI.singleton_class.class_eval do
-      alias_method :orig_open_uri, :open_uri
-      define_method(:open_uri) do |uri, *rest, &block|
+    Net::HTTP.singleton_class.class_eval do
+      alias_method :orig_get, :get
+      define_method(:get) do |uri|
         if uri.to_s.start_with?('http')
           query = URI.parse(uri.to_s).query
           params = CGI.parse(query)
           limit = params['limit'].first.to_i
           offset = params['offset'].first.to_i
-          io = StringIO.new(method_ref.call(limit, offset, total))
-          block ? block.call(io) : io
+          method_ref.call(limit, offset, total)
         else
-          orig_open_uri(uri, *rest, &block)
+          orig_get(uri)
         end
       end
     end
@@ -91,10 +91,10 @@ class ImportTreesTaskTest < Minitest::Test
 
     assert_equal 2, Tree.records.size
   ensure
-    OpenURI.singleton_class.class_eval do
-      remove_method :open_uri
-      alias_method :open_uri, :orig_open_uri
-      remove_method :orig_open_uri
+    Net::HTTP.singleton_class.class_eval do
+      remove_method :get
+      alias_method :get, :orig_get
+      remove_method :orig_get
     end
   end
 end
