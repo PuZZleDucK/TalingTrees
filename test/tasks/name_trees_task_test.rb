@@ -110,6 +110,16 @@ class NameTreesTaskTest < Minitest::Test
     assert_equal 'Crimson Cap', @tree.attributes['name']
   end
 
+  def test_capitalizes_name_before_update
+    self.class.response_data = [
+      { 'message' => { 'content' => 'spruce' } },
+      { 'message' => { 'content' => 'YES' } }
+    ]
+    Rake.application['db:name_trees'].reenable
+    Rake.application['db:name_trees'].invoke
+    assert_equal 'Spruce', @tree.attributes['name']
+  end
+
   def test_skips_trees_with_existing_name
     @tree.attributes['name'] = 'Existing'
     Rake.application['db:name_trees'].reenable
