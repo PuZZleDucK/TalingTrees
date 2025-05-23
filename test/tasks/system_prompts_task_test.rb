@@ -23,16 +23,16 @@ class SystemPromptsTaskTest < Minitest::Test
     self.class.setup_tree_class
 
     @tree = Tree.new(name: 'Oak')
-    def @tree.chat_relationship_prompt
-      'rel info'
-    end
+    class << @tree
+      attr_reader :prompt
 
-    def @tree.update!(attrs)
-      @prompt = attrs[:llm_sustem_prompt]
-    end
+      def chat_relationship_prompt
+        'rel info'
+      end
 
-    def @tree.prompt
-      @prompt
+      def update!(attrs)
+        @prompt = attrs[:llm_sustem_prompt]
+      end
     end
 
     Tree.instances = [@tree]
