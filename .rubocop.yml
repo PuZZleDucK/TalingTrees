@@ -22,6 +22,7 @@ Metrics/CyclomaticComplexity:
 Metrics/BlockLength:
   Exclude:
     - 'test/**/*'
+    - 'db/schema.rb'
 
 Metrics/ClassLength:
   Exclude:
