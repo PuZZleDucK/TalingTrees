@@ -28,8 +28,6 @@ jobs:
           #!/usr/bin/env bash
           set -euo pipefail
 
-          render login --token "$RENDER_API_KEY"
-
           SERVICE_NAME="tree-talker"
           EXISTING_ID=$(render services list --json \
             | jq -r --arg NAME "$SERVICE_NAME" '.[] | select(.name==$NAME) | .id')
