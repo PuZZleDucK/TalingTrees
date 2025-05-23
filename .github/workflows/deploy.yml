@@ -30,7 +30,7 @@ jobs:
 
           SERVICE_NAME="tree-talker"
           render workspace set "tree-workspace"
-          EXISTING_ID=$(render services list --output json \
+          EXISTING_ID=$(render services list --confirm --output json \
             | jq -r --arg NAME "$SERVICE_NAME" '.[] | select(.name==$NAME) | .id')
 
           if [[ -n "$EXISTING_ID" ]]; then
@@ -47,6 +47,7 @@ jobs:
               --build-command "bundle install && yarn install && rake assets:precompile" \
               --start-command "bundle exec puma -C config/puma.rb" \
               --output json \
+              --confirm \
               | jq -r '.id')
             echo "✅ Created service with ID: $SERVICE_ID"
           fi
