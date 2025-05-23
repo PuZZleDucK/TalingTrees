@@ -208,6 +208,18 @@ class NameTreesTaskTest < Minitest::Test
     assert_equal 3, Ollama.call_count
   end
 
+  def test_retries_when_name_contains_digits
+    self.class.response_data = [
+      { 'message' => { 'content' => 'Root123' } },
+      { 'message' => { 'content' => 'Valid Name' } },
+      { 'message' => { 'content' => 'YES' } }
+    ]
+    Rake.application['db:name_trees'].reenable
+    Rake.application['db:name_trees'].invoke
+    assert_equal 'Valid Name', @tree.attributes['name']
+    assert_equal 3, Ollama.call_count
+  end
+
   def test_retries_when_name_includes_banned_word
     self.class.response_data = [
       { 'message' => { 'content' => 'Happy Tree' } },

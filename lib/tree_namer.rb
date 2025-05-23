@@ -117,6 +117,10 @@ module Tasks
         puts "Rejected name due to length: #{name.inspect}"
         reasons << 'name too long or short'
         false
+      elsif name =~ /\d/
+        puts "Rejected name due to digits: #{name.inspect}"
+        reasons << 'contains digits'
+        false
       elsif tree.respond_to?(:treedb_common_name) &&
             tree.treedb_common_name.to_s.strip != '' &&
             name.downcase.include?(tree.treedb_common_name.to_s.downcase)
