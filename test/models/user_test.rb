@@ -15,7 +15,7 @@ class UserTest < Minitest::Test
       { tree_id: 2, user_id: 2, tag: 'helpful' }
     ]
     user = User.new(id: 2)
-    tree1 = OpenStruct.new(id: 1)
+    tree1 = Struct.new(:id, keyword_init: true).new(id: 1)
     assert_equal ['friendly'], user.tags_for_tree(tree1)
   ensure
     UserTag.records = nil

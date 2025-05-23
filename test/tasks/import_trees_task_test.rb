@@ -38,7 +38,7 @@ class ImportTreesTaskTest < Minitest::Test
             )
             obj.define_singleton_method(:new_record?) { true }
             obj.define_singleton_method(:changed?) { true }
-            obj.define_singleton_method(:save!) {}
+            obj.define_singleton_method(:save!) { nil }
             obj
           end
         end
@@ -51,14 +51,6 @@ class ImportTreesTaskTest < Minitest::Test
     Tree.records = {}
 
     @responses = {}
-    def stub_response(limit, offset, total)
-      records = (offset...(offset + limit)).map do |i|
-        break if i >= total
-
-        { 'record' => { 'fields' => { 'com_id' => i.to_s } } }
-      end.compact
-      { 'total_count' => total, 'records' => records }.to_json
-    end
 
     Rake.application = Rake::Application.new
     Rake::Task.define_task(:environment)
@@ -67,6 +59,15 @@ class ImportTreesTaskTest < Minitest::Test
 
   def teardown
     Tree.records = nil
+  end
+
+  def stub_response(limit, offset, total)
+    records = (offset...(offset + limit)).map do |i|
+      break if i >= total
+
+      { 'record' => { 'fields' => { 'com_id' => i.to_s } } }
+    end.compact
+    { 'total_count' => total, 'records' => records }.to_json
   end
 
   def test_respects_count_parameter

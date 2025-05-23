@@ -30,3 +30,7 @@ Metrics/ClassLength:
 Metrics/PerceivedComplexity:
   Exclude:
     - 'test/**/*'
+
+Naming/PredicateName:
+  AllowedMethods:
+    - has_many
