@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Tasks
+  # Generates names for trees using large language models.
   class NameTrees
     def run
       require 'ollama-ai'

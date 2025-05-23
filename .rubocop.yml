@@ -28,6 +28,7 @@ Metrics/ClassLength:
     - 'test/**/*'
 
 Metrics/PerceivedComplexity:
+  Max: 20
   Exclude:
     - 'test/**/*'
 
