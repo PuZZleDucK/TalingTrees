@@ -11,6 +11,7 @@ class ApplicationRecord < ActiveRecord::Base
   # ActiveRecord gem is loaded.
   unless ActiveRecord.const_defined?(:VERSION)
     def initialize(attrs = {})
+      super()
       @attributes = {}
       attrs.each do |k, v|
         send("#{k}=", v)
