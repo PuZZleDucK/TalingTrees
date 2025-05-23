@@ -26,7 +26,7 @@ class ApplicationRecord < ActiveRecord::Base
       attrs.each { |k, v| send("#{k}=", v) }
     end
 
-    def method_missing(name, *args, &block)
+    def method_missing(name, *args, &)
       attr = name.to_s
       if attr.end_with?('=')
         (@attributes ||= {})[attr.chomp('=').to_sym] = args.first

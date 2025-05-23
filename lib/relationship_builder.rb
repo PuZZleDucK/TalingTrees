@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Tasks
   class RelationshipBuilder
     def initialize(radius: 20)

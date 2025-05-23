@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Tasks
   class ImportTrees
     BASE_URL = 'https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records'
@@ -62,7 +64,7 @@ module Tasks
       return DEFAULT_LIMIT unless @count
 
       remaining = @count - imported
-      remaining <= 0 ? 0 : remaining
+      [remaining, 0].max
     end
 
     def stop?(imported)
