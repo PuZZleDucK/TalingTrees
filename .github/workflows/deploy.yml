@@ -1,14 +1,11 @@
 name: Deploy
 
 on:
-  workflow_run:
-    workflows: ["CI"]
-    types:
-      - completed
+  push:
+    branches: ["main"]
 
 jobs:
   deploy:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -25,7 +22,6 @@ jobs:
       - name: Deploy to Render
         env:
           RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
-          PR_NUMBER: ${{ github.event.workflow_run.pull_requests[0].number }}
         run: |
           #!/usr/bin/env bash
           set -euo pipefail
@@ -57,16 +53,3 @@ jobs:
           render services deploy \
             --service-id "$SERVICE_ID" \
             --branch main
-      - name: Comment deployment
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const pr = process.env.PR_NUMBER;
-            if (pr) {
-              github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: pr,
-                body: 'Deploy triggered on Render'
-              });
-            }
