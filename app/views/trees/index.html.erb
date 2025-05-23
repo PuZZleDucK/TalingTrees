@@ -562,62 +562,85 @@
    function selectTree(index) {
      var tree = trees[index];
      if (!tree) return;
-      clearRelationHighlights();
+
+      function completeSelection() {
+        highlightListItem(index);
+        if (markers[index]) {
+          markers[index].openPopup();
+          var target = markers[index].getLatLng();
+          map.flyTo(target, 17, {animate: true});
+        }
+
+        if (radiusCircle) {
+          map.removeLayer(radiusCircle);
+          radiusCircle = null;
+        }
+
+        if (tree.treedb_lat && tree.treedb_long) {
+          radiusCircle = L.circle([tree.treedb_lat, tree.treedb_long], {
+            radius: 20,
+            color: '#ff0000',
+            fillOpacity: 0.1
+          }).addTo(map);
+        }
+
+        document.getElementById('chat-title-name').textContent = tree.name;
+        document.getElementById('neighbor-count').textContent =
+          tree.neighbor_known + '/' + tree.neighbor_total;
+        document.getElementById('friend-count').textContent =
+          tree.friend_known + '/' + tree.friend_total;
+        currentTreeId = tree.id;
+        updateBackButton();
+        tree.user_tags = tree.user_tags || [];
+        renderTags(tree.tag_counts || {}, tree.user_tags || []);
+        chatHistory = [];
+        currentChatId = null;
+        historyDiv.innerHTML = '';
+
+        fetch('/trees/' + currentTreeId + '/chat')
+          .then(function(resp) { return resp.json(); })
+          .then(function(data) {
+            currentChatId = data.chat_id;
+            chatHistory = [];
+            historyDiv.innerHTML = '';
+            (data.messages || []).forEach(function(msg) {
+              var div = document.createElement('div');
+              div.className = msg.role === 'user' ? 'user-message' : 'bot-message';
+              if (msg.role === 'assistant') {
+                renderBotMessage(div, msg.content);
+              } else {
+                div.textContent = msg.content;
+              }
+              chatHistory.push({ role: msg.role, content: msg.content, div: div });
+              historyDiv.appendChild(div);
+            });
+            historyDiv.scrollTop = historyDiv.scrollHeight;
+            refreshCurrentTree();
+          });
+      }
+
       if (currentTreeId && currentTreeId !== tree.id) {
         lastTreeId = currentTreeId;
-      }
-      highlightListItem(index);
-      if (markers[index]) {
-        markers[index].openPopup();
-        map.setView(markers[index].getLatLng(), 17);
-      }
-
-      if (radiusCircle) {
-        map.removeLayer(radiusCircle);
-        radiusCircle = null;
-      }
-
-      if (tree.treedb_lat && tree.treedb_long) {
-        radiusCircle = L.circle([tree.treedb_lat, tree.treedb_long], {
-          radius: 20,
-          color: '#ff0000',
-          fillOpacity: 0.1
-        }).addTo(map);
-      }
-
-      document.getElementById('chat-title-name').textContent = tree.name;
-      document.getElementById('neighbor-count').textContent =
-        tree.neighbor_known + '/' + tree.neighbor_total;
-      document.getElementById('friend-count').textContent =
-        tree.friend_known + '/' + tree.friend_total;
-      currentTreeId = tree.id;
-      updateBackButton();
-      tree.user_tags = tree.user_tags || [];
-      renderTags(tree.tag_counts || {}, tree.user_tags || []);
-      chatHistory = [];
-      currentChatId = null;
-      historyDiv.innerHTML = '';
-
-      fetch('/trees/' + currentTreeId + '/chat')
-        .then(function(resp) { return resp.json(); })
-        .then(function(data) {
-          currentChatId = data.chat_id;
-          chatHistory = [];
-          historyDiv.innerHTML = '';
-          (data.messages || []).forEach(function(msg) {
-            var div = document.createElement('div');
-            div.className = msg.role === 'user' ? 'user-message' : 'bot-message';
-            if (msg.role === 'assistant') {
-              renderBotMessage(div, msg.content);
-            } else {
-              div.textContent = msg.content;
-            }
-            chatHistory.push({ role: msg.role, content: msg.content, div: div });
-            historyDiv.appendChild(div);
+        var fromIdx = trees.findIndex(function(t){ return t.id === currentTreeId; });
+        if (fromIdx !== -1 && markers[fromIdx] && markers[index]) {
+          var fromLatLng = markers[fromIdx].getLatLng();
+          var targetLatLng = markers[index].getLatLng();
+          var bounds = L.latLngBounds([fromLatLng, targetLatLng]).pad(0.25);
+          map.flyToBounds(bounds, {animate: true});
+          map.once('zoomend', function(){
+            showRelationHighlights();
+            setTimeout(function(){
+              clearRelationHighlights();
+              completeSelection();
+            }, 50);
           });
-          historyDiv.scrollTop = historyDiv.scrollHeight;
-          refreshCurrentTree();
-        });
+          return;
+        }
+      }
+
+      clearRelationHighlights();
+      completeSelection();
+      
     }
 
     document.querySelectorAll('#tree-list li').forEach(function(li){
