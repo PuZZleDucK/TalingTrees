@@ -74,4 +74,11 @@ class AddRelationshipsTaskTest < Minitest::Test
       assert_includes TreeRelationship::TAGS, rec[:tag]
     end
   end
+
+  def test_relationships_are_mutual
+    Rake.application['db:add_relationships'].invoke
+
+    assert TreeRelationship.records.any? { |r| r[:tree_id] == 2 && r[:related_tree_id] == 1 && r[:kind] == 'neighbor' }
+    assert TreeRelationship.records.any? { |r| r[:tree_id] == 2 && r[:related_tree_id] == 1 && r[:kind] == 'same_species' }
+  end
 end
