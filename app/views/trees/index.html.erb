@@ -565,6 +565,40 @@
       });
     }
 
+    function zoomAndHighlightGroup(kind) {
+      if (!currentTreeId) return;
+      var tree = trees.find(function(t){ return t.id === currentTreeId; });
+      if (!tree) return;
+      clearRelationHighlights();
+
+      var items = kind === 'neighbor' ? (tree.neighbors || []) :
+                  (kind === 'friend' ? (tree.friends || []) : (tree.same_species || []));
+
+      var latlngs = [];
+      var idx = trees.indexOf(tree);
+      var start = (idx !== -1 && markers[idx]) ? markers[idx].getLatLng() : null;
+      if (start) { latlngs.push(start); }
+
+      items.forEach(function(it){
+        var i = trees.findIndex(function(t){ return t.id === it.id; });
+        if (i === -1 || !markers[i]) return;
+        var pos = markers[i].getLatLng();
+        latlngs.push(pos);
+        relationCircles.push(L.circle(pos, {radius:25,color:'#00ff00',weight:2,fillOpacity:0}).addTo(map));
+        if (start && (kind === 'neighbor' || kind === 'friend')) {
+          var color = kind === 'neighbor' ? '#00aa00' : '#0000ff';
+          relationLines.push(L.polyline([start,pos], {color: color}).bindTooltip(kind).addTo(map));
+        }
+      });
+
+      if (latlngs.length > 1) {
+        var bounds = L.latLngBounds(latlngs).pad(0.25);
+        map.fitBounds(bounds, {animate: true});
+      } else if (latlngs.length === 1) {
+        map.flyTo(latlngs[0], 17, {animate: true});
+      }
+    }
+
    function selectTree(index) {
      var tree = trees[index];
      if (!tree) return;
@@ -682,18 +716,27 @@
       showRelationDropdown('neighbor', neighborInfo);
     });
     neighborInfo.addEventListener('mouseleave', scheduleHideDropdown);
+    neighborInfo.addEventListener('click', function(){
+      zoomAndHighlightGroup('neighbor');
+    });
 
     speciesInfo.addEventListener('mouseenter', function(e){
       clearTimeout(hideDropdownTimeout);
       showRelationDropdown('species', speciesInfo);
     });
     speciesInfo.addEventListener('mouseleave', scheduleHideDropdown);
+    speciesInfo.addEventListener('click', function(){
+      zoomAndHighlightGroup('species');
+    });
 
     friendInfo.addEventListener('mouseenter', function(e){
       clearTimeout(hideDropdownTimeout);
       showRelationDropdown('friend', friendInfo);
     });
     friendInfo.addEventListener('mouseleave', scheduleHideDropdown);
+    friendInfo.addEventListener('click', function(){
+      zoomAndHighlightGroup('friend');
+    });
     var input = document.getElementById('chat-input');
     var historyDiv = document.getElementById('chat-history');
     historyDiv.addEventListener('click', function(e){
