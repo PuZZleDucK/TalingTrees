@@ -105,7 +105,7 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [x] move naming and checking prompts and llm models to a config file
 [x] create task to setup ollama and download configured models
 [x] cleanup punctuation in tree names
-[ ] add brakeman report to github action as another new comment
+[x] add brakeman report to github action as another new comment
 [ ] address brakeman issues
 [ ] add bundler-audit report to github action as another new comment
 [ ] address bundler-audit issues

@@ -48,3 +48,17 @@ jobs:
               body
             });
 
+      - name: Comment Brakeman report
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('brakeman_report.txt','utf8');
+            const body = `**Brakeman Report**\n\n\`\`\`\n${report}\n\`\`\``;
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body
+            });
+
