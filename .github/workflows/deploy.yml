@@ -55,7 +55,7 @@ jobs:
                 --branch main \
                 --build-command "bundle install && yarn install && rake assets:precompile" \
                 --start-command "bundle exec puma -C config/puma.rb" \
-                -o json \
+                --output json \
                 --confirm \
               | jq -r '.id'
             )
