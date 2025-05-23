@@ -2,7 +2,10 @@
 
 require_relative '../test_helper'
 require 'minitest/autorun'
-require 'ostruct'
+TreeStub = Struct.new(:id, :llm_model, :llm_sustem_prompt, :chat_relationship_prompt, keyword_init: true)
+MessageStub = Struct.new(:role, :content, keyword_init: true)
+ChatStub = Struct.new(:id, :user, :tree, :messages, keyword_init: true)
+UserStub = Struct.new(:id, keyword_init: true)
 
 # Minimal stub simulating the Ollama client used in ChatsController
 class Ollama
@@ -22,7 +25,7 @@ end
 # Minimal version of ChatsController#create focusing on the Ollama call
 class ChatsController
   def create(params)
-    tree = params[:tree] || OpenStruct.new(llm_model: 'model', llm_sustem_prompt: 'prompt')
+    tree = params[:tree] || TreeStub.new(llm_model: 'model', llm_sustem_prompt: 'prompt')
     history = params[:history]
     history = JSON.parse(history) if history.is_a?(String)
     history = [history] if history.is_a?(Hash)
@@ -35,6 +38,7 @@ class ChatsController
       options: { server_sent_events: true }
     )
     client.chat({ model: tree.llm_model, messages: messages }) do |_chunk = nil, _raw = nil|
+      nil
     end
   end
 
@@ -109,9 +113,13 @@ class ChatsControllerTest < Minitest::Test
 
   def test_history_returns_messages
     controller = ChatsController.new
-    chat = OpenStruct.new(id: 1,
-                          messages: [OpenStruct.new(role: 'user', content: 'hi'),
-                                     OpenStruct.new(role: 'assistant', content: 'hello')])
+    chat = ChatStub.new(
+      id: 1,
+      messages: [
+        MessageStub.new(role: 'user', content: 'hi'),
+        MessageStub.new(role: 'assistant', content: 'hello')
+      ]
+    )
     expected = {
       chat_id: 1,
       messages: [
@@ -124,7 +132,7 @@ class ChatsControllerTest < Minitest::Test
 
   def test_create_uses_only_system_prompt
     controller = ChatsController.new
-    tree = OpenStruct.new(llm_model: 'model', llm_sustem_prompt: 'base', chat_relationship_prompt: ' extras')
+    tree = TreeStub.new(llm_model: 'model', llm_sustem_prompt: 'base', chat_relationship_prompt: ' extras')
     controller.create(history: { 'role' => 'user', 'content' => 'hi' }, tree: tree)
     messages = Ollama.last_payload[:messages]
     assert_equal 'base', messages.first['content']
@@ -132,9 +140,9 @@ class ChatsControllerTest < Minitest::Test
 
   def test_maybe_mark_friendly_adds_tag_after_three_messages
     controller = ChatsController.new
-    user = OpenStruct.new(id: 1)
-    tree = OpenStruct.new(id: 2)
-    chat = OpenStruct.new(id: 3, user: user, tree: tree)
+    user = UserStub.new(id: 1)
+    tree = TreeStub.new(id: 2)
+    chat = ChatStub.new(id: 3, user: user, tree: tree)
     Chat.records << { id: 3, user_id: 1, tree_id: 2 }
 
     Message.records << { chat_id: 3, role: 'user', content: 'hi1' }
