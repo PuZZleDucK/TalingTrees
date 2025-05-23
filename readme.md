@@ -97,14 +97,17 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [x] we should keep track of the last tree the user spoke to when they move to a new chat and above the title of the chat we should show a "back to <tree-name>" button that returns them to chatting with the last tree
 [x] when a user is chatting with a tree, and that tree has revealed neighbors and friends, those neighbors and friends should have a green ring highlighting them on the map. there should also be a green line connecting the current tree with the revealed neighbors and friends.
 [x] the line connecting the trees should be labeled with the relation type and have a color based on the relation type
+[ ] move naming and checking prompts and llm models to a config file
+[ ] create task to setup ollama and download configured models
+[ ] cleanup punctuation in tree names
+[ ] add brakeman report to github action as another new comment
+[ ] address brakeman issues
+[ ] add bundler-audit report to github action as another new comment
+[ ] address bundler-audit issues
+[ ] add rubocop report to github action as another new comment
+[ ] address rubocop issues
+[ ] create new github action to trigger deploy to Render if all tests pass
+[ ] dark mode
 [ ] trees should have missions/objectives that users can help with... find my enemy, find my lost friend, ... (tree must have relation)
 [ ] new tree mission: find the only... tree of a species, tree planted on x date, ... (must be unique in db)
 [ ] new tree mission: find all the ... trees named bob, trees of a species, trees on x road, trees in x park, ... (must be less than 6 in db)
-[ ] move naming and checking prompts and models to a config file
-[ ] create task to setup ollama and download configured models
-[ ] dark mode
-[ ] cleanup punctuation in tree names
-[ ] address brakeman issues
-[ ] address bundler-audit issues
-[ ] address rubocop issues
-[ ] deploy to heroku or similar
