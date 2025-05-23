@@ -28,20 +28,22 @@ jobs:
           #!/usr/bin/env bash
           set -euo pipefail
 
+          # ─── 0) Ensure RENDER_API_KEY is set ─────────────────────────────────────────
+          : "${RENDER_API_KEY:?Need to set RENDER_API_KEY env var}"
+
           SERVICE_NAME="tree-talker"
 
-          # 1) (Optional) switch to the correct workspace
+          # ─── 1) (Optional) switch workspace ──────────────────────────────────────────
           render workspace set tree-workspace \
             --output json \
             --confirm >/dev/null
 
-          # 2) List services (no "list" sub-command!) and safely look for ours
-          EXISTING_ID=$(
+          # ─── 2) Lookup the existing service ──────────────────────────────────────────
+          SERVICE_ID=$(
             render services \
               --output json \
               --confirm \
             | jq -r --arg NAME "$SERVICE_NAME" '
-                # try to iterate; if . is null, .[]? yields nothing
                 .[]?
                 | select(.name == $NAME)
                 | .id
@@ -49,35 +51,21 @@ jobs:
               '
           )
 
-          if [[ -n "$EXISTING_ID" ]]; then
-            echo "✅ Found existing Render service '$SERVICE_NAME' (ID: $EXISTING_ID)."
-            SERVICE_ID="$EXISTING_ID"
-          else
-            echo "⚙️ Creating new Render service '$SERVICE_NAME'…"
-            SERVICE_ID=$(
-              render services create web \
-                --name "$SERVICE_NAME" \
-                --env ruby \
-                --region oregon \
-                --repo "https://github.com/${GITHUB_REPOSITORY}.git" \
-                --branch main \
-                --build-command "bundle install && yarn install && rake assets:precompile" \
-                --start-command  "bundle exec puma -C config/puma.rb" \
-                --output json \
-                --confirm \
-              | jq -r '.id'
-            )
-            echo "✅ Created service with ID: $SERVICE_ID"
+          if [[ -z "$SERVICE_ID" ]]; then
+            echo "❌ Service '$SERVICE_NAME' not found in workspace. Exiting."
+            exit 1
           fi
 
-          # 3) (Re)apply your Rake‐release hook
+          echo "✅ Using service '$SERVICE_NAME' (ID: $SERVICE_ID)"
+
+          # ─── 3) (Re)configure your Rake‐release hook ─────────────────────────────────
           render services update "$SERVICE_ID" \
-            --release-command "bundle exec rake db:migrate && bundle exec rake tree:talker:setup && bundle exec rake cache:warmup" \
+            --release-command "bundle exec rake db:migrate && bundle exec rake cache:warmup" \
             --output json \
             --confirm
 
-          # 4) Trigger the deploy
-          echo "🚀 Deploying $SERVICE_NAME (ID: $SERVICE_ID)…"
+          # ─── 4) Trigger the deploy ───────────────────────────────────────────────────
+          echo "🚀 Deploying '$SERVICE_NAME' from branch 'main'…"
           render deploys create "$SERVICE_ID" \
             --branch main \
             --output json \
