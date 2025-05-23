@@ -89,7 +89,7 @@ module Tasks
                     response.dig('message', 'content')
                   end.to_s
         name = clean_name(content)
-        next unless valid_format?(name, reasons)
+        next unless valid_format?(name, tree, reasons)
         break name if verify_name(name, tree, reasons)
       end
     end
@@ -103,7 +103,9 @@ module Tasks
              .strip
     end
 
-    def valid_format?(name, reasons)
+    BANNED_WORDS_REGEX = /\b(tree|forest|grove)\b/i
+
+    def valid_format?(name, tree, reasons)
       if name =~ /[^\w\s,-]/
         puts "Rejected name due to punctuation: #{name.inspect}"
         reasons << 'invalid punctuation'
@@ -111,6 +113,16 @@ module Tasks
       elsif name.length > 150 || name.length < 3
         puts "Rejected name due to length: #{name.inspect}"
         reasons << 'name too long or short'
+        false
+      elsif tree.respond_to?(:treedb_common_name) &&
+            tree.treedb_common_name.to_s.strip != '' &&
+            name.downcase.include?(tree.treedb_common_name.to_s.downcase)
+        puts "Rejected name due to common name: #{name.inspect}"
+        reasons << 'contains common name'
+        false
+      elsif name =~ BANNED_WORDS_REGEX
+        puts "Rejected name due to banned word: #{name.inspect}"
+        reasons << 'contains banned word'
         false
       else
         true
