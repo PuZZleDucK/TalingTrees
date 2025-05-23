@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../test_helper'
 require 'rake'
 require 'minitest/autorun'
@@ -8,9 +10,11 @@ class AddRelationshipsTaskTest < Minitest::Test
       Tree.class_eval do
         class << self
           attr_accessor :instances
-          def all; instances || []; end
-          def find_each
-            (instances || []).each { |t| yield t }
+
+          def all = instances || []
+
+          def find_each(&block)
+            (instances || []).each(&block)
           end
         end
       end
@@ -32,9 +36,12 @@ class AddRelationshipsTaskTest < Minitest::Test
 
     TreeRelationship.singleton_class.class_eval do
       attr_accessor :records
+
       def find_or_create_by!(attrs)
         self.records ||= []
-        rec = self.records.find { |r| r[:tree_id] == attrs[:tree_id] && r[:related_tree_id] == attrs[:related_tree_id] && r[:kind] == attrs[:kind] }
+        rec = self.records.find do |r|
+          r[:tree_id] == attrs[:tree_id] && r[:related_tree_id] == attrs[:related_tree_id] && r[:kind] == attrs[:kind]
+        end
         unless rec
           rec = attrs.dup
           self.records << rec
@@ -43,6 +50,7 @@ class AddRelationshipsTaskTest < Minitest::Test
           define_method(:update!) { |h| record.merge!(h) }
         end.new(rec)
       end
+
       def delete_all
         self.records = []
       end
@@ -64,8 +72,10 @@ class AddRelationshipsTaskTest < Minitest::Test
   def test_creates_neighbor_and_species_relationships
     Rake.application['db:add_relationships'].invoke
 
-    assert TreeRelationship.records.any? { |r| r[:tree_id] == 1 && r[:related_tree_id] == 2 && r[:kind] == 'neighbor' }
-    assert TreeRelationship.records.any? { |r| r[:tree_id] == 1 && r[:related_tree_id] == 2 && r[:kind] == 'same_species' }
+    assert(TreeRelationship.records.any? { |r| r[:tree_id] == 1 && r[:related_tree_id] == 2 && r[:kind] == 'neighbor' })
+    assert(TreeRelationship.records.any? do |r|
+      r[:tree_id] == 1 && r[:related_tree_id] == 2 && r[:kind] == 'same_species'
+    end)
 
     long_distance_count = TreeRelationship.records.count { |r| r[:tree_id] == 1 && r[:kind] == 'long_distance' }
     assert_operator long_distance_count, :>=, 1
@@ -78,7 +88,9 @@ class AddRelationshipsTaskTest < Minitest::Test
   def test_relationships_are_mutual
     Rake.application['db:add_relationships'].invoke
 
-    assert TreeRelationship.records.any? { |r| r[:tree_id] == 2 && r[:related_tree_id] == 1 && r[:kind] == 'neighbor' }
-    assert TreeRelationship.records.any? { |r| r[:tree_id] == 2 && r[:related_tree_id] == 1 && r[:kind] == 'same_species' }
+    assert(TreeRelationship.records.any? { |r| r[:tree_id] == 2 && r[:related_tree_id] == 1 && r[:kind] == 'neighbor' })
+    assert(TreeRelationship.records.any? do |r|
+      r[:tree_id] == 2 && r[:related_tree_id] == 1 && r[:kind] == 'same_species'
+    end)
   end
 end

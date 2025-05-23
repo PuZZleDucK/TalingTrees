@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateTreeRelationships < ActiveRecord::Migration[7.1]
   def change
     create_table :tree_relationships do |t|
@@ -8,7 +10,8 @@ class CreateTreeRelationships < ActiveRecord::Migration[7.1]
       t.timestamps
     end
 
-    add_index :tree_relationships, [:tree_id, :related_tree_id, :kind], unique: true, name: 'index_tree_relationships_unique'
+    add_index :tree_relationships, %i[tree_id related_tree_id kind], unique: true,
+                                                                     name: 'index_tree_relationships_unique'
     add_index :tree_relationships, :related_tree_id
   end
 end

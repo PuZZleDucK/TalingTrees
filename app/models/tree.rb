@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Tree < ApplicationRecord
   EARTH_RADIUS = 6_371_000.0
 
@@ -24,6 +26,7 @@ class Tree < ApplicationRecord
 
     self.class.all.to_a.select do |tree|
       next false if tree == self || tree.treedb_lat.nil? || tree.treedb_long.nil?
+
       self.class.haversine_distance(treedb_lat, treedb_long,
                                     tree.treedb_lat, tree.treedb_long) <= radius
     end
@@ -46,18 +49,18 @@ class Tree < ApplicationRecord
 
       info = rels.map do |rel|
         related = if rel.respond_to?(:related_tree)
-                     rel.related_tree
-                   else
-                     rel[:related_tree]
-                   end
+                    rel.related_tree
+                  else
+                    rel[:related_tree]
+                  end
         name = related&.name.to_s.strip
         next nil if name.empty?
 
         species = if related.respond_to?(:treedb_common_name)
-                     related.treedb_common_name.to_s.strip
-                   else
-                     related[:treedb_common_name].to_s.strip
-                   end
+                    related.treedb_common_name.to_s.strip
+                  else
+                    related[:treedb_common_name].to_s.strip
+                  end
         tag = rel.respond_to?(:tag) ? rel.tag.to_s : rel[:tag].to_s
 
         details = []
@@ -102,6 +105,7 @@ class Tree < ApplicationRecord
 
   def tags_for_user(user)
     return [] unless user && respond_to?(:id)
+
     scope = if TreeTag.respond_to?(:where)
               TreeTag.where(tree_id: id, user_id: user.id)
             else
@@ -112,6 +116,7 @@ class Tree < ApplicationRecord
 
   def tag_counts
     return {} unless respond_to?(:id)
+
     scope = if TreeTag.respond_to?(:where)
               TreeTag.where(tree_id: id)
             else

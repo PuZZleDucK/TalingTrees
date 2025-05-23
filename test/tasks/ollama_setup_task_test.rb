@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../test_helper'
 require 'rake'
 require 'minitest/autorun'
@@ -23,9 +25,9 @@ class OllamaSetupTaskTest < Minitest::Test
       alias_method :orig_load_file, :load_file
       def load_file(_path, **_opts)
         { 'development' => {
-            'naming_model' => 'model1',
-            'verify_model' => 'model1',
-            'final_model' => 'model2'
+          'naming_model' => 'model1',
+          'verify_model' => 'model1',
+          'final_model' => 'model2'
         } }
       end
     end
@@ -44,12 +46,12 @@ class OllamaSetupTaskTest < Minitest::Test
       end
     end
 
-    if @yaml_patched
-      YAML.singleton_class.class_eval do
-        remove_method :load_file
-        alias_method :load_file, :orig_load_file
-        remove_method :orig_load_file
-      end
+    return unless @yaml_patched
+
+    YAML.singleton_class.class_eval do
+      remove_method :load_file
+      alias_method :load_file, :orig_load_file
+      remove_method :orig_load_file
     end
   end
 
@@ -57,8 +59,8 @@ class OllamaSetupTaskTest < Minitest::Test
     Rake.application['ollama:setup'].invoke
 
     assert_includes self.class.system_calls, ['bash', '-c', 'curl -fsSL https://ollama.ai/install.sh | sh']
-    assert_includes self.class.system_calls, ['ollama', 'pull', 'model1']
-    assert_includes self.class.system_calls, ['ollama', 'pull', 'model2']
+    assert_includes self.class.system_calls, %w[ollama pull model1]
+    assert_includes self.class.system_calls, %w[ollama pull model2]
     assert_equal 3, self.class.system_calls.length
   end
 end

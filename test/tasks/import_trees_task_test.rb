@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../test_helper'
 require 'rake'
 require 'minitest/autorun'
@@ -13,6 +15,7 @@ class ImportTreesTaskTest < Minitest::Test
       Tree.class_eval do
         class << self
           attr_accessor :records
+
           def find_or_initialize_by(treedb_com_id:)
             self.records ||= {}
             obj = self.records[treedb_com_id] ||= new(
@@ -34,7 +37,7 @@ class ImportTreesTaskTest < Minitest::Test
             )
             obj.define_singleton_method(:new_record?) { true }
             obj.define_singleton_method(:changed?) { true }
-            obj.define_singleton_method(:save!) { }
+            obj.define_singleton_method(:save!) {}
             obj
           end
         end
@@ -50,6 +53,7 @@ class ImportTreesTaskTest < Minitest::Test
     def stub_response(limit, offset, total)
       records = (offset...(offset + limit)).map do |i|
         break if i >= total
+
         { 'record' => { 'fields' => { 'com_id' => i.to_s } } }
       end.compact
       { 'total_count' => total, 'records' => records }.to_json

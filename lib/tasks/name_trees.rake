@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :db do
   desc 'Assign fun, kid-friendly names to trees using local Ollama'
   task name_trees: :environment do
@@ -5,7 +7,7 @@ namespace :db do
     require 'yaml'
 
     env = ENV['RAILS_ENV'] || 'development'
-    config_path = File.expand_path('../../../config/llm.yml', __FILE__)
+    config_path = File.expand_path('../../config/llm.yml', __dir__)
     llm_config = YAML.load_file(config_path, aliases: true)[env]
 
     system_prompt = llm_config['naming_prompt']
@@ -18,24 +20,24 @@ namespace :db do
 
     Tree.find_each do |tree|
       name_val = if tree.respond_to?(:attributes)
-                    tree.attributes['name']
-                  elsif tree.respond_to?(:name)
-                    tree.name
-                  end
+                   tree.attributes['name']
+                 elsif tree.respond_to?(:name)
+                   tree.name
+                 end
       next if name_val && !name_val.to_s.strip.empty?
 
       identifier = tree.respond_to?(:id) ? "##{tree.id}" : tree.to_s
       puts "Naming tree #{identifier}"
 
       facts = tree.attributes
-                .except('id', 'treedb_com_id', 'llm_model', 'llm_sustem_prompt', 'created_at', 'updated_at')
-                .map { |k, v| v.nil? || v.to_s.strip.empty? ? nil : "#{k}: #{v}" }
-                .compact
-                .join("\n")
+                  .except('id', 'treedb_com_id', 'llm_model', 'llm_sustem_prompt', 'created_at', 'updated_at')
+                  .map { |k, v| v.nil? || v.to_s.strip.empty? ? nil : "#{k}: #{v}" }
+                  .compact
+                  .join("\n")
 
       neighbor_names = if tree.respond_to?(:treedb_lat) && tree.respond_to?(:treedb_long)
                          tree.neighbors_within(50).map { |n| n.name.to_s.strip }
-                                              .reject(&:empty?)
+                             .reject(&:empty?)
                        else
                          []
                        end
@@ -60,12 +62,12 @@ namespace :db do
         response = client.chat({ model: naming_model, messages: messages })
 
         content = if response.is_a?(Array)
-                     response.map { |r| r.dig('message', 'content') }.join
-                   else
-                     response.dig('message', 'content')
-                   end.to_s
+                    response.map { |r| r.dig('message', 'content') }.join
+                  else
+                    response.dig('message', 'content')
+                  end.to_s
         cleaned = content
-                  .gsub(/<think(ing)?[^>]*>.*?<\/think(ing)?>/mi, '')
+                  .gsub(%r{<think(ing)?[^>]*>.*?</think(ing)?>}mi, '')
                   .gsub(/\[.*?\]/m, '')
                   .gsub(/"/, '')
                   .strip
@@ -73,11 +75,9 @@ namespace :db do
         if cleaned =~ /[^\w\s,-]/
           puts "Rejected name due to punctuation: #{cleaned.inspect}"
           reasons << 'invalid punctuation'
-          cleaned = nil
         elsif cleaned.length > 150 || cleaned.length < 3
           puts "Rejected name due to length: #{cleaned.inspect}"
           reasons << 'name too long or short'
-          cleaned = nil
         else
           verify_prompt = format(
             verify_prompt_template,
@@ -103,19 +103,17 @@ namespace :db do
                              else
                                []
                              end
-            if neighbor_names.include?(cleaned.downcase)
-              puts "Rejected duplicate name within 50m: #{cleaned.inspect}"
-              reasons << 'duplicate within 50m'
-              cleaned = nil
-            else
-              break
-            end
+            break unless neighbor_names.include?(cleaned.downcase)
+
+            puts "Rejected duplicate name within 50m: #{cleaned.inspect}"
+            reasons << 'duplicate within 50m'
+
           else
             puts "Rejected name after verification: #{cleaned.inspect}"
             reasons << 'failed verification'
-            cleaned = nil
           end
         end
+        cleaned = nil
       end
 
       unless cleaned

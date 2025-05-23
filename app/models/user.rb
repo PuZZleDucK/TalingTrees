@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   has_many :user_trees, dependent: :destroy
   has_many :known_trees, through: :user_trees, source: :tree

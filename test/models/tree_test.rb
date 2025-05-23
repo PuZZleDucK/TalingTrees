@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../test_helper'
 require 'minitest/autorun'
 
@@ -9,7 +11,8 @@ class TreeTest < Minitest::Test
   def test_neighbors_within_returns_close_trees
     Tree.singleton_class.class_eval do
       attr_accessor :records
-      def all; records || []; end
+
+      def all = records || []
     end
 
     t1 = Tree.new(treedb_lat: 0.0, treedb_long: 0.0)
@@ -27,6 +30,7 @@ class TreeTest < Minitest::Test
   def test_same_species_ids_returns_matching_ids
     TreeRelationship.singleton_class.class_eval do
       attr_accessor :records
+
       def where(tree_id:, kind:)
         Array(records).select { |r| r[:tree_id] == tree_id && r[:kind] == kind }
       end

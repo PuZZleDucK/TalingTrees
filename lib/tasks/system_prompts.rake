@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :db do
   desc 'Assign system prompts to trees based on relationships'
   task system_prompts: :environment do
@@ -6,7 +8,7 @@ namespace :db do
     Tree.find_each do |tree|
       prompt = base.dup
       rel_prompt = tree.chat_relationship_prompt.to_s
-      prompt += "\n" + rel_prompt unless rel_prompt.empty?
+      prompt += "\n#{rel_prompt}" unless rel_prompt.empty?
       tree.update!(llm_sustem_prompt: prompt)
     end
   end

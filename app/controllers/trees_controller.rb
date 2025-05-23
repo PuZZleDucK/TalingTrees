@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 class TreesController < ApplicationController
   def index
-    if @current_user&.user_trees&.any?
-      @trees = @current_user.known_trees
-    else
-      @trees = @current_user ? @current_user.closest_trees : Tree.all
-    end
+    @trees = if @current_user&.user_trees&.any?
+               @current_user.known_trees
+             else
+               @current_user ? @current_user.closest_trees : Tree.all
+             end
 
-    known_ids = @current_user&.known_trees&.map { |t| t.id } || []
+    known_ids = @current_user&.known_trees&.map(&:id) || []
 
     @tree_data = @trees.map do |tree|
       neighbor_ids = tree.neighbor_ids
@@ -31,7 +33,7 @@ class TreesController < ApplicationController
 
   def show
     tree = Tree.find(params[:id])
-    known_ids = @current_user&.known_trees&.map { |t| t.id } || []
+    known_ids = @current_user&.known_trees&.map(&:id) || []
     neighbor_ids = tree.neighbor_ids
     friend_ids = tree.friend_ids
     species_ids = tree.same_species_ids
@@ -57,9 +59,7 @@ class TreesController < ApplicationController
   def tag
     tree = Tree.find(params[:id])
     tag = params[:tag].to_s
-    if TreeTag::ALLOWED_TAGS.include?(tag)
-      TreeTag.find_or_create_by!(tree: tree, user: @current_user, tag: tag)
-    end
+    TreeTag.find_or_create_by!(tree: tree, user: @current_user, tag: tag) if TreeTag::ALLOWED_TAGS.include?(tag)
     render json: {
       tag_counts: tree.tag_counts,
       user_tags: tree.tags_for_user(@current_user)
@@ -69,9 +69,7 @@ class TreesController < ApplicationController
   def tag_user
     tree = Tree.find(params[:id])
     tag = params[:tag].to_s
-    if UserTag::ALLOWED_TAGS.include?(tag)
-      UserTag.find_or_create_by!(tree: tree, user: @current_user, tag: tag)
-    end
+    UserTag.find_or_create_by!(tree: tree, user: @current_user, tag: tag) if UserTag::ALLOWED_TAGS.include?(tag)
     render json: {
       tags: @current_user.tags_from_trees,
       tag_details: @current_user.tag_details_from_trees,

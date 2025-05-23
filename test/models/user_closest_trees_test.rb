@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../test_helper'
 require 'minitest/autorun'
 
@@ -5,7 +7,8 @@ class UserClosestTreesTest < Minitest::Test
   def setup
     Tree.singleton_class.class_eval do
       attr_accessor :records
-      def all; records || []; end
+
+      def all = records || []
     end
   end
 

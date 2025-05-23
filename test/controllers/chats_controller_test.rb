@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../test_helper'
 require 'minitest/autorun'
 require 'ostruct'
@@ -50,16 +52,17 @@ class ChatsController
     tree = chat.tree
 
     count = if Message.respond_to?(:joins)
-               0
-             else
-               msgs = Array(Message.records)
-               chats = Array(Chat.records)
-               msgs.count do |m|
-                 next false unless m[:role] == 'user'
-                 rec = chats.find { |c| c[:id] == m[:chat_id] }
-                 rec && rec[:user_id] == user.id && rec[:tree_id] == tree.id
-               end
-             end
+              0
+            else
+              msgs = Array(Message.records)
+              chats = Array(Chat.records)
+              msgs.count do |m|
+                next false unless m[:role] == 'user'
+
+                rec = chats.find { |c| c[:id] == m[:chat_id] }
+                rec && rec[:user_id] == user.id && rec[:tree_id] == tree.id
+              end
+            end
 
     return unless count >= 3
 
@@ -106,7 +109,9 @@ class ChatsControllerTest < Minitest::Test
 
   def test_history_returns_messages
     controller = ChatsController.new
-    chat = OpenStruct.new(id: 1, messages: [OpenStruct.new(role: 'user', content: 'hi'), OpenStruct.new(role: 'assistant', content: 'hello')])
+    chat = OpenStruct.new(id: 1,
+                          messages: [OpenStruct.new(role: 'user', content: 'hi'),
+                                     OpenStruct.new(role: 'assistant', content: 'hello')])
     expected = {
       chat_id: 1,
       messages: [
