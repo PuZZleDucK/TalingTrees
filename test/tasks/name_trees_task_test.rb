@@ -33,7 +33,7 @@ class NameTreesTaskTest < Minitest::Test
     end
     Tree.instances = [@tree]
     self.class.response_data = [
-      { 'message' => { 'content' => 'Fancy Tree' } },
+      { 'message' => { 'content' => 'Fancy Name' } },
       { 'message' => { 'content' => 'YES' } }
     ]
 
@@ -70,7 +70,7 @@ class NameTreesTaskTest < Minitest::Test
           NameTreesTaskTest.response_data = data[1..] || []
           data = data.first
         end
-        data || { 'message' => { 'content' => 'Fancy Tree' } }
+        data || { 'message' => { 'content' => 'Fancy Name' } }
       end
     end
     Object.const_set(:Ollama, stub_ollama)
@@ -95,7 +95,7 @@ class NameTreesTaskTest < Minitest::Test
 
   def test_rake_task_updates_tree_name
     Rake.application['db:name_trees'].invoke
-    assert_equal 'Fancy Tree', @tree.attributes['name']
+    assert_equal 'Fancy Name', @tree.attributes['name']
     assert_equal 'Qwen3:0.6b', @tree.attributes['llm_model']
   end
 
@@ -195,6 +195,31 @@ class NameTreesTaskTest < Minitest::Test
     Rake.application['db:name_trees'].reenable
     Rake.application['db:name_trees'].invoke
     assert_equal 'Valid Name', @tree.attributes['name']
+    assert_equal 3, Ollama.call_count
+  end
+
+  def test_retries_when_name_includes_banned_word
+    self.class.response_data = [
+      { 'message' => { 'content' => 'Happy Tree' } },
+      { 'message' => { 'content' => 'Valid Name' } },
+      { 'message' => { 'content' => 'YES' } }
+    ]
+    Rake.application['db:name_trees'].reenable
+    Rake.application['db:name_trees'].invoke
+    assert_equal 'Valid Name', @tree.attributes['name']
+    assert_equal 3, Ollama.call_count
+  end
+
+  def test_retries_when_name_includes_common_name
+    @tree.define_singleton_method(:treedb_common_name) { 'Oak' }
+    self.class.response_data = [
+      { 'message' => { 'content' => 'Mighty Oak' } },
+      { 'message' => { 'content' => 'Valid' } },
+      { 'message' => { 'content' => 'YES' } }
+    ]
+    Rake.application['db:name_trees'].reenable
+    Rake.application['db:name_trees'].invoke
+    assert_equal 'Valid', @tree.attributes['name']
     assert_equal 3, Ollama.call_count
   end
 
