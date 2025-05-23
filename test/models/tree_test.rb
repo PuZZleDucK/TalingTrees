@@ -23,4 +23,24 @@ class TreeTest < Minitest::Test
   ensure
     Tree.records = nil
   end
+
+  def test_same_species_ids_returns_matching_ids
+    TreeRelationship.singleton_class.class_eval do
+      attr_accessor :records
+      def where(tree_id:, kind:)
+        Array(records).select { |r| r[:tree_id] == tree_id && r[:kind] == kind }
+      end
+    end
+
+    tree = Tree.new
+    tree.define_singleton_method(:id) { 1 }
+    TreeRelationship.records = [
+      { tree_id: 1, related_tree_id: 2, kind: 'same_species' },
+      { tree_id: 1, related_tree_id: 3, kind: 'neighbor' }
+    ]
+
+    assert_equal [2], tree.same_species_ids
+  ensure
+    TreeRelationship.records = nil
+  end
 end
