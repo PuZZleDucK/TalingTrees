@@ -94,6 +94,12 @@ class Tree < ApplicationRecord
     end
   end
 
+  def same_species_ids
+    relationships_of_kind('same_species').map do |rel|
+      rel.respond_to?(:related_tree_id) ? rel.related_tree_id : rel[:related_tree_id]
+    end
+  end
+
   def tags_for_user(user)
     return [] unless user && respond_to?(:id)
     scope = if TreeTag.respond_to?(:where)

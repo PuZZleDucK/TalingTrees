@@ -20,7 +20,8 @@
       <h2 id="chat-title" class="m-0 text-xl">
         <span id="chat-title-name">Chat</span>
         (<span id="neighbor-info" class="hover:underline cursor-pointer"><span id="neighbor-count">0/0</span> neighbors</span> -
-        <span id="friend-info" class="hover:underline cursor-pointer"><span id="friend-count">0/0</span> friends</span>)
+        <span id="friend-info" class="hover:underline cursor-pointer"><span id="friend-count">0/0</span> friends</span> -
+        <span id="species-info" class="hover:underline cursor-pointer"><span id="species-count">0/0</span> same species</span>)
       </h2>
       <div id="relation-dropdown" class="hidden absolute left-0 top-full mt-1 bg-white border rounded shadow p-2 text-sm z-10"></div>
     </div>
@@ -109,10 +110,9 @@
     var chatHistory = [];
     var currentChatId = null;
     var treeTags = document.getElementById('tree-tags');
-    var neighborCountSpan = document.getElementById('neighbor-count');
-    var friendCountSpan = document.getElementById('friend-count');
     var neighborInfo = document.getElementById('neighbor-info');
     var friendInfo = document.getElementById('friend-info');
+    var speciesInfo = document.getElementById('species-info');
     var relationDropdown = document.getElementById('relation-dropdown');
     var backButton = document.getElementById('back-button');
     var lastTreeId = null;
@@ -381,6 +381,7 @@
           tree.user_tags = tree.user_tags || [];
           tree.neighbors = tree.neighbors || [];
           tree.friends = tree.friends || [];
+          tree.same_species = tree.same_species || [];
         });
       });
     }
@@ -429,14 +430,18 @@
               tree.neighbor_known = data.neighbor_known;
               tree.friend_total = data.friend_total;
               tree.friend_known = data.friend_known;
+              tree.species_total = data.species_total;
+              tree.species_known = data.species_known;
               tree.neighbors = data.neighbors || [];
               tree.friends = data.friends || [];
+              tree.same_species = data.same_species || [];
             }
             renderTags(data.tag_counts || {}, data.user_tags || []);
             if (tree) {
               document.getElementById('chat-title-name').textContent = tree.name;
               document.getElementById('neighbor-count').textContent = tree.neighbor_known + '/' + tree.neighbor_total;
               document.getElementById('friend-count').textContent = tree.friend_known + '/' + tree.friend_total;
+              document.getElementById('species-count').textContent = tree.species_known + '/' + tree.species_total;
             }
             reRenderBotMessages();
             showRelationHighlights();
@@ -494,7 +499,8 @@
         if (!currentTreeId) return;
         var tree = trees.find(function(t){ return t.id === currentTreeId; });
         if (!tree) return;
-        var items = kind === 'neighbor' ? (tree.neighbors || []) : (tree.friends || []);
+        var items = kind === 'neighbor' ? (tree.neighbors || []) :
+                    (kind === 'friend' ? (tree.friends || []) : (tree.same_species || []));
         relationDropdown.innerHTML = '';
         items.forEach(function(it){
           var div = document.createElement('div');
@@ -589,6 +595,8 @@
           tree.neighbor_known + '/' + tree.neighbor_total;
         document.getElementById('friend-count').textContent =
           tree.friend_known + '/' + tree.friend_total;
+        document.getElementById('species-count').textContent =
+          tree.species_known + '/' + tree.species_total;
         currentTreeId = tree.id;
         updateBackButton();
         tree.user_tags = tree.user_tags || [];
@@ -674,6 +682,12 @@
       showRelationDropdown('neighbor', neighborInfo);
     });
     neighborInfo.addEventListener('mouseleave', scheduleHideDropdown);
+
+    speciesInfo.addEventListener('mouseenter', function(e){
+      clearTimeout(hideDropdownTimeout);
+      showRelationDropdown('species', speciesInfo);
+    });
+    speciesInfo.addEventListener('mouseleave', scheduleHideDropdown);
 
     friendInfo.addEventListener('mouseenter', function(e){
       clearTimeout(hideDropdownTimeout);
