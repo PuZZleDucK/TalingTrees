@@ -106,6 +106,7 @@ module Tasks
     end
 
     BANNED_WORDS_REGEX = /\b(tree|forest|grove)\b/i
+    private_constant :BANNED_WORDS_REGEX
 
     def valid_format?(name, tree, reasons)
       if name =~ /[^\w\s,-]/
