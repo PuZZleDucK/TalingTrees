@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Represents a tree and provides helper methods for relationships and
+# distance calculations.
 class Tree < ApplicationRecord
   EARTH_RADIUS = 6_371_000.0
 

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Base controller providing common helpers and callbacks for the
+# application's controllers.
 class ApplicationController < ActionController::Base
   before_action :set_current_user
 

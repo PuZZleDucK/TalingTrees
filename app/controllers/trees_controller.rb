@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Provides endpoints for listing and interacting with trees.
 class TreesController < ApplicationController
   def index
     @trees = if @current_user&.user_trees&.any?

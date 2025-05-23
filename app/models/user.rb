@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Application user with associations to trees and tags.
 class User < ApplicationRecord
   has_many :user_trees, dependent: :destroy
   has_many :known_trees, through: :user_trees, source: :tree
