@@ -6,12 +6,18 @@ namespace :db do
 
     TreeRelationship.delete_all
 
+    def create_pair(a, b, kind)
+      [ [a, b], [b, a] ].each do |x, y|
+        rel = TreeRelationship.find_or_create_by!(tree_id: x.id, related_tree_id: y.id, kind: kind)
+        rel.update!(tag: TreeRelationship::TAGS.sample)
+      end
+    end
+
     trees.each do |tree|
       # Neighbor relationships within radius
       neighbors = tree.neighbors_within(radius)
       neighbors.each do |neighbor|
-        rel = TreeRelationship.find_or_create_by!(tree_id: tree.id, related_tree_id: neighbor.id, kind: 'neighbor')
-        rel.update!(tag: TreeRelationship::TAGS.sample)
+        create_pair(tree, neighbor, 'neighbor')
       end
 
       # Relationships with same species
@@ -21,8 +27,7 @@ namespace :db do
           other.treedb_common_name == tree.treedb_common_name
       end
       species_matches.each do |other|
-        rel = TreeRelationship.find_or_create_by!(tree_id: tree.id, related_tree_id: other.id, kind: 'same_species')
-        rel.update!(tag: TreeRelationship::TAGS.sample)
+        create_pair(tree, other, 'same_species')
       end
 
       # Long distance friends
@@ -31,8 +36,7 @@ namespace :db do
         max = [candidates.size, 6].min
         num = rand(1..max)
         candidates.sample(num).each do |friend|
-          rel = TreeRelationship.find_or_create_by!(tree_id: tree.id, related_tree_id: friend.id, kind: 'long_distance')
-          rel.update!(tag: TreeRelationship::TAGS.sample)
+          create_pair(tree, friend, 'long_distance')
         end
       end
     end
