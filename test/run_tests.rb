@@ -6,11 +6,27 @@ require 'minitest/autorun'
 Dir[File.join(__dir__, '**/*_test.rb')].each { |f| require_relative f }
 
 Minitest.after_run do
-  coverage = Coverage.result
+  coverage = Coverage.result.dup
+  project_dirs = %w[app lib config db]
+
+  # Include project files that may not have been loaded during the test run so
+  # they count toward the total lines when calculating coverage.
+  project_dirs.each do |dir|
+    Dir.glob(File.join(__dir__, '..', dir, '**', '*.rb')).each do |path|
+      abs = File.expand_path(path)
+      next if coverage.key?(abs)
+
+      coverage[abs] = Array.new(File.readlines(abs).size)
+    end
+  end
+
   total_covered = 0
   total_lines = 0
   File.open('coverage.txt', 'w') do |f|
     coverage.each do |file, data|
+      next unless file.start_with?(Dir.pwd)
+      next if file.include?('/test/')
+
       covered_lines = data.count { |line| line&.positive? }
       total_lines_file = data.size
       percent = total_lines_file.positive? ? (covered_lines.to_f / total_lines_file * 100).round(2) : 0
@@ -18,6 +34,7 @@ Minitest.after_run do
       total_covered += covered_lines
       total_lines += total_lines_file
     end
+
     total_percent = total_lines.positive? ? (total_covered.to_f / total_lines * 100).round(2) : 0
     f.puts "TOTAL: #{total_percent}% (#{total_covered}/#{total_lines})"
   end
