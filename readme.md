@@ -108,11 +108,14 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [x] add brakeman report to github action as another new comment
 [x] address brakeman issues
 [x] add bundler-audit report to github action as another new comment
-[ ] address bundler-audit issues
+[x] address bundler-audit issues
 [ ] add rubocop report to github action as another new comment
 [ ] address rubocop issues
+[ ] get test coverage up to 50%
 [ ] create new github action to trigger deploy to Render if all tests pass
+[ ] review agents-advice.md and create AGENTS.md for project
 [ ] dark mode
 [ ] trees should have missions/objectives that users can help with... find my enemy, find my lost friend, ... (tree must have relation)
 [ ] new tree mission: find the only... tree of a species, tree planted on x date, ... (must be unique in db)
 [ ] new tree mission: find all the ... trees named bob, trees of a species, trees on x road, trees in x park, ... (must be less than 6 in db)
+[ ] get test coverage up
