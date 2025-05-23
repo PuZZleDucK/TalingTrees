@@ -1,16 +1,26 @@
 # frozen_string_literal: true
 
-require_relative 'test_helper'
 require 'minitest/autorun'
+require 'coverage'
+Coverage.start
+require_relative 'test_helper'
 
 Dir[File.join(__dir__, '**/*_test.rb')].each { |f| require_relative f }
 
 Minitest.after_run do
   coverage = Coverage.result
+  project_root = File.realpath(File.expand_path('..', __dir__)) + File::SEPARATOR
   total_covered = 0
   total_lines = 0
   File.open('coverage.txt', 'w') do |f|
     coverage.each do |file, data|
+      begin
+        file_path = File.realpath(file)
+      rescue Errno::ENOENT
+        next
+      end
+      next unless file_path.start_with?(project_root)
+
       covered_lines = data.count { |line| line&.positive? }
       total_lines_file = data.size
       percent = total_lines_file.positive? ? (covered_lines.to_f / total_lines_file * 100).round(2) : 0
