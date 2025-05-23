@@ -16,33 +16,37 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    ```bash
    bundle install
    ```
-2. Create and migrate the database:
+2. Install or update Ollama and download the models:
+   ```bash
+   bundle exec rake ollama:setup
+   ```
+3. Create and migrate the database:
    ```bash
    bundle exec rails db:create
    bundle exec rails db:migrate
    ```
-3. Seed initial users:
+4. Seed initial users:
    ```bash
    bundle exec rails db:seed
    ```
-4. Import tree data (clears existing trees):
+5. Import tree data (clears existing trees):
    ```bash
    bundle exec rake db:import_trees
    ```
    The prompts and models used when naming trees are configured in `config/llm.yml`.
-5. Name the trees:
+6. Name the trees:
    ```bash
    bundle exec rake db:name_trees
    ```
-6. Add tree relationships:
+7. Add tree relationships:
    ```bash
    bundle exec rake db:add_relationships
    ```
-7. Generate system prompts:
+8. Generate system prompts:
    ```bash
    bundle exec rake db:system_prompts
    ```
-8. Run the test suite:
+9. Run the test suite:
    ```bash
    ruby test/run_tests.rb
    ```
@@ -51,7 +55,7 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    bundle exec bundler-audit check
    bundle exec brakeman -q
    ```
-9. Start the Rails server:
+10. Start the Rails server:
    ```bash
    bundle exec rails server
    ```
@@ -99,7 +103,7 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [x] when a user is chatting with a tree, and that tree has revealed neighbors and friends, those neighbors and friends should have a green ring highlighting them on the map. there should also be a green line connecting the current tree with the revealed neighbors and friends.
 [x] the line connecting the trees should be labeled with the relation type and have a color based on the relation type
 [x] move naming and checking prompts and llm models to a config file
-[ ] create task to setup ollama and download configured models
+[x] create task to setup ollama and download configured models
 [ ] cleanup punctuation in tree names
 [ ] add brakeman report to github action as another new comment
 [ ] address brakeman issues
