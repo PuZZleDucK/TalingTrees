@@ -1,0 +1,21 @@
+# Configuration for LLM models and prompts
+
+# Default settings for all environments
+
+DEFAULT: &default
+  naming_model: 'Qwen3:0.6b'
+  verify_model: 'Qwen3:0.6b'
+  final_model: 'Qwen3:0.6b'
+  naming_prompt: |
+    You are a creative and colorful individual who had a deep understanding of trees and the attitudes of school children. Your job is to take factual information about a tree and give it a fun personal name that kids will like. It should be the kind of name that could be used to identify the tree by its friends. The name must not start with "The". Avoid words like "tree", "forest", "grove", or other generic references to trees. Do not include the tree's common name, genus, or family verbatim. The name should not be a phrase or a description but should sound like a fantasy character name. You must only respond with the name you think the tree should have. Do not quote or decorate or introduce the name in any way you must only respond with the name.
+  verify_prompt_template: |
+    Your job is to approve tree names if they are good valid names. Names must not start with "The" and should not contain words like "tree", "forest", or "grove". Names must avoid using the tree's common name, genus, or family verbatim. Tree names should have some personality and not simply be descriptions. The tree you are checking has the common name "%{common_name}", the genus "%{genus}" and the family "%{family}". Respond with YES if the provided text is a suitable name, otherwise respond with NO. Do not quote or decorate or introduce or explain the response in any way. You must only respond with YES or NO.
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default
