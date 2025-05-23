@@ -107,7 +107,7 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [x] cleanup punctuation in tree names
 [x] add brakeman report to github action as another new comment
 [x] address brakeman issues
-[ ] add bundler-audit report to github action as another new comment
+[x] add bundler-audit report to github action as another new comment
 [ ] address bundler-audit issues
 [ ] add rubocop report to github action as another new comment
 [ ] address rubocop issues
