@@ -109,7 +109,7 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [x] address brakeman issues
 [x] add bundler-audit report to github action as another new comment
 [x] address bundler-audit issues
-[ ] add rubocop report to github action as another new comment
+[x] add rubocop report to github action as another new comment
 [ ] address rubocop issues
 [ ] get test coverage up to 50%
 [ ] create new github action to trigger deploy to Render if all tests pass
