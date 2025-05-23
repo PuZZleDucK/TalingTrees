@@ -28,30 +28,49 @@ jobs:
           #!/usr/bin/env bash
           set -euo pipefail
 
+          : "${RENDER_API_KEY:?Need RENDER_API_KEY in env}"
           SERVICE_NAME="tree-talker"
-          render workspace set --confirm -o json "tree-workspace"
-          EXISTING_ID=$(render services list --confirm -o json \
-            | jq -r --arg NAME "$SERVICE_NAME" '.[] | select(.name==$NAME) | .id')
+
+          # 1) Switch to the right workspace (optional if already set)
+          render -o json --confirm workspace set tree-workspace
+
+          # 2) List & grep for your service
+          EXISTING_ID=$(
+            render services -o json --confirm \
+              | jq -r --arg NAME "$SERVICE_NAME" \
+                  '.[] | select(.name == $NAME) | .id'
+          )
 
           if [[ -n "$EXISTING_ID" ]]; then
-            echo "✅ Found existing Render service '$SERVICE_NAME' (ID: $EXISTING_ID)."
+            echo "✅ Found $SERVICE_NAME (ID: $EXISTING_ID)"
             SERVICE_ID="$EXISTING_ID"
           else
-            echo "⚙️ Creating new Render service '$SERVICE_NAME'…"
-            SERVICE_ID=$(render services create web \
-              --name "$SERVICE_NAME" \
-              --env ruby \
-              --region oregon \
-              --repo https://github.com/${{ github.repository }}.git \
-              --branch main \
-              --build-command "bundle install && yarn install && rake assets:precompile" \
-              --start-command "bundle exec puma -C config/puma.rb" \
-              -o json \
-              --confirm \
-              | jq -r '.id')
-            echo "✅ Created service with ID: $SERVICE_ID"
+            echo "⚙️ Creating $SERVICE_NAME…"
+            SERVICE_ID=$(
+              render services create web \
+                --name "$SERVICE_NAME" \
+                --env ruby \
+                --region oregon \
+                --repo "https://github.com/${GITHUB_REPOSITORY}.git" \
+                --branch main \
+                --build-command "bundle install && yarn install && rake assets:precompile" \
+                --start-command "bundle exec puma -C config/puma.rb" \
+                -o json \
+                --confirm \
+              | jq -r '.id'
+            )
+            echo "✅ Created $SERVICE_NAME (ID: $SERVICE_ID)"
           fi
 
-          render services deploy \
-            --service-id "$SERVICE_ID" \
-            --branch main
+          # 3) (Re)configure your rake‐release hook if needed
+          render services update "$SERVICE_ID" \
+            --release-command "bundle exec rake db:migrate && bundle exec rake tree:talker:setup && bundle exec rake cache:warmup" \
+            --output json \
+            --confirm
+
+          # 4) Trigger the deploy
+          echo "🚀 Deploying $SERVICE_NAME…"
+          render deploys create "$SERVICE_ID" \
+            --branch main \
+            --output json \
+            --confirm
