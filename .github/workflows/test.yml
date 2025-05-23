@@ -23,6 +23,10 @@ jobs:
       - name: Run Brakeman
         run: |
           bundle exec brakeman -q | tee brakeman_report.txt
+      - name: Run RuboCop
+        run: |
+          bundle exec rubocop | tee rubocop_report.txt
+        continue-on-error: true
       - name: Run bundler-audit
         run: |
           bundle exec bundler-audit check --update | tee bundler_audit_report.txt
@@ -45,6 +49,20 @@ jobs:
             const summary = fs.readFileSync('test_output.txt','utf8').trim().split('\n').pop();
             const coverage = fs.readFileSync('coverage.txt','utf8').trim().split('\n').pop();
             const body = `**Test Summary**\n\n\`${summary}\`\n\n**Coverage**\n\n\`${coverage}\``;
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body
+            });
+
+      - name: Comment RuboCop report
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('rubocop_report.txt','utf8');
+            const body = `**RuboCop Report**\n\n\`\`\`\n${report}\n\`\`\``;
             github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
