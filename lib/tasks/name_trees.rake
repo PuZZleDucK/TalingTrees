@@ -39,7 +39,7 @@ namespace :db do
       attempt = 0
       cleaned = nil
       reasons = []
-      while attempt < 3
+      loop do
         attempt += 1
 
         user_content = facts.dup

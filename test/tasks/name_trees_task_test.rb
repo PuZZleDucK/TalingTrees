@@ -115,19 +115,29 @@ class NameTreesTaskTest < Minitest::Test
     assert_equal 0, Ollama.call_count
   end
 
-  def test_skips_update_for_name_too_short
-    self.class.response_data = { 'message' => { 'content' => 'A' } }
+  def test_retries_when_name_too_short
+    self.class.response_data = [
+      { 'message' => { 'content' => 'A' } },
+      { 'message' => { 'content' => 'Valid' } },
+      { 'message' => { 'content' => 'YES' } }
+    ]
     Rake.application['db:name_trees'].reenable
     Rake.application['db:name_trees'].invoke
-    assert_nil @tree.attributes['name']
+    assert_equal 'Valid', @tree.attributes['name']
+    assert_equal 3, Ollama.call_count
   end
 
-  def test_skips_update_for_name_too_long
+  def test_retries_when_name_too_long
     long_name = 'A' * 151
-    self.class.response_data = { 'message' => { 'content' => long_name } }
+    self.class.response_data = [
+      { 'message' => { 'content' => long_name } },
+      { 'message' => { 'content' => 'Valid Name' } },
+      { 'message' => { 'content' => 'YES' } }
+    ]
     Rake.application['db:name_trees'].reenable
     Rake.application['db:name_trees'].invoke
-    assert_nil @tree.attributes['name']
+    assert_equal 'Valid Name', @tree.attributes['name']
+    assert_equal 3, Ollama.call_count
   end
 
   def test_retries_until_valid_name_received
@@ -143,17 +153,21 @@ class NameTreesTaskTest < Minitest::Test
     assert_equal 4, Ollama.call_count
   end
 
-  def test_gives_up_after_three_failed_attempts
+  def test_retries_more_than_three_times_until_success
     long_name = 'A' * 151
     self.class.response_data = [
       { 'message' => { 'content' => long_name } },
-      { 'message' => { 'content' => 'A' } },
-      { 'message' => { 'content' => 'B' } }
+      { 'message' => { 'content' => 'BadName' } },
+      { 'message' => { 'content' => 'NO' } },
+      { 'message' => { 'content' => 'Another Bad Name' } },
+      { 'message' => { 'content' => 'NO' } },
+      { 'message' => { 'content' => 'Valid Name' } },
+      { 'message' => { 'content' => 'YES' } }
     ]
     Rake.application['db:name_trees'].reenable
     Rake.application['db:name_trees'].invoke
-    assert_nil @tree.attributes['name']
-    assert_equal 3, Ollama.call_count
+    assert_equal 'Valid Name', @tree.attributes['name']
+    assert_equal 7, Ollama.call_count
   end
 
   def test_retries_when_verification_fails
