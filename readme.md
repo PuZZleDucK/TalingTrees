@@ -29,6 +29,7 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    ```bash
    bundle exec rake db:import_trees
    ```
+   The prompts and models used when naming trees are configured in `config/llm.yml`.
 5. Name the trees:
    ```bash
    bundle exec rake db:name_trees
@@ -97,7 +98,7 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
 [x] we should keep track of the last tree the user spoke to when they move to a new chat and above the title of the chat we should show a "back to <tree-name>" button that returns them to chatting with the last tree
 [x] when a user is chatting with a tree, and that tree has revealed neighbors and friends, those neighbors and friends should have a green ring highlighting them on the map. there should also be a green line connecting the current tree with the revealed neighbors and friends.
 [x] the line connecting the trees should be labeled with the relation type and have a color based on the relation type
-[ ] move naming and checking prompts and llm models to a config file
+[x] move naming and checking prompts and llm models to a config file
 [ ] create task to setup ollama and download configured models
 [ ] cleanup punctuation in tree names
 [ ] add brakeman report to github action as another new comment

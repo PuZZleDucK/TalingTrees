@@ -2,12 +2,19 @@ namespace :db do
   desc 'Assign fun, kid-friendly names to trees using local Ollama'
   task name_trees: :environment do
     require 'ollama-ai'
+    require 'yaml'
 
-    system_prompt = 'You are a creative and colorful individual who had a deep understanding of trees and the attitudes of school children. Your job is to take factual information about a tree and give it a fun personal name that kids will like. It should be the kind of name that could be used to identify the tree by its friends. The name must not start with "The". Avoid words like "tree", "forest", "grove", or other generic references to trees. Do not include the tree\'s common name, genus, or family verbatim. The name should not be a phrase or a description but should sound like a fantasy character name. You must only respond with the name you think the tree should have. Do not quote or decorate or introduce the name in any way you must only respond with the name.'
+    env = ENV['RAILS_ENV'] || 'development'
+    config_path = File.expand_path('../../../config/llm.yml', __FILE__)
+    llm_config = YAML.load_file(config_path, aliases: true)[env]
+
+    system_prompt = llm_config['naming_prompt']
+    verify_prompt_template = llm_config['verify_prompt_template']
+    naming_model = llm_config['naming_model']
+    verify_model = llm_config['verify_model']
+    final_model = llm_config['final_model']
 
     client = Ollama.new(credentials: { address: ENV.fetch('OLLAMA_URL', 'http://localhost:11434') })
-
-    verify_prompt_template = 'Your job is to approve tree names if they are good valid names. Names must not start with "The" and should not contain words like "tree", "forest", or "grove". Names must avoid using the tree\'s common name, genus, or family verbatim. Tree names should have some personality and not simply be descriptions. The tree you are checking has the common name "%{common_name}", the genus "%{genus}" and the family "%{family}". Respond with YES if the provided text is a suitable name, otherwise respond with NO. Do not quote or decorate or introduce or explain the response in any way. You must only respond with YES or NO.'
 
     Tree.find_each do |tree|
       name_val = if tree.respond_to?(:attributes)
@@ -50,7 +57,7 @@ namespace :db do
           { 'role' => 'user', 'content' => user_content }
         ]
 
-        response = client.chat({ model: 'Qwen3:0.6b', messages: messages })
+        response = client.chat({ model: naming_model, messages: messages })
 
         content = if response.is_a?(Array)
                      response.map { |r| r.dig('message', 'content') }.join
@@ -78,7 +85,7 @@ namespace :db do
             { 'role' => 'system', 'content' => verify_prompt },
             { 'role' => 'user', 'content' => cleaned }
           ]
-          verify = client.chat({ model: 'Qwen3:0.6b', messages: verify_messages })
+          verify = client.chat({ model: verify_model, messages: verify_messages })
           verify_content = if verify.is_a?(Array)
                              verify.map { |r| r.dig('message', 'content') }.join
                            else
@@ -115,7 +122,7 @@ namespace :db do
 
       puts "Cleaned name: #{cleaned}"
 
-      tree.update!(name: cleaned, llm_model: 'Qwen3:latest', llm_sustem_prompt: system_prompt)
+      tree.update!(name: cleaned, llm_model: final_model, llm_sustem_prompt: system_prompt)
       puts "Updated tree #{identifier}"
       puts
     end

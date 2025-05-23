@@ -93,7 +93,7 @@ class NameTreesTaskTest < Minitest::Test
   def test_rake_task_updates_tree_name
     Rake.application['db:name_trees'].invoke
     assert_equal 'Fancy Tree', @tree.attributes['name']
-    assert_equal 'Qwen3:latest', @tree.attributes['llm_model']
+    assert_equal 'Qwen3:0.6b', @tree.attributes['llm_model']
   end
 
   def test_response_is_cleaned_of_think_tags
