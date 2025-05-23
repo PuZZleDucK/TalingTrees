@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UserTag < ApplicationRecord
   belongs_to :tree
   belongs_to :user

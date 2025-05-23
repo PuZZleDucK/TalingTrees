@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   root 'trees#index'
-  resources :trees, only: [:index, :show]
+  resources :trees, only: %i[index show]
   post 'trees/:id/chat', to: 'chats#create', as: 'tree_chat'
   get  'trees/:id/chat', to: 'chats#history'
   post 'trees/:id/tag', to: 'trees#tag', as: 'tag_tree'

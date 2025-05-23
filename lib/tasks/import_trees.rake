@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :db do
   desc 'Import tree data from Melbourne dataset'
   task :import_trees, [:count] => :environment do |_, args|
@@ -18,9 +20,7 @@ namespace :db do
 
     loop do
       current_limit = limit
-      if count && (count - imported) < current_limit
-        current_limit = count - imported
-      end
+      current_limit = count - imported if count && (count - imported) < current_limit
       url = "#{base_url}?#{URI.encode_www_form(limit: current_limit, offset: offset)}"
       puts "Fetching #{url}"
       begin

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../test_helper'
 require 'rake'
 require 'minitest/autorun'
@@ -8,8 +10,9 @@ class SystemPromptsTaskTest < Minitest::Test
       Tree.class_eval do
         class << self
           attr_accessor :instances
-          def find_each
-            (instances || []).each { |t| yield t }
+
+          def find_each(&block)
+            (instances || []).each(&block)
           end
         end
       end
@@ -23,9 +26,11 @@ class SystemPromptsTaskTest < Minitest::Test
     def @tree.chat_relationship_prompt
       'rel info'
     end
+
     def @tree.update!(attrs)
       @prompt = attrs[:llm_sustem_prompt]
     end
+
     def @tree.prompt
       @prompt
     end

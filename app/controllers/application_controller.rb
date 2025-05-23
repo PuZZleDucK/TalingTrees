@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
   before_action :set_current_user
 
@@ -7,9 +9,7 @@ class ApplicationController < ActionController::Base
   end
 
   def update_location
-    if @current_user && params[:lat] && params[:long]
-      @current_user.update!(lat: params[:lat], long: params[:long])
-    end
+    @current_user.update!(lat: params[:lat], long: params[:long]) if @current_user && params[:lat] && params[:long]
     head :ok
   end
 
@@ -25,6 +25,6 @@ class ApplicationController < ActionController::Base
 
   def set_current_user
     @current_user = User.find_by(id: session[:user_id])
-    @current_user ||= User.first
+    @set_current_user ||= User.first
   end
 end

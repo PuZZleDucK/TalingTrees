@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../test_helper'
 require 'minitest/autorun'
 
@@ -8,21 +10,17 @@ class ApplicationController
     @current_user = user
   end
 
-  def head(status); status; end
+  def head(status) = status
 
   def update_location(params)
-    if @current_user && params[:lat] && params[:long]
-      @current_user.update!(lat: params[:lat], long: params[:long])
-    end
+    @current_user.update!(lat: params[:lat], long: params[:long]) if @current_user && params[:lat] && params[:long]
     head :ok
   end
 
   def know_tree(params)
     if @current_user && (tree = params[:tree])
       @current_user.known_trees ||= []
-      unless @current_user.known_trees.include?(tree)
-        @current_user.known_trees << tree
-      end
+      @current_user.known_trees << tree unless @current_user.known_trees.include?(tree)
     end
     head :ok
   end

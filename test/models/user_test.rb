@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../test_helper'
 require 'minitest/autorun'
 
@@ -43,7 +45,7 @@ class UserTest < Minitest::Test
     user = User.new(id: 2)
     details = user.tag_details_from_trees
     expected = {
-      'friendly' => { count: 2, names: ['Oak', 'Pine'] },
+      'friendly' => { count: 2, names: %w[Oak Pine] },
       'helpful' => { count: 1, names: ['Birch'] }
     }
     assert_equal expected, details

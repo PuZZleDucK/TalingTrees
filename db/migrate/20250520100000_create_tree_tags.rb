@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateTreeTags < ActiveRecord::Migration[7.1]
   def change
     create_table :tree_tags do |t|
@@ -6,6 +8,6 @@ class CreateTreeTags < ActiveRecord::Migration[7.1]
       t.string :tag
       t.timestamps
     end
-    add_index :tree_tags, [:user_id, :tree_id, :tag], unique: true
+    add_index :tree_tags, %i[user_id tree_id tag], unique: true
   end
 end

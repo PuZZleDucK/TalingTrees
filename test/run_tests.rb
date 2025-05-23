@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'test_helper'
 require 'minitest/autorun'
 
@@ -9,14 +11,14 @@ Minitest.after_run do
   total_lines = 0
   File.open('coverage.txt', 'w') do |f|
     coverage.each do |file, data|
-      covered_lines = data.count { |line| line && line > 0 }
+      covered_lines = data.count { |line| line&.positive? }
       total_lines_file = data.size
-      percent = total_lines_file > 0 ? (covered_lines.to_f / total_lines_file * 100).round(2) : 0
+      percent = total_lines_file.positive? ? (covered_lines.to_f / total_lines_file * 100).round(2) : 0
       f.puts "#{file}: #{percent}% (#{covered_lines}/#{total_lines_file})"
       total_covered += covered_lines
       total_lines += total_lines_file
     end
-    total_percent = total_lines > 0 ? (total_covered.to_f / total_lines * 100).round(2) : 0
+    total_percent = total_lines.positive? ? (total_covered.to_f / total_lines * 100).round(2) : 0
     f.puts "TOTAL: #{total_percent}% (#{total_covered}/#{total_lines})"
   end
 

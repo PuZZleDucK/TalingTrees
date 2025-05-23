@@ -1,16 +1,18 @@
+# frozen_string_literal: true
+
 require_relative '../test_helper'
 require 'rake'
 require 'minitest/autorun'
 
 class NameTreesTaskTest < Minitest::Test
-
   class << self
     def setup_tree_class
       Tree.class_eval do
         class << self
           attr_accessor :instances
-          def find_each
-            (instances || []).each { |t| yield t }
+
+          def find_each(&block)
+            (instances || []).each(&block)
           end
         end
       end
@@ -24,7 +26,7 @@ class NameTreesTaskTest < Minitest::Test
 
     @tree = Tree.new
     @tree.define_singleton_method(:attributes) do
-      @attrs ||= { 'name' => nil, 'treedb_com_id' => '1' }
+      @attributes ||= { 'name' => nil, 'treedb_com_id' => '1' }
     end
     @tree.define_singleton_method(:update!) do |attrs|
       attributes.merge!(attrs.transform_keys(&:to_s))
@@ -39,6 +41,7 @@ class NameTreesTaskTest < Minitest::Test
       alias_method :orig_require, :require
       def require(name)
         return true if name == 'ollama-ai'
+
         orig_require(name)
       end
     end
@@ -47,31 +50,31 @@ class NameTreesTaskTest < Minitest::Test
     @previous_ollama = Object.const_get(:Ollama) if Object.const_defined?(:Ollama)
     Object.send(:remove_const, :Ollama) if Object.const_defined?(:Ollama)
 
-      stub_ollama = Class.new do
-        class << self
-          attr_accessor :call_count, :last_params, :params_list
-        end
-
-        attr_reader :last_chat_params
-
-        def initialize(credentials:); end
-
-        def chat(payload, **_opts)
-          self.class.call_count = (self.class.call_count || 0) + 1
-          self.class.last_params = payload
-          self.class.params_list ||= []
-          self.class.params_list << payload
-          @last_chat_params = payload
-          data = NameTreesTaskTest.response_data
-          if data.is_a?(Array)
-            NameTreesTaskTest.response_data = data[1..] || []
-            data = data.first
-          end
-          data || { 'message' => { 'content' => 'Fancy Tree' } }
-        end
+    stub_ollama = Class.new do
+      class << self
+        attr_accessor :call_count, :last_params, :params_list
       end
-      Object.const_set(:Ollama, stub_ollama)
-      Ollama.call_count = 0
+
+      attr_reader :last_chat_params
+
+      def initialize(credentials:); end
+
+      def chat(payload, **_opts)
+        self.class.call_count = (self.class.call_count || 0) + 1
+        self.class.last_params = payload
+        self.class.params_list ||= []
+        self.class.params_list << payload
+        @last_chat_params = payload
+        data = NameTreesTaskTest.response_data
+        if data.is_a?(Array)
+          NameTreesTaskTest.response_data = data[1..] || []
+          data = data.first
+        end
+        data || { 'message' => { 'content' => 'Fancy Tree' } }
+      end
+    end
+    Object.const_set(:Ollama, stub_ollama)
+    Ollama.call_count = 0
 
     Rake.application = Rake::Application.new
     Rake::Task.define_task(:environment)

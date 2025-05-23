@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChatsController < ApplicationController
   include ActionController::Live
 
@@ -8,12 +10,12 @@ class ChatsController < ApplicationController
     history = [history] if history.is_a?(Hash)
 
     chat = if params[:chat_id].present?
-      Chat.find(params[:chat_id])
-    else
-      Chat.create!(user: @current_user, tree: tree).tap do |c|
-        response.headers['X-Chat-Id'] = c.id.to_s
-      end
-    end
+             Chat.find(params[:chat_id])
+           else
+             Chat.create!(user: @current_user, tree: tree).tap do |c|
+               response.headers['X-Chat-Id'] = c.id.to_s
+             end
+           end
 
     history.to_a.each do |msg|
       chat.messages.create!(role: msg['role'], content: msg['content'])
@@ -69,16 +71,17 @@ class ChatsController < ApplicationController
     tree = chat.tree
 
     count = if Message.respond_to?(:joins)
-               Message.joins(:chat).where(role: 'user', chats: { user_id: user.id, tree_id: tree.id }).count
-             else
-               msgs = Array(Message.records)
-               chats = Array(Chat.records)
-               msgs.count do |m|
-                 next false unless m[:role] == 'user'
-                 chat_rec = chats.find { |c| c[:id] == m[:chat_id] }
-                 chat_rec && chat_rec[:user_id] == user.id && chat_rec[:tree_id] == tree.id
-               end
-             end
+              Message.joins(:chat).where(role: 'user', chats: { user_id: user.id, tree_id: tree.id }).count
+            else
+              msgs = Array(Message.records)
+              chats = Array(Chat.records)
+              msgs.count do |m|
+                next false unless m[:role] == 'user'
+
+                chat_rec = chats.find { |c| c[:id] == m[:chat_id] }
+                chat_rec && chat_rec[:user_id] == user.id && chat_rec[:tree_id] == tree.id
+              end
+            end
 
     return unless count >= 3
 
