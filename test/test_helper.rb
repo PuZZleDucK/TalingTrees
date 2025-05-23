@@ -7,7 +7,9 @@ module ActiveRecord
   class Base
     def self.primary_abstract_class; end
     def self.belongs_to(*); end
+    # rubocop:disable Naming/PredicateName
     def self.has_many(*); end
+    # rubocop:enable Naming/PredicateName
   end
 end
 
