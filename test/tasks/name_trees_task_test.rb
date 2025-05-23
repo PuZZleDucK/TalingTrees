@@ -183,6 +183,18 @@ class NameTreesTaskTest < Minitest::Test
     assert_equal 4, Ollama.call_count
   end
 
+  def test_retries_when_name_has_invalid_punctuation
+    self.class.response_data = [
+      { 'message' => { 'content' => 'Bad?Name' } },
+      { 'message' => { 'content' => 'Valid Name' } },
+      { 'message' => { 'content' => 'YES' } }
+    ]
+    Rake.application['db:name_trees'].reenable
+    Rake.application['db:name_trees'].invoke
+    assert_equal 'Valid Name', @tree.attributes['name']
+    assert_equal 3, Ollama.call_count
+  end
+
   def test_neighbor_names_included_in_prompt
     @tree.define_singleton_method(:treedb_lat) { 0.0 }
     @tree.define_singleton_method(:treedb_long) { 0.0 }
@@ -226,6 +238,7 @@ class NameTreesTaskTest < Minitest::Test
   def test_followup_prompt_includes_rejection_reasons
     long_name = 'A' * 151
     self.class.response_data = [
+      { 'message' => { 'content' => 'Bad?Name' } },
       { 'message' => { 'content' => long_name } },
       { 'message' => { 'content' => 'Spruce' } },
       { 'message' => { 'content' => 'YES' } }
@@ -234,8 +247,9 @@ class NameTreesTaskTest < Minitest::Test
     Rake.application['db:name_trees'].reenable
     Rake.application['db:name_trees'].invoke
 
-    follow_up = Ollama.params_list[1][:messages][1]['content']
+    follow_up = Ollama.params_list[2][:messages][1]['content']
     assert_includes follow_up, 'Previous failures'
     assert_includes follow_up, 'name too long or short'
+    assert_includes follow_up, 'invalid punctuation'
   end
 end

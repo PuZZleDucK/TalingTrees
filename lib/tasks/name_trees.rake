@@ -70,7 +70,11 @@ namespace :db do
                   .gsub(/"/, '')
                   .strip
 
-        if cleaned.length > 150 || cleaned.length < 3
+        if cleaned =~ /[^\w\s,-]/
+          puts "Rejected name due to punctuation: #{cleaned.inspect}"
+          reasons << 'invalid punctuation'
+          cleaned = nil
+        elsif cleaned.length > 150 || cleaned.length < 3
           puts "Rejected name due to length: #{cleaned.inspect}"
           reasons << 'name too long or short'
           cleaned = nil
