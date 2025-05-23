@@ -47,4 +47,58 @@ class TreeTest < Minitest::Test
   ensure
     TreeRelationship.records = nil
   end
+
+  def test_neighbor_ids_returns_only_neighbor_ids
+    TreeRelationship.singleton_class.class_eval do
+      attr_accessor :records
+
+      def where(tree_id:, kind:)
+        Array(records).select { |r| r[:tree_id] == tree_id && r[:kind] == kind }
+      end
+    end
+
+    tree = Tree.new(id: 1)
+    TreeRelationship.records = [
+      { tree_id: 1, related_tree_id: 2, kind: 'neighbor' },
+      { tree_id: 1, related_tree_id: 3, kind: 'long_distance' }
+    ]
+
+    assert_equal [2], tree.neighbor_ids
+  ensure
+    TreeRelationship.records = nil
+  end
+
+  def test_friend_ids_returns_only_friend_ids
+    TreeRelationship.singleton_class.class_eval do
+      attr_accessor :records
+
+      def where(tree_id:, kind:)
+        Array(records).select { |r| r[:tree_id] == tree_id && r[:kind] == kind }
+      end
+    end
+
+    tree = Tree.new(id: 1)
+    TreeRelationship.records = [
+      { tree_id: 1, related_tree_id: 2, kind: 'neighbor' },
+      { tree_id: 1, related_tree_id: 3, kind: 'long_distance' }
+    ]
+
+    assert_equal [3], tree.friend_ids
+  ensure
+    TreeRelationship.records = nil
+  end
+
+  def test_tags_for_user_filters_by_user
+    TreeTag.singleton_class.class_eval { attr_accessor :records }
+    TreeTag.records = [
+      { tree_id: 1, user_id: 1, tag: 'good' },
+      { tree_id: 1, user_id: 2, tag: 'funny' }
+    ]
+    tree = Tree.new(id: 1)
+    user = User.new(id: 2)
+
+    assert_equal ['funny'], tree.tags_for_user(user)
+  ensure
+    TreeTag.records = nil
+  end
 end
