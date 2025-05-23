@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Tasks
+  # Builds relationships between tree records for recommendations.
   class RelationshipBuilder
     def initialize(radius: 20)
       @radius = radius
