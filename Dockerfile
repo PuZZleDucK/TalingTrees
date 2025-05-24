@@ -1,32 +1,44 @@
-# single Dockerfile that does it all
-FROM ruby:3.2.3
+FROM ollama/ollama:latest
 
-# install OS deps + netcat for waiting on Ollama
-RUN apt-get update -qq \
- && apt-get install -y nodejs yarn wget ca-certificates netcat-openbsd \
- && rm -rf /var/lib/apt/lists/*
+USER root
+RUN apt-get update -qq && \
+    apt-get install -y --no-install-recommends \
+      build-essential \
+      libssl-dev \
+      libreadline-dev \
+      zlib1g-dev \
+      libffi-dev \
+      libyaml-dev \
+      git \
+      curl \
+      nodejs \
+      yarn \
+      libpq-dev && \
+    rm -rf /var/lib/apt/lists/*
+
+# asdf for Ruby 3.2.3 (your .tool-versions)
+ENV ASDF_DIR=/root/.asdf
+ENV PATH=${ASDF_DIR}/bin:${ASDF_DIR}/shims:${PATH}
+
+RUN git clone https://github.com/asdf-vm/asdf.git ${ASDF_DIR} --branch v0.12.0
 
 WORKDIR /myapp
+COPY .tool-versions Gemfile Gemfile.lock ./
 
-# 1) install Ruby gems
-COPY Gemfile* ./
-RUN bundle install --jobs=4 --retry=3
+RUN bash -lc "\
+      . ${ASDF_DIR}/asdf.sh && \
+      asdf plugin-add ruby || true && \
+      asdf install && \
+      asdf global ruby \$(awk '/^ruby/ {print \$2}' .tool-versions) \
+    " && \
+    bash -lc "gem install bundler && bundle install --jobs 4 --retry 3"
 
-# 2) copy app source + Ollama installer
+# copy the rest of your code
 COPY . .
-# make sure your ollama-install.sh is executable
-RUN chmod +x ./ollama-install.sh
 
-# 3) install Ollama & pre-pull your model
-RUN ./ollama-install.sh \
- && ollama pull Qwen3:0.6b
-
-# 4) provide a tiny entrypoint to orchestrate startup
-COPY entrypoint.sh /usr/local/bin/
+# bring in our entrypoint helper
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# expose both services
 EXPOSE 3000 11434
-
 ENTRYPOINT ["entrypoint.sh"]
-CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]

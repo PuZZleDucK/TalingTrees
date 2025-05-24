@@ -1,18 +1,16 @@
 #!/usr/bin/env bash
 set -e
 
-echo "🌱 Starting Ollama in the background..."
-# launch Ollama serve
+# 1) Start Ollama server
 ollama serve &
 
-# wait for Ollama API to be ready
-until nc -z localhost 11434; do
-  echo "⏳ waiting for Ollama at localhost:11434..."
-  sleep 1
-done
+# 2) Wait for it to be ready
+echo "⏳ Waiting for Ollama to spin up…"
+sleep 5
 
-echo "✅ Ollama is up! Bootstrapping Rails…"
-# run all your data tasks
+ollama pull Qwen3:0.6b
+
+# 3) Now run all your Rails/Rake setup
 bundle exec rails db:migrate
 bundle exec rails db:seed
 bundle exec rake db:import_trees[15]
@@ -20,6 +18,5 @@ bundle exec rake db:name_trees
 bundle exec rake db:add_relationships
 bundle exec rake db:system_prompts
 
-echo "🚀 Handing off to Rails server"
-# finally exec the CMD (rails server)
-exec "$@"
+# 4) Finally, launch Rails
+exec bundle exec rails server -b 0.0.0.0

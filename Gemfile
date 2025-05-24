@@ -9,6 +9,7 @@ gem 'rails', '~> 7.1'
 gem 'ollama-ai'
 gem 'puma', '~> 6.0'
 gem 'sqlite3', '~> 1.4'
+gem 'tzinfo-data'
 
 group :development do
   gem 'brakeman', require: false
