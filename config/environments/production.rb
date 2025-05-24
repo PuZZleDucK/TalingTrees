@@ -12,4 +12,8 @@ Rails.application.configure do
   # Ensure secret_key_base is set for verifying signed cookies.
   config.secret_key_base = ENV['SECRET_KEY_BASE'] if ENV['SECRET_KEY_BASE']
   config.active_storage.service = :local
+
+  # koyeb deployment
+  config.hosts << "visiting-raynell-puzzleduck-f206ac43.koyeb.app"
+  config.hosts << "visiting-raynell-puzzleduck-f206ac43.koyeb.app"
 end
