@@ -10,5 +10,6 @@ Rails.application.configure do
   config.eager_load = true
 
   # Ensure secret_key_base is set for verifying signed cookies.
-  config.secret_key_base = ENV["SECRET_KEY_BASE"] if ENV["SECRET_KEY_BASE"]
+  config.secret_key_base = ENV['SECRET_KEY_BASE'] if ENV['SECRET_KEY_BASE']
+  config.active_storage.service = :local
 end
