@@ -10,7 +10,7 @@ module Tasks
       require 'yaml'
 
       config = load_config
-      client = Ollama.new(credentials: { address: ENV.fetch('OLLAMA_URL', 'http://localhost:11434') })
+      client = Ollama.new(credentials: { address: ENV.fetch('OLLAMA_URL', 'http://0.0.0.0:11434') })
       namer = TreeNamer.new(client, config)
 
       Tree.find_each { |tree| namer.name_tree(tree) }
