@@ -59,7 +59,7 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    ```
 
 ## Deployment
-Deployed to Render: https://tree-talker.onrender.com/
+Deployed to Koyeb: https://visiting-raynell-puzzleduck-f206ac43.koyeb.app/
 
 ## Todos
 [x] add tailwind and style tree list page
@@ -113,7 +113,7 @@ Deployed to Render: https://tree-talker.onrender.com/
 [x] address bundler-audit issues
 [x] add rubocop report to github action as another new comment
 [x] address rubocop issues
-[x] create new github action to trigger deploy to Render if all tests pass
+[x] create new github action to trigger deploy to Keyob on merge to master
 [ ] review agents-advice.md and create AGENTS.md for project
 [ ] get test coverage up to 50%
 [ ] dark mode
