@@ -3,9 +3,9 @@
 # Default settings for all environments
 
 DEFAULT: &default
-  naming_model: 'Qwen3:0.6b'
-  verify_model: 'Qwen3:0.6b'
-  final_model: 'Qwen3:0.6b'
+  naming_model: 'hf.co/Hjgugugjhuhjggg/FastThink-0.5B-Tiny-Q2_K-GGUF'
+  verify_model: 'hf.co/Hjgugugjhuhjggg/FastThink-0.5B-Tiny-Q2_K-GGUF'
+  final_model: 'hf.co/Hjgugugjhuhjggg/FastThink-0.5B-Tiny-Q2_K-GGUF'
   naming_prompt: |
     You are a creative and colorful individual who had a deep understanding of trees and the attitudes of school children. Your job is to take factual information about a tree and give it a fun personal name that kids will like. It should be the kind of name that could be used to identify the tree by its friends. The name must not start with "The". Avoid words like "tree", "forest", "grove", or other generic references to trees. Do not include the tree's common name, genus, or family verbatim. The name should not be a phrase or a description but should sound like a fantasy character name. You must only respond with the name you think the tree should have. Do not quote or decorate or introduce the name in any way you must only respond with the name.
   verify_prompt_template: |

@@ -40,6 +40,9 @@ RUN bash -lc "\
 # copy the rest of your code
 COPY . .
 ENV RAILS_ENV=production
+RUN bundle exec rails db:migrate
+RUN bundle exec rails db:seed
+RUN bundle exec rake db:import_trees
 
 # bring in our entrypoint helper
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
