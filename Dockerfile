@@ -1,4 +1,8 @@
-FROM ollama/ollama:latest
+FROM ollama/ollama:0.6.6
+
+# avoid interactive tzdata prompts, set proper zone
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Australia/Melbourne
 
 USER root
 RUN apt-get update -qq && \
