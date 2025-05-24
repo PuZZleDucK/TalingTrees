@@ -5,6 +5,7 @@ module Tasks
   class ImportTrees
     BASE_URL = 'https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records'
     DEFAULT_LIMIT = 100
+    DEFAULT_DIR = File.expand_path('../data/trees', __dir__)
 
     FIELD_MAP = {
       'common_name' => :treedb_common_name,
@@ -21,45 +22,27 @@ module Tasks
       'longitude' => :treedb_long
     }.freeze
 
-    def initialize(count: nil)
+    def initialize(count: nil, dir: DEFAULT_DIR)
       @count = count&.to_i
       @count = nil if @count && @count <= 0
+      @dir = dir || DEFAULT_DIR
     end
 
     def run
-      require 'net/http'
       require 'json'
-      offset = 0
-      imported = 0
-      total = nil
-
-      loop do
-        current_limit = [DEFAULT_LIMIT, remaining(imported)].min
-        json = fetch_records(current_limit, offset)
-        total ||= json['total_count'].to_i
+      Dir.glob(File.join(@dir, '*.json')).sort.each do |file|
+        json = JSON.parse(File.read(file))
         records = json['records'] || []
-        break if records.empty?
-
         records.each do |record|
           import_record(record.dig('record', 'fields') || {})
-          imported += 1
-          break if stop?(imported)
+          @imported = (@imported || 0) + 1
+          return if stop?(@imported)
         end
-        break if stop?(imported)
-
-        offset += current_limit
-        break if offset >= total
+        return if stop?(@imported)
       end
     end
 
     private
-
-    def fetch_records(limit, offset)
-      url = "#{BASE_URL}?#{URI.encode_www_form(limit: limit, offset: offset)}"
-      puts "Fetching #{url}"
-      data = Net::HTTP.get(URI(url))
-      JSON.parse(data)
-    end
 
     def import_record(fields)
       tree = Tree.find_or_initialize_by(treedb_com_id: fields['com_id'])

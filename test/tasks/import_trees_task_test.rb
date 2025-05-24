@@ -3,11 +3,8 @@
 require_relative '../test_helper'
 require 'rake'
 require 'minitest/autorun'
-require 'stringio'
-require 'uri'
-require 'cgi'
-require 'open-uri'
-require 'net/http'
+require 'tmpdir'
+require 'json'
 require 'active_support/core_ext/object/blank'
 
 class ImportTreesTaskTest < Minitest::Test
@@ -50,8 +47,6 @@ class ImportTreesTaskTest < Minitest::Test
     self.class.setup_tree_class
     Tree.records = {}
 
-    @responses = {}
-
     Rake.application = Rake::Application.new
     Rake::Task.define_task(:environment)
     load File.expand_path('../../lib/tasks/import_trees.rake', __dir__)
@@ -61,41 +56,17 @@ class ImportTreesTaskTest < Minitest::Test
     Tree.records = nil
   end
 
-  def stub_response(limit, offset, total)
-    records = (offset...(offset + limit)).map do |i|
-      break if i >= total
-
-      { 'record' => { 'fields' => { 'com_id' => i.to_s } } }
-    end.compact
-    { 'total_count' => total, 'records' => records }.to_json
-  end
-
   def test_respects_count_parameter
-    total = 3
-    method_ref = method(:stub_response)
-    Net::HTTP.singleton_class.class_eval do
-      alias_method :orig_get, :get
-      define_method(:get) do |uri|
-        if uri.to_s.start_with?('http')
-          query = URI.parse(uri.to_s).query
-          params = CGI.parse(query)
-          limit = params['limit'].first.to_i
-          offset = params['offset'].first.to_i
-          method_ref.call(limit, offset, total)
-        else
-          orig_get(uri)
-        end
-      end
-    end
+    Dir.mktmpdir do |dir|
+      data = {
+        'total_count' => 3,
+        'records' => 3.times.map { |i| { 'record' => { 'fields' => { 'com_id' => i.to_s } } } }
+      }
+      File.write(File.join(dir, 'trees_0.json'), JSON.generate(data))
 
-    Rake.application['db:import_trees'].invoke('2')
+      Rake.application['db:import_trees'].invoke('2', dir)
 
-    assert_equal 2, Tree.records.size
-  ensure
-    Net::HTTP.singleton_class.class_eval do
-      remove_method :get
-      alias_method :get, :orig_get
-      remove_method :orig_get
+      assert_equal 2, Tree.records.size
     end
   end
 end

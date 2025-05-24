@@ -27,24 +27,28 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    ```bash
    bundle exec rails db:seed
    ```
-5. Import tree data (clears existing trees):
+5. Download tree data:
+   ```bash
+   bundle exec rake db:download_trees
+   ```
+6. Import the downloaded tree data (clears existing trees):
    ```bash
    bundle exec rake db:import_trees
    ```
    The prompts and models used when naming trees are configured in `config/llm.yml`.
-6. Name the trees:
+7. Name the trees:
    ```bash
    bundle exec rake db:name_trees
    ```
-7. Add tree relationships:
+8. Add tree relationships:
    ```bash
    bundle exec rake db:add_relationships
    ```
-8. Generate system prompts:
+9. Generate system prompts:
    ```bash
    bundle exec rake db:system_prompts
    ```
-9. Run the test suite:
+10. Run the test suite:
    ```bash
    ruby test/run_tests.rb
    ```
@@ -53,7 +57,7 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    bundle exec bundler-audit check
    bundle exec brakeman -q
    ```
-10. Start the Rails server:
+11. Start the Rails server:
    ```bash
    bundle exec rails server
    ```
