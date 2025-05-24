@@ -104,7 +104,9 @@ class Tree < ApplicationRecord
   end
 
   def user_tree_tags(user)
-    if TreeTag.respond_to?(:where)
+    if respond_to?(:tree_tags) && tree_tags.loaded?
+      tree_tags.select { |t| t.user_id == user.id }
+    elsif TreeTag.respond_to?(:where)
       TreeTag.where(tree_id: id, user_id: user.id)
     else
       Array(TreeTag.records).select { |t| t[:tree_id] == id && t[:user_id] == user.id }
@@ -118,7 +120,9 @@ class Tree < ApplicationRecord
   def tag_counts
     return {} unless respond_to?(:id)
 
-    scope = if TreeTag.respond_to?(:where)
+    scope = if respond_to?(:tree_tags) && tree_tags.loaded?
+              tree_tags
+            elsif TreeTag.respond_to?(:where)
               TreeTag.where(tree_id: id)
             else
               Array(TreeTag.records).select { |t| t[:tree_id] == id }
