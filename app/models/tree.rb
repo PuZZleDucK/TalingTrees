@@ -8,6 +8,7 @@ class Tree < ApplicationRecord
   has_many :user_trees, dependent: :destroy
   has_many :users, through: :user_trees
   has_many :tree_tags, dependent: :destroy
+  has_many :tree_relationships, dependent: :destroy
 
   def self.haversine_distance(lat1, lon1, lat2, lon2)
     rad_per_deg = Math::PI / 180
@@ -69,7 +70,9 @@ class Tree < ApplicationRecord
   end
 
   def relationships_of_kind(kind)
-    if TreeRelationship.respond_to?(:where)
+    if respond_to?(:tree_relationships) && tree_relationships.loaded?
+      tree_relationships.select { |rel| rel.kind == kind }
+    elsif TreeRelationship.respond_to?(:where)
       TreeRelationship.where(tree_id: id, kind: kind)
     else
       Array(TreeRelationship.records).select { |r| r[:tree_id] == id && r[:kind] == kind }
