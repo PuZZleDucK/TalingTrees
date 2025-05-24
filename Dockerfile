@@ -39,6 +39,7 @@ RUN bash -lc "\
 
 # copy the rest of your code
 COPY . .
+ENV RAILS_ENV=production
 
 # bring in our entrypoint helper
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
