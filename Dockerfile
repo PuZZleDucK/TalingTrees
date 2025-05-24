@@ -10,6 +10,7 @@ RUN bundle install
 
 COPY . /myapp
 # RUN bundle exec rake ollama:setup
+RUN bundle exec rails db:migrate
 RUN bundle exec rails db:seed
 RUN bundle exec rake db:import_trees[15]
 RUN ./ollama-install.sh
