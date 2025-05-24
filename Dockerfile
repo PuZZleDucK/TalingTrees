@@ -1,20 +1,32 @@
-# Dockerfile for deployment to back4app.com
+# single Dockerfile that does it all
 FROM ruby:3.2.3
 
-RUN apt-get update -qq && apt-get install -y nodejs yarn
+# install OS deps + netcat for waiting on Ollama
+RUN apt-get update -qq \
+ && apt-get install -y nodejs yarn wget ca-certificates netcat-openbsd \
+ && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /myapp
 
-COPY Gemfile /myapp/Gemfile
-COPY Gemfile.lock /myapp/Gemfile.lock
-RUN bundle install
+# 1) install Ruby gems
+COPY Gemfile* ./
+RUN bundle install --jobs=4 --retry=3
 
-COPY . /myapp
-# RUN bundle exec rake ollama:setup
-RUN bundle exec rails db:migrate
-RUN bundle exec rails db:seed
-RUN bundle exec rake db:import_trees[15]
-RUN ./ollama-install.sh
-RUN ollama serve & sleep 5 && ollama pull Qwen3:0.6b && bundle exec rake db:name_trees && bundle exec rake db:add_relationships && bundle exec rake db:system_prompts
+# 2) copy app source + Ollama installer
+COPY . .
+# make sure your ollama-install.sh is executable
+RUN chmod +x ./ollama-install.sh
 
-EXPOSE 3000
-CMD ["rails", "server", "-b", "0.0.0.0"]
+# 3) install Ollama & pre-pull your model
+RUN ./ollama-install.sh \
+ && ollama pull Qwen3:0.6b
+
+# 4) provide a tiny entrypoint to orchestrate startup
+COPY entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# expose both services
+EXPOSE 3000 11434
+
+ENTRYPOINT ["entrypoint.sh"]
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
