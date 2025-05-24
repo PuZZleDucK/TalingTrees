@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-max_threads_count = ENV.fetch("RAILS_MAX_THREADS", 2)
+max_threads_count = ENV.fetch("RAILS_MAX_THREADS", 1)
 threads max_threads_count, max_threads_count
 
 # Default to Puma's single-mode to avoid the overhead of cluster mode

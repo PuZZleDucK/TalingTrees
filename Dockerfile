@@ -35,7 +35,7 @@ RUN bash -lc "\
       asdf install && \
       asdf global ruby \$(awk '/^ruby/ {print \$2}' .tool-versions) \
     " && \
-    bash -lc "gem install bundler && bundle install --jobs 4 --retry 3"
+    bash -lc "gem install bundler && bundle install --without development test --jobs 4 --retry 3"
 
 # copy the rest of your code
 COPY . .
