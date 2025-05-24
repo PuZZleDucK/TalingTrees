@@ -40,6 +40,7 @@ RUN bash -lc "\
 # copy the rest of your code
 COPY . .
 ENV RAILS_ENV=production
+ENV SECRET_KEY_BASE=705bbf912138dbddea76f9a859a37a9f1e966d0d61fdc9f093ded8f4bfa44f0104ebae62022199d31700a8346aa912f39212ca2f7d8e8cc9a3f7600a2eb3375c
 RUN bundle exec rails db:migrate
 RUN bundle exec rails db:seed
 RUN bundle exec rake db:import_trees
