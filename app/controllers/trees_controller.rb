@@ -3,7 +3,9 @@
 # Provides endpoints for listing and interacting with trees.
 class TreesController < ApplicationController
   def index
-    @trees = select_trees.includes(:tree_relationships, :tree_tags)
+    scope = select_trees
+    scope = scope.includes(:tree_relationships, :tree_tags) if scope.respond_to?(:includes)
+    @trees = scope
     known_ids = @current_user&.known_trees&.map(&:id) || []
     @tree_data = @trees.map { |tree| summary_data(tree, known_ids) }
   end
