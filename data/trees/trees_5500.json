@@ -1,0 +1,4927 @@
+{
+  "total_count": 76928,
+  "links": [
+    {
+      "rel": "self",
+      "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records?limit=100&offset=5500&include_app_metas=False&include_links=False"
+    },
+    {
+      "rel": "first",
+      "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records?limit=100&offset=0&include_app_metas=False&include_links=False"
+    },
+    {
+      "rel": "last",
+      "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records?limit=100&offset=9900&include_app_metas=False&include_links=False"
+    },
+    {
+      "rel": "previous",
+      "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records?limit=100&offset=5400&include_app_metas=False&include_links=False"
+    },
+    {
+      "rel": "next",
+      "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records?limit=100&offset=5600&include_app_metas=False&include_links=False"
+    }
+  ],
+  "records": [
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/2cc2b3c7111e862770c0fa4ed14b76ae0781d2d6"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "2cc2b3c7111e862770c0fa4ed14b76ae0781d2d6",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 300,
+        "fields": {
+          "com_id": 1570955,
+          "common_name": "English Elm",
+          "scientific_name": "Ulmus procera",
+          "genus": "Ulmus",
+          "family": "Ulmaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2014",
+          "date_planted": "2014-11-20",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.96665681658146,
+            "lat": -37.78537060095567
+          },
+          "latitude": -37.78537060095567,
+          "longitude": 144.96665681658146,
+          "easting": 320949.4,
+          "northing": 5816051.02,
+          "geolocation": {
+            "lon": 144.96665681658146,
+            "lat": -37.78537060095567
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/864b5b010e45bfea62cb5c5f8310b8a0ea9918c3"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "864b5b010e45bfea62cb5c5f8310b8a0ea9918c3",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 310,
+        "fields": {
+          "com_id": 1049720,
+          "common_name": "Unknown",
+          "scientific_name": "Melaleuca parvistaminea",
+          "genus": "Melaleuca",
+          "family": "Myrtaceae",
+          "diameter_breast_height": null,
+          "year_planted": "1998",
+          "date_planted": "1998-12-17",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.94455279511232,
+            "lat": -37.79057826887201
+          },
+          "latitude": -37.79057826887201,
+          "longitude": 144.94455279511232,
+          "easting": 319015.48,
+          "northing": 5815430.57,
+          "geolocation": {
+            "lon": 144.94455279511232,
+            "lat": -37.79057826887201
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/1b87a433df2551222bbd5ecb7da89b8eccbbe6c0"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "1b87a433df2551222bbd5ecb7da89b8eccbbe6c0",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 344,
+        "fields": {
+          "com_id": 1065043,
+          "common_name": "Yellow Gum",
+          "scientific_name": "Eucalyptus leucoxylon",
+          "genus": "Eucalyptus",
+          "family": "Myrtaceae",
+          "diameter_breast_height": 7,
+          "year_planted": "2006",
+          "date_planted": "2006-01-13",
+          "age_description": "Juvenile",
+          "useful_life_expectency": "11-20 years",
+          "useful_life_expectency_value": 20,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.90808790867058,
+            "lat": -37.82383827287124
+          },
+          "latitude": -37.82383827287124,
+          "longitude": 144.90808790867058,
+          "easting": 315886.99,
+          "northing": 5811668.56,
+          "geolocation": {
+            "lon": 144.90808790867058,
+            "lat": -37.82383827287124
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/0cd54946a81f8f84ea4f1c40b6bc273667b197f8"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "0cd54946a81f8f84ea4f1c40b6bc273667b197f8",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 339,
+        "fields": {
+          "com_id": 1018060,
+          "common_name": "London Plane",
+          "scientific_name": "Platanus x acerifolia",
+          "genus": "Platanus",
+          "family": "Platanaceae",
+          "diameter_breast_height": 73,
+          "year_planted": "1900",
+          "date_planted": "2000-01-01",
+          "age_description": "Mature",
+          "useful_life_expectency": "11-20 years",
+          "useful_life_expectency_value": 20,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.9422498388553,
+            "lat": -37.7923914116655
+          },
+          "latitude": -37.7923914116655,
+          "longitude": 144.9422498388553,
+          "easting": 318817.11,
+          "northing": 5815224.91,
+          "geolocation": {
+            "lon": 144.9422498388553,
+            "lat": -37.7923914116655
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/f4dddc8fbd689d6f4f48e208e5022fa146251742"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "f4dddc8fbd689d6f4f48e208e5022fa146251742",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 348,
+        "fields": {
+          "com_id": 1025928,
+          "common_name": "London Plane",
+          "scientific_name": "Platanus x acerifolia",
+          "genus": "Platanus",
+          "family": "Platanaceae",
+          "diameter_breast_height": 44,
+          "year_planted": "1997",
+          "date_planted": "1997-11-21",
+          "age_description": "Mature",
+          "useful_life_expectency": "11-20 years",
+          "useful_life_expectency_value": 20,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.97556739472256,
+            "lat": -37.811205646107595
+          },
+          "latitude": -37.811205646107595,
+          "longitude": 144.97556739472256,
+          "easting": 321796.23,
+          "northing": 5813201.25,
+          "geolocation": {
+            "lon": 144.97556739472256,
+            "lat": -37.811205646107595
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/3de66357e1b6713895c043790b04e32db4a1b76e"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "3de66357e1b6713895c043790b04e32db4a1b76e",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 344,
+        "fields": {
+          "com_id": 1037566,
+          "common_name": "English Elm",
+          "scientific_name": "Ulmus procera",
+          "genus": "Ulmus",
+          "family": "Ulmaceae",
+          "diameter_breast_height": 76,
+          "year_planted": "1998",
+          "date_planted": "1998-10-30",
+          "age_description": "Over-mature",
+          "useful_life_expectency": "1-5 years (<50% canopy)",
+          "useful_life_expectency_value": 5,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.9653994208553,
+            "lat": -37.802832296618554
+          },
+          "latitude": -37.802832296618554,
+          "longitude": 144.9653994208553,
+          "easting": 320880.85,
+          "northing": 5814110.96,
+          "geolocation": {
+            "lon": 144.9653994208553,
+            "lat": -37.802832296618554
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/a51eadd882e8c7d28c77796bc1fdcfff8da668b8"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "a51eadd882e8c7d28c77796bc1fdcfff8da668b8",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 318,
+        "fields": {
+          "com_id": 1048210,
+          "common_name": "River red gum",
+          "scientific_name": "Eucalyptus camaldulensis",
+          "genus": "Eucalyptus",
+          "family": "Myrtaceae",
+          "diameter_breast_height": null,
+          "year_planted": "1998",
+          "date_planted": "1998-12-14",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.94765521627943,
+            "lat": -37.79065985990044
+          },
+          "latitude": -37.79065985990044,
+          "longitude": 144.94765521627943,
+          "easting": 319288.88,
+          "northing": 5815427.52,
+          "geolocation": {
+            "lon": 144.94765521627943,
+            "lat": -37.79065985990044
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/9710690cf3047419a1bffa45b90070965918ab34"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "9710690cf3047419a1bffa45b90070965918ab34",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 321,
+        "fields": {
+          "com_id": 1044358,
+          "common_name": "River red gum",
+          "scientific_name": "Eucalyptus camaldulensis",
+          "genus": "Eucalyptus",
+          "family": "Myrtaceae",
+          "diameter_breast_height": null,
+          "year_planted": "1998",
+          "date_planted": "1998-11-26",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.95031736498535,
+            "lat": -37.789788643000776
+          },
+          "latitude": -37.789788643000776,
+          "longitude": 144.95031736498535,
+          "easting": 319521.19,
+          "northing": 5815529.34,
+          "geolocation": {
+            "lon": 144.95031736498535,
+            "lat": -37.789788643000776
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/69d333340881e2c5b470c3fd40862f7667332671"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "69d333340881e2c5b470c3fd40862f7667332671",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 310,
+        "fields": {
+          "com_id": 1743072,
+          "common_name": "Sweet Bursaria",
+          "scientific_name": "Bursaria spinosa",
+          "genus": "Bursaria",
+          "family": "Pittosporaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2018",
+          "date_planted": "2018-11-07",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.9187632058618,
+            "lat": -37.80209921421925
+          },
+          "latitude": -37.80209921421925,
+          "longitude": 144.9187632058618,
+          "easting": 316772.9,
+          "northing": 5814101.87,
+          "geolocation": {
+            "lon": 144.9187632058618,
+            "lat": -37.80209921421925
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/731833455aaf72e3cf122831aa04050126a6d2f4"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "731833455aaf72e3cf122831aa04050126a6d2f4",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 332,
+        "fields": {
+          "com_id": 1675388,
+          "common_name": "Drooping sheoak",
+          "scientific_name": "Allocasuarina verticillata",
+          "genus": "Allocasuarina",
+          "family": "Casuarinaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2017",
+          "date_planted": "2017-10-16",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.94849054487193,
+            "lat": -37.792372050638676
+          },
+          "latitude": -37.792372050638676,
+          "longitude": 144.94849054487193,
+          "easting": 319366.61,
+          "northing": 5815239.14,
+          "geolocation": {
+            "lon": 144.94849054487193,
+            "lat": -37.792372050638676
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/83ecafe15494d12cd2c6cf18a8c5e4b84da967ca"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "83ecafe15494d12cd2c6cf18a8c5e4b84da967ca",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 317,
+        "fields": {
+          "com_id": 1043501,
+          "common_name": "River red gum",
+          "scientific_name": "Eucalyptus camaldulensis",
+          "genus": "Eucalyptus",
+          "family": "Myrtaceae",
+          "diameter_breast_height": null,
+          "year_planted": "1900",
+          "date_planted": "2000-02-01",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.94953147466518,
+            "lat": -37.79210396488812
+          },
+          "latitude": -37.79210396488812,
+          "longitude": 144.94953147466518,
+          "easting": 319457.62,
+          "northing": 5815270.9,
+          "geolocation": {
+            "lon": 144.94953147466518,
+            "lat": -37.79210396488812
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/fee5e9d7aeed8921051c31b7906a14246c614549"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "fee5e9d7aeed8921051c31b7906a14246c614549",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 314,
+        "fields": {
+          "com_id": 1605678,
+          "common_name": "Kanooka",
+          "scientific_name": "Tristaniopsis laurina",
+          "genus": "Tristaniopsis",
+          "family": "Myrtaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2015",
+          "date_planted": "2015-11-09",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.91879520060093,
+            "lat": -37.80751743835122
+          },
+          "latitude": -37.80751743835122,
+          "longitude": 144.91879520060093,
+          "easting": 316789.11,
+          "northing": 5813500.69,
+          "geolocation": {
+            "lon": 144.91879520060093,
+            "lat": -37.80751743835122
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/c52fa19acdca2bab8e8b10350e6890c108c682ba"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "c52fa19acdca2bab8e8b10350e6890c108c682ba",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 306,
+        "fields": {
+          "com_id": 1603835,
+          "common_name": "Spotted Gum",
+          "scientific_name": "Corymbia maculata",
+          "genus": "Corymbia",
+          "family": "Myrtaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2015",
+          "date_planted": "2015-03-08",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.9305925735675,
+            "lat": -37.80885182330691
+          },
+          "latitude": -37.80885182330691,
+          "longitude": 144.9305925735675,
+          "easting": 317831.04,
+          "northing": 5813375.69,
+          "geolocation": {
+            "lon": 144.9305925735675,
+            "lat": -37.80885182330691
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/83a21bd333f6e078d32c8f7a2fcb50b411e45dcd"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "83a21bd333f6e078d32c8f7a2fcb50b411e45dcd",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 305,
+        "fields": {
+          "com_id": 1524993,
+          "common_name": "Golden Wattle",
+          "scientific_name": "Acacia pycnantha",
+          "genus": "Acacia",
+          "family": "Fabaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2013",
+          "date_planted": "2013-01-22",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.9494567247207,
+            "lat": -37.787829011002295
+          },
+          "latitude": -37.787829011002295,
+          "longitude": 144.9494567247207,
+          "easting": 319440.63,
+          "northing": 5815745.13,
+          "geolocation": {
+            "lon": 144.9494567247207,
+            "lat": -37.787829011002295
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/6a27b2c268a7e78b1d476958021a701ee1857573"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "6a27b2c268a7e78b1d476958021a701ee1857573",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 309,
+        "fields": {
+          "com_id": 1523476,
+          "common_name": "Yellow Box",
+          "scientific_name": "Eucalyptus melliodora",
+          "genus": "Eucalyptus",
+          "family": "Myrtaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2013",
+          "date_planted": "2013-01-22",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.9468549021302,
+            "lat": -37.78889014774528
+          },
+          "latitude": -37.78889014774528,
+          "longitude": 144.9468549021302,
+          "easting": 319214.09,
+          "northing": 5815622.35,
+          "geolocation": {
+            "lon": 144.9468549021302,
+            "lat": -37.78889014774528
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/9a8690d136dd6874b8c23e8eca41c2f1cf49dfc1"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "9a8690d136dd6874b8c23e8eca41c2f1cf49dfc1",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 340,
+        "fields": {
+          "com_id": 1061203,
+          "common_name": "Spotted Gum",
+          "scientific_name": "Corymbia maculata",
+          "genus": "Corymbia",
+          "family": "Myrtaceae",
+          "diameter_breast_height": 14,
+          "year_planted": "2000",
+          "date_planted": "2000-01-01",
+          "age_description": "Juvenile",
+          "useful_life_expectency": "31-60 years",
+          "useful_life_expectency_value": 60,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.95537700524756,
+            "lat": -37.82737522387872
+          },
+          "latitude": -37.82737522387872,
+          "longitude": 144.95537700524756,
+          "easting": 320058.03,
+          "northing": 5811368.26,
+          "geolocation": {
+            "lon": 144.95537700524756,
+            "lat": -37.82737522387872
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/a180c1d9b9c6a1f82bfe80bf4a296ed2c13ce350"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "a180c1d9b9c6a1f82bfe80bf4a296ed2c13ce350",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 307,
+        "fields": {
+          "com_id": 1050954,
+          "common_name": "Sugar gum",
+          "scientific_name": "Eucalyptus cladocalyx",
+          "genus": "Eucalyptus",
+          "family": "Myrtaceae",
+          "diameter_breast_height": null,
+          "year_planted": "1998",
+          "date_planted": "1998-12-21",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.9573494946358,
+            "lat": -37.77789107182805
+          },
+          "latitude": -37.77789107182805,
+          "longitude": 144.9573494946358,
+          "easting": 320111.6,
+          "northing": 5816863.12,
+          "geolocation": {
+            "lon": 144.9573494946358,
+            "lat": -37.77789107182805
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/cb7d62171208963e7ab3dba77ee51b062975fddb"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "cb7d62171208963e7ab3dba77ee51b062975fddb",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 323,
+        "fields": {
+          "com_id": 1512122,
+          "common_name": "River Sheoak",
+          "scientific_name": "Casuarina cunninghamiana",
+          "genus": "Casuarina",
+          "family": "Casuarinaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2012",
+          "date_planted": "2012-06-07",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.94965001409702,
+            "lat": -37.777149990250216
+          },
+          "latitude": -37.777149990250216,
+          "longitude": 144.94965001409702,
+          "easting": 319431.66,
+          "northing": 5816930.51,
+          "geolocation": {
+            "lon": 144.94965001409702,
+            "lat": -37.777149990250216
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/39f40b2e010957e86122aacb6072e4a080208181"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "39f40b2e010957e86122aacb6072e4a080208181",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 312,
+        "fields": {
+          "com_id": 1787208,
+          "common_name": "Yellow Box",
+          "scientific_name": "Eucalyptus melliodora",
+          "genus": "Eucalyptus",
+          "family": "Myrtaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2020",
+          "date_planted": "2020-04-08",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.9575199529618,
+            "lat": -37.778747715485544
+          },
+          "latitude": -37.778747715485544,
+          "longitude": 144.9575199529618,
+          "easting": 320128.69,
+          "northing": 5816768.39,
+          "geolocation": {
+            "lon": 144.9575199529618,
+            "lat": -37.778747715485544
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/2213277fdcb901bb28d1f0b11e70b09e24157711"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "2213277fdcb901bb28d1f0b11e70b09e24157711",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 310,
+        "fields": {
+          "com_id": 1644476,
+          "common_name": "Coastal Banksia",
+          "scientific_name": "Banksia integrifolia",
+          "genus": "Banksia",
+          "family": "Proteaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2016",
+          "date_planted": "2016-07-12",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.9347102427854,
+            "lat": -37.81698113477289
+          },
+          "latitude": -37.81698113477289,
+          "longitude": 144.9347102427854,
+          "easting": 318213.5,
+          "northing": 5812481.63,
+          "geolocation": {
+            "lon": 144.9347102427854,
+            "lat": -37.81698113477289
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/095475d5bcc4c5a1beab889cb5c54f5a4b663808"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "095475d5bcc4c5a1beab889cb5c54f5a4b663808",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 350,
+        "fields": {
+          "com_id": 1359702,
+          "common_name": "Hill¿s Weeping Fig",
+          "scientific_name": "Ficus microcarpa",
+          "genus": "Ficus",
+          "family": "Moraceae",
+          "diameter_breast_height": 26,
+          "year_planted": "2009",
+          "date_planted": "2009-04-07",
+          "age_description": "Semi-Mature",
+          "useful_life_expectency": "21-30 years",
+          "useful_life_expectency_value": 30,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.94026183238856,
+            "lat": -37.81467910049657
+          },
+          "latitude": -37.81467910049657,
+          "longitude": 144.94026183238856,
+          "easting": 318696.57,
+          "northing": 5812747.87,
+          "geolocation": {
+            "lon": 144.94026183238856,
+            "lat": -37.81467910049657
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/e6924ba4a979d2eff4aa0c14e12b0242fb807f53"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "e6924ba4a979d2eff4aa0c14e12b0242fb807f53",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 298,
+        "fields": {
+          "com_id": 1782258,
+          "common_name": "Red Cedar",
+          "scientific_name": "Toona ciliata",
+          "genus": "Toona",
+          "family": "Meliaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2020",
+          "date_planted": "2020-07-04",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.97362910914723,
+            "lat": -37.79662412835656
+          },
+          "latitude": -37.79662412835656,
+          "longitude": 144.97362910914723,
+          "easting": 321590.5,
+          "northing": 5814815.6,
+          "geolocation": {
+            "lon": 144.97362910914723,
+            "lat": -37.79662412835656
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/0cd1eeb1990f656768b3c3f01dd9ed20ebbc02d5"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "0cd1eeb1990f656768b3c3f01dd9ed20ebbc02d5",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 316,
+        "fields": {
+          "com_id": 1717019,
+          "common_name": "Grey corkwood",
+          "scientific_name": "Erythrina vespertilio",
+          "genus": "Erythrina",
+          "family": "Leguminosae",
+          "diameter_breast_height": null,
+          "year_planted": "2017",
+          "date_planted": "2017-11-15",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.98468195667166,
+            "lat": -37.82804721658087
+          },
+          "latitude": -37.82804721658087,
+          "longitude": 144.98468195667166,
+          "easting": 322638.96,
+          "northing": 5811349.76,
+          "geolocation": {
+            "lon": 144.98468195667166,
+            "lat": -37.82804721658087
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/9584b0a6a7c5409ee1f8e7256dced26fcf7ed012"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "9584b0a6a7c5409ee1f8e7256dced26fcf7ed012",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 358,
+        "fields": {
+          "com_id": 1288309,
+          "common_name": "London Plane",
+          "scientific_name": "Platanus x acerifolia",
+          "genus": "Platanus",
+          "family": "Platanaceae",
+          "diameter_breast_height": 3,
+          "year_planted": "1900",
+          "date_planted": "2000-01-01",
+          "age_description": "Juvenile",
+          "useful_life_expectency": "6-10 years (>50% canopy)",
+          "useful_life_expectency_value": 10,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.97278303876587,
+            "lat": -37.79525284134255
+          },
+          "latitude": -37.79525284134255,
+          "longitude": 144.97278303876587,
+          "easting": 321512.7,
+          "northing": 5814966.15,
+          "geolocation": {
+            "lon": 144.97278303876587,
+            "lat": -37.79525284134255
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/9a555585825cda165a5b25e71b48366219c01f18"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "9a555585825cda165a5b25e71b48366219c01f18",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 318,
+        "fields": {
+          "com_id": 1068286,
+          "common_name": "River red gum",
+          "scientific_name": "Eucalyptus camaldulensis",
+          "genus": "Eucalyptus",
+          "family": "Myrtaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2006",
+          "date_planted": "2006-11-29",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.95267697168003,
+            "lat": -37.78902322137079
+          },
+          "latitude": -37.78902322137079,
+          "longitude": 144.95267697168003,
+          "easting": 319727.12,
+          "northing": 5815618.83,
+          "geolocation": {
+            "lon": 144.95267697168003,
+            "lat": -37.78902322137079
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/5d692c13d48b04f58781cf2d4e90c7e807b72748"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "5d692c13d48b04f58781cf2d4e90c7e807b72748",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 315,
+        "fields": {
+          "com_id": 1014727,
+          "common_name": "London Plane",
+          "scientific_name": "Platanus x acerifolia",
+          "genus": "Platanus",
+          "family": "Platanaceae",
+          "diameter_breast_height": null,
+          "year_planted": "1997",
+          "date_planted": "1997-07-03",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.94412642111337,
+            "lat": -37.80255438832808
+          },
+          "latitude": -37.80255438832808,
+          "longitude": 144.94412642111337,
+          "easting": 319007.17,
+          "northing": 5814100.8,
+          "geolocation": {
+            "lon": 144.94412642111337,
+            "lat": -37.80255438832808
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/3fa1c443c50e4042c50a41a656a8dc79b1888750"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "3fa1c443c50e4042c50a41a656a8dc79b1888750",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 310,
+        "fields": {
+          "com_id": 1553693,
+          "common_name": "Yellow Gum",
+          "scientific_name": "Eucalyptus leucoxylon",
+          "genus": "Eucalyptus",
+          "family": "Myrtaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2014",
+          "date_planted": "2014-01-14",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.9214150119802,
+            "lat": -37.82089787357066
+          },
+          "latitude": -37.82089787357066,
+          "longitude": 144.9214150119802,
+          "easting": 317052.8,
+          "northing": 5812021.04,
+          "geolocation": {
+            "lon": 144.9214150119802,
+            "lat": -37.82089787357066
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/1d048103b2bdb1d97404e5269de7c0ffd287a73d"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "1d048103b2bdb1d97404e5269de7c0ffd287a73d",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 339,
+        "fields": {
+          "com_id": 1061194,
+          "common_name": "Spotted Gum",
+          "scientific_name": "Corymbia maculata",
+          "genus": "Corymbia",
+          "family": "Myrtaceae",
+          "diameter_breast_height": 9,
+          "year_planted": "2000",
+          "date_planted": "2000-01-01",
+          "age_description": "Juvenile",
+          "useful_life_expectency": "31-60 years",
+          "useful_life_expectency_value": 60,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.95577841166815,
+            "lat": -37.82674515496464
+          },
+          "latitude": -37.82674515496464,
+          "longitude": 144.95577841166815,
+          "easting": 320091.83,
+          "northing": 5811438.95,
+          "geolocation": {
+            "lon": 144.95577841166815,
+            "lat": -37.82674515496464
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/b2eb1098b3ed7f31439ffae0a4e854dcdc01dbb0"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "b2eb1098b3ed7f31439ffae0a4e854dcdc01dbb0",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 306,
+        "fields": {
+          "com_id": 1754594,
+          "common_name": "Black Wattle",
+          "scientific_name": "Acacia melanoxylon",
+          "genus": "Acacia",
+          "family": "Fabaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2019",
+          "date_planted": "2019-04-18",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.92866789585284,
+            "lat": -37.80318836083041
+          },
+          "latitude": -37.80318836083041,
+          "longitude": 144.92866789585284,
+          "easting": 317647.66,
+          "northing": 5814000.39,
+          "geolocation": {
+            "lon": 144.92866789585284,
+            "lat": -37.80318836083041
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/3fd3cf319d24a0a0dec443a3347206bc1242a19e"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "3fd3cf319d24a0a0dec443a3347206bc1242a19e",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 308,
+        "fields": {
+          "com_id": 1802046,
+          "common_name": "Golden Wattle",
+          "scientific_name": "Acacia pycnantha",
+          "genus": "Acacia",
+          "family": "Fabaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2021",
+          "date_planted": "2021-03-05",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.95788281099735,
+            "lat": -37.778987592989374
+          },
+          "latitude": -37.778987592989374,
+          "longitude": 144.95788281099735,
+          "easting": 320161.23,
+          "northing": 5816742.47,
+          "geolocation": {
+            "lon": 144.95788281099735,
+            "lat": -37.778987592989374
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/ab2f87553e5cb5cd13c9ac0ae85238a6900a2938"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "ab2f87553e5cb5cd13c9ac0ae85238a6900a2938",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 311,
+        "fields": {
+          "com_id": 1065737,
+          "common_name": "Yellow Box",
+          "scientific_name": "Eucalyptus melliodora",
+          "genus": "Eucalyptus",
+          "family": "Myrtaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2006",
+          "date_planted": "2006-06-02",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.9441305961189,
+            "lat": -37.78949633682208
+          },
+          "latitude": -37.78949633682208,
+          "longitude": 144.9441305961189,
+          "easting": 318975.66,
+          "northing": 5815549.81,
+          "geolocation": {
+            "lon": 144.9441305961189,
+            "lat": -37.78949633682208
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/39c734c5d158cb2fe3a05dc65037b8f6cb26febc"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "39c734c5d158cb2fe3a05dc65037b8f6cb26febc",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 342,
+        "fields": {
+          "com_id": 1022899,
+          "common_name": "London Plane",
+          "scientific_name": "Platanus x acerifolia",
+          "genus": "Platanus",
+          "family": "Platanaceae",
+          "diameter_breast_height": 43,
+          "year_planted": "1997",
+          "date_planted": "1997-11-11",
+          "age_description": "Mature",
+          "useful_life_expectency": "21-30 years",
+          "useful_life_expectency_value": 30,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.9691440883516,
+            "lat": -37.80459763895838
+          },
+          "latitude": -37.80459763895838,
+          "longitude": 144.9691440883516,
+          "easting": 321214.81,
+          "northing": 5813922.24,
+          "geolocation": {
+            "lon": 144.9691440883516,
+            "lat": -37.80459763895838
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/c3dbc6f65b3cce2a2b1a4c6c2abc81a55d67715a"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "c3dbc6f65b3cce2a2b1a4c6c2abc81a55d67715a",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 338,
+        "fields": {
+          "com_id": 1018578,
+          "common_name": "Peppercorn Tree",
+          "scientific_name": "Schinus molle",
+          "genus": "Schinus",
+          "family": "Anacardiaceae",
+          "diameter_breast_height": 86,
+          "year_planted": "1997",
+          "date_planted": "1997-10-22",
+          "age_description": "Mature",
+          "useful_life_expectency": "31-60 years",
+          "useful_life_expectency_value": 60,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.94400295349183,
+            "lat": -37.79859427229277
+          },
+          "latitude": -37.79859427229277,
+          "longitude": 144.94400295349183,
+          "easting": 318986.63,
+          "northing": 5814540.0,
+          "geolocation": {
+            "lon": 144.94400295349183,
+            "lat": -37.79859427229277
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/40b1f957582c31e2d6f9c1e9d3e4e32bb59f74c6"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "40b1f957582c31e2d6f9c1e9d3e4e32bb59f74c6",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 305,
+        "fields": {
+          "com_id": 1288992,
+          "common_name": "Lightwood Wattle",
+          "scientific_name": "Acacia implexa",
+          "genus": "Acacia",
+          "family": "Fabaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2008",
+          "date_planted": "2008-12-18",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.9540554374328,
+            "lat": -37.78138950227096
+          },
+          "latitude": -37.78138950227096,
+          "longitude": 144.9540554374328,
+          "easting": 319829.97,
+          "northing": 5816468.57,
+          "geolocation": {
+            "lon": 144.9540554374328,
+            "lat": -37.78138950227096
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/69b94058b9be9f9dc58546c2bd8eb57d2463eb63"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "69b94058b9be9f9dc58546c2bd8eb57d2463eb63",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 313,
+        "fields": {
+          "com_id": 1553161,
+          "common_name": "Bunya pine",
+          "scientific_name": "Araucaria bidwillii",
+          "genus": "Araucaria",
+          "family": "Araucariaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2013",
+          "date_planted": "2013-10-17",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.98431955442263,
+            "lat": -37.84198427778023
+          },
+          "latitude": -37.84198427778023,
+          "longitude": 144.98431955442263,
+          "easting": 322640.45,
+          "northing": 5809802.53,
+          "geolocation": {
+            "lon": 144.98431955442263,
+            "lat": -37.84198427778023
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/0f4e2401d14fda2c8476440c3e98f2bb25ab5988"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "0f4e2401d14fda2c8476440c3e98f2bb25ab5988",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 318,
+        "fields": {
+          "com_id": 1044451,
+          "common_name": "River red gum",
+          "scientific_name": "Eucalyptus camaldulensis",
+          "genus": "Eucalyptus",
+          "family": "Myrtaceae",
+          "diameter_breast_height": null,
+          "year_planted": "1998",
+          "date_planted": "1998-11-26",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.95023626886226,
+            "lat": -37.78958789118021
+          },
+          "latitude": -37.78958789118021,
+          "longitude": 144.95023626886226,
+          "easting": 319513.56,
+          "northing": 5815551.46,
+          "geolocation": {
+            "lon": 144.95023626886226,
+            "lat": -37.78958789118021
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/f946ee6ea7ad14b7ef9bf81699cdbbf7637abf7d"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "f946ee6ea7ad14b7ef9bf81699cdbbf7637abf7d",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 307,
+        "fields": {
+          "com_id": 1066411,
+          "common_name": "Norway maple",
+          "scientific_name": "Acer platanoides",
+          "genus": "Acer",
+          "family": "Sapindaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2006",
+          "date_planted": "2006-02-21",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.94804157203603,
+            "lat": -37.80873182952824
+          },
+          "latitude": -37.80873182952824,
+          "longitude": 144.94804157203603,
+          "easting": 319366.94,
+          "northing": 5813422.89,
+          "geolocation": {
+            "lon": 144.94804157203603,
+            "lat": -37.80873182952824
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/3994be559663fb08c36804e3f58415d5d82c1801"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "3994be559663fb08c36804e3f58415d5d82c1801",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 341,
+        "fields": {
+          "com_id": 1035308,
+          "common_name": "English Elm",
+          "scientific_name": "Ulmus procera",
+          "genus": "Ulmus",
+          "family": "Ulmaceae",
+          "diameter_breast_height": 64,
+          "year_planted": "1998",
+          "date_planted": "1998-10-21",
+          "age_description": "Mature",
+          "useful_life_expectency": "6-10 years (>50% canopy)",
+          "useful_life_expectency_value": 10,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.9838328386777,
+            "lat": -37.841671525994066
+          },
+          "latitude": -37.841671525994066,
+          "longitude": 144.9838328386777,
+          "easting": 322596.87,
+          "northing": 5809836.31,
+          "geolocation": {
+            "lon": 144.9838328386777,
+            "lat": -37.841671525994066
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/6b30240780ea30a99903b8767cbe10b8723a9842"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "6b30240780ea30a99903b8767cbe10b8723a9842",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 319,
+        "fields": {
+          "com_id": 1640147,
+          "common_name": "Blueberry ash",
+          "scientific_name": "Elaeocarpus reticulatus",
+          "genus": "Elaeocarpus",
+          "family": "Elaeocarpaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2016",
+          "date_planted": "2016-09-27",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.9510957278185,
+            "lat": -37.8217290242998
+          },
+          "latitude": -37.8217290242998,
+          "longitude": 144.9510957278185,
+          "easting": 319667.46,
+          "northing": 5811986.54,
+          "geolocation": {
+            "lon": 144.9510957278185,
+            "lat": -37.8217290242998
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/5850d559c7e8808244d3b0d4985aa3c4c4dcf55d"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "5850d559c7e8808244d3b0d4985aa3c4c4dcf55d",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 313,
+        "fields": {
+          "com_id": 1640207,
+          "common_name": "Weeping Myrtle",
+          "scientific_name": "Syzygium floribundum",
+          "genus": "Syzygium",
+          "family": "Myrtaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2016",
+          "date_planted": "2016-02-09",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.97985254268175,
+            "lat": -37.81535788283897
+          },
+          "latitude": -37.81535788283897,
+          "longitude": 144.97985254268175,
+          "easting": 322183.44,
+          "northing": 5812748.66,
+          "geolocation": {
+            "lon": 144.97985254268175,
+            "lat": -37.81535788283897
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/661747b3e716653d2dde9e97145075c6ad6ec656"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "661747b3e716653d2dde9e97145075c6ad6ec656",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 311,
+        "fields": {
+          "com_id": 1584718,
+          "common_name": "Swamp Sheoak",
+          "scientific_name": "Casuarina obesa",
+          "genus": "Casuarina",
+          "family": "Casuarinaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2015",
+          "date_planted": "2015-06-18",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.95221776905248,
+            "lat": -37.79510142866438
+          },
+          "latitude": -37.79510142866438,
+          "longitude": 144.95221776905248,
+          "easting": 319701.46,
+          "northing": 5814943.47,
+          "geolocation": {
+            "lon": 144.95221776905248,
+            "lat": -37.79510142866438
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/33f0b620d0852e5ed8406b60550535e4c59d5b7c"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "33f0b620d0852e5ed8406b60550535e4c59d5b7c",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 320,
+        "fields": {
+          "com_id": 1605594,
+          "common_name": "Queensland kauri pine",
+          "scientific_name": "Agathis robusta",
+          "genus": "Agathis",
+          "family": "Araucariaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2015",
+          "date_planted": "2015-10-30",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.93688064452945,
+            "lat": -37.80988586591205
+          },
+          "latitude": -37.80988586591205,
+          "longitude": 144.93688064452945,
+          "easting": 318387.17,
+          "northing": 5813273.19,
+          "geolocation": {
+            "lon": 144.93688064452945,
+            "lat": -37.80988586591205
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/0b389f28d6d97af514339c53f1f1784a0a2b52f5"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "0b389f28d6d97af514339c53f1f1784a0a2b52f5",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 337,
+        "fields": {
+          "com_id": 1805167,
+          "common_name": "Melbourne Yellow-Gum",
+          "scientific_name": "Eucalyptus leucoxylon subsp. connata",
+          "genus": "Eucalyptus",
+          "family": "Myrtaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2021",
+          "date_planted": "2021-06-28",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.95699921100248,
+            "lat": -37.78998521751866
+          },
+          "latitude": -37.78998521751866,
+          "longitude": 144.95699921100248,
+          "easting": 320110.08,
+          "northing": 5815520.41,
+          "geolocation": {
+            "lon": 144.95699921100248,
+            "lat": -37.78998521751866
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/c555fb5e9fc42bde818234c76522462a0e0b48c4"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "c555fb5e9fc42bde818234c76522462a0e0b48c4",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 341,
+        "fields": {
+          "com_id": 1057494,
+          "common_name": "Huntingdon Elm",
+          "scientific_name": "Ulmus x hollandica",
+          "genus": "Ulmus",
+          "family": "Ulmaceae",
+          "diameter_breast_height": 16,
+          "year_planted": "1900",
+          "date_planted": "2000-01-01",
+          "age_description": "Semi-Mature",
+          "useful_life_expectency": "21-30 years",
+          "useful_life_expectency_value": 30,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.92223984130385,
+            "lat": -37.79177279460241
+          },
+          "latitude": -37.79177279460241,
+          "longitude": 144.92223984130385,
+          "easting": 317053.53,
+          "northing": 5815254.57,
+          "geolocation": {
+            "lon": 144.92223984130385,
+            "lat": -37.79177279460241
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/5fb1f0e180e74f0e9dd89875033b17fe12489ca3"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "5fb1f0e180e74f0e9dd89875033b17fe12489ca3",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 345,
+        "fields": {
+          "com_id": 1053764,
+          "common_name": "Yellow Gum",
+          "scientific_name": "Eucalyptus leucoxylon",
+          "genus": "Eucalyptus",
+          "family": "Myrtaceae",
+          "diameter_breast_height": 38,
+          "year_planted": "1999",
+          "date_planted": "1999-01-13",
+          "age_description": "Semi-Mature",
+          "useful_life_expectency": "21-30 years",
+          "useful_life_expectency_value": 30,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.95423644380782,
+            "lat": -37.78525545878014
+          },
+          "latitude": -37.78525545878014,
+          "longitude": 144.95423644380782,
+          "easting": 319855.3,
+          "northing": 5816039.93,
+          "geolocation": {
+            "lon": 144.95423644380782,
+            "lat": -37.78525545878014
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/64576f5d810185364fd8fe677fea5cdb9a255965"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "64576f5d810185364fd8fe677fea5cdb9a255965",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 318,
+        "fields": {
+          "com_id": 1458318,
+          "common_name": "River red gum",
+          "scientific_name": "Eucalyptus camaldulensis",
+          "genus": "Eucalyptus",
+          "family": "Myrtaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2010",
+          "date_planted": "2010-12-24",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.91525848312645,
+            "lat": -37.79434031718393
+          },
+          "latitude": -37.79434031718393,
+          "longitude": 144.91525848312645,
+          "easting": 316445.11,
+          "northing": 5814955.97,
+          "geolocation": {
+            "lon": 144.91525848312645,
+            "lat": -37.79434031718393
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/761b661cca152c09f6abf1e611043fca40540e4e"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "761b661cca152c09f6abf1e611043fca40540e4e",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 334,
+        "fields": {
+          "com_id": 1635361,
+          "common_name": "Melbourne Yellow-Gum",
+          "scientific_name": "Eucalyptus leucoxylon subsp. connata",
+          "genus": "Eucalyptus",
+          "family": "Myrtaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2016",
+          "date_planted": "2016-07-13",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.9555054482552,
+            "lat": -37.78257431821071
+          },
+          "latitude": -37.78257431821071,
+          "longitude": 144.9555054482552,
+          "easting": 319960.55,
+          "northing": 5816339.89,
+          "geolocation": {
+            "lon": 144.9555054482552,
+            "lat": -37.78257431821071
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/33c06c3004abe77c2f28286354f5b8b7a98f97b8"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "33c06c3004abe77c2f28286354f5b8b7a98f97b8",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 300,
+        "fields": {
+          "com_id": 1752850,
+          "common_name": "Wirilda",
+          "scientific_name": "Acacia retinoides",
+          "genus": "Acacia",
+          "family": "Fabaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2019",
+          "date_planted": "2019-04-02",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.91681187564868,
+            "lat": -37.79743025749547
+          },
+          "latitude": -37.79743025749547,
+          "longitude": 144.91681187564868,
+          "easting": 316589.54,
+          "northing": 5814616.14,
+          "geolocation": {
+            "lon": 144.91681187564868,
+            "lat": -37.79743025749547
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/e8076adac06ff5d2b23b4db0c7550c45a5c39f79"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "e8076adac06ff5d2b23b4db0c7550c45a5c39f79",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 322,
+        "fields": {
+          "com_id": 1787087,
+          "common_name": "Black She Oak",
+          "scientific_name": "Allocasuarina littoralis",
+          "genus": "Allocasuarina",
+          "family": "Casuarinaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2020",
+          "date_planted": "2020-04-08",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.95737915653694,
+            "lat": -37.7791521565324
+          },
+          "latitude": -37.7791521565324,
+          "longitude": 144.95737915653694,
+          "easting": 320117.27,
+          "northing": 5816723.24,
+          "geolocation": {
+            "lon": 144.95737915653694,
+            "lat": -37.7791521565324
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/f2b4661cf6bb7533cf74883e49b75598386fa98d"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "f2b4661cf6bb7533cf74883e49b75598386fa98d",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 298,
+        "fields": {
+          "com_id": 1546717,
+          "common_name": "Red maple",
+          "scientific_name": "Acer rubrum",
+          "genus": "Acer",
+          "family": "Sapindaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2013",
+          "date_planted": "2013-07-30",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.94751910152084,
+            "lat": -37.80567900668678
+          },
+          "latitude": -37.80567900668678,
+          "longitude": 144.94751910152084,
+          "easting": 319313.5,
+          "northing": 5813760.64,
+          "geolocation": {
+            "lon": 144.94751910152084,
+            "lat": -37.80567900668678
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/99c8e729052c7bff1258f32eb6dd91e0e9ff2f30"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "99c8e729052c7bff1258f32eb6dd91e0e9ff2f30",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 305,
+        "fields": {
+          "com_id": 1525173,
+          "common_name": "Golden Wattle",
+          "scientific_name": "Acacia pycnantha",
+          "genus": "Acacia",
+          "family": "Fabaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2013",
+          "date_planted": "2013-01-22",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.94438257509302,
+            "lat": -37.78254256760719
+          },
+          "latitude": -37.78254256760719,
+          "longitude": 144.94438257509302,
+          "easting": 318980.88,
+          "northing": 5816321.93,
+          "geolocation": {
+            "lon": 144.94438257509302,
+            "lat": -37.78254256760719
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/d7cd912ca6199c216040fcf128b215dfa92212ed"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "d7cd912ca6199c216040fcf128b215dfa92212ed",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 338,
+        "fields": {
+          "com_id": 1022329,
+          "common_name": "Brush Box",
+          "scientific_name": "Lophostemon confertus",
+          "genus": "Lophostemon",
+          "family": "Myrtaceae",
+          "diameter_breast_height": 46,
+          "year_planted": "1997",
+          "date_planted": "1997-11-07",
+          "age_description": "Mature",
+          "useful_life_expectency": "31-60 years",
+          "useful_life_expectency_value": 60,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.9628664039091,
+            "lat": -37.78730932482368
+          },
+          "latitude": -37.78730932482368,
+          "longitude": 144.9628664039091,
+          "easting": 320620.28,
+          "northing": 5815828.62,
+          "geolocation": {
+            "lon": 144.9628664039091,
+            "lat": -37.78730932482368
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/a68f5f71ad79415342e6e0c2ddd1199f0fec8566"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "a68f5f71ad79415342e6e0c2ddd1199f0fec8566",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 317,
+        "fields": {
+          "com_id": 1749031,
+          "common_name": "Australian teak",
+          "scientific_name": "Flindersia australis",
+          "genus": "Flindersia",
+          "family": "Rutaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2018",
+          "date_planted": "2018-08-11",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.92843391923415,
+            "lat": -37.788846486750685
+          },
+          "latitude": -37.788846486750685,
+          "longitude": 144.92843391923415,
+          "easting": 317591.78,
+          "northing": 5815591.4,
+          "geolocation": {
+            "lon": 144.92843391923415,
+            "lat": -37.788846486750685
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/002370791474280f4759b3bc2dc33d53cc17eb4b"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "002370791474280f4759b3bc2dc33d53cc17eb4b",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 300,
+        "fields": {
+          "com_id": 1042986,
+          "common_name": "Black Wattle",
+          "scientific_name": "Acacia mearnsii",
+          "genus": "Acacia",
+          "family": "Fabaceae",
+          "diameter_breast_height": null,
+          "year_planted": "1998",
+          "date_planted": "1998-11-23",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.9516482348776,
+            "lat": -37.79252776570866
+          },
+          "latitude": -37.79252776570866,
+          "longitude": 144.9516482348776,
+          "easting": 319645.05,
+          "northing": 5815227.96,
+          "geolocation": {
+            "lon": 144.9516482348776,
+            "lat": -37.79252776570866
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/42100972416d20827e0f395ce0956d0d91ee613f"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "42100972416d20827e0f395ce0956d0d91ee613f",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 306,
+        "fields": {
+          "com_id": 1027837,
+          "common_name": "Spotted Gum",
+          "scientific_name": "Corymbia maculata",
+          "genus": "Corymbia",
+          "family": "Myrtaceae",
+          "diameter_breast_height": null,
+          "year_planted": "1997",
+          "date_planted": "1997-12-01",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.97607347665036,
+            "lat": -37.83088315845987
+          },
+          "latitude": -37.83088315845987,
+          "longitude": 144.97607347665036,
+          "easting": 321888.1,
+          "northing": 5811018.68,
+          "geolocation": {
+            "lon": 144.97607347665036,
+            "lat": -37.83088315845987
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/315e837a92d9d6d54f7f591131c11195791deea3"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "315e837a92d9d6d54f7f591131c11195791deea3",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 321,
+        "fields": {
+          "com_id": 1068263,
+          "common_name": "River red gum",
+          "scientific_name": "Eucalyptus camaldulensis",
+          "genus": "Eucalyptus",
+          "family": "Myrtaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2006",
+          "date_planted": "2006-11-29",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.95215924525434,
+            "lat": -37.788337255617776
+          },
+          "latitude": -37.788337255617776,
+          "longitude": 144.95215924525434,
+          "easting": 319679.86,
+          "northing": 5815693.95,
+          "geolocation": {
+            "lon": 144.95215924525434,
+            "lat": -37.788337255617776
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/dbc98475caee298afb03d8e726f8d3e28840c6d1"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "dbc98475caee298afb03d8e726f8d3e28840c6d1",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 358,
+        "fields": {
+          "com_id": 1018259,
+          "common_name": "London Plane",
+          "scientific_name": "Platanus x acerifolia",
+          "genus": "Platanus",
+          "family": "Platanaceae",
+          "diameter_breast_height": 64,
+          "year_planted": "1900",
+          "date_planted": "2000-02-01",
+          "age_description": "Mature",
+          "useful_life_expectency": "6-10 years (>50% canopy)",
+          "useful_life_expectency_value": 10,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.94199163884582,
+            "lat": -37.79571295865377
+          },
+          "latitude": -37.79571295865377,
+          "longitude": 144.94199163884582,
+          "easting": 318802.49,
+          "northing": 5814855.83,
+          "geolocation": {
+            "lon": 144.94199163884582,
+            "lat": -37.79571295865377
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/884accc11d587bed91900682cae6a6ff1b3b9d3b"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "884accc11d587bed91900682cae6a6ff1b3b9d3b",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 316,
+        "fields": {
+          "com_id": 1808781,
+          "common_name": "River Sheoak",
+          "scientific_name": "Casuarina cunninghamiana",
+          "genus": "Casuarina",
+          "family": "Casuarinaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2021",
+          "date_planted": "2021-07-29",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.9464365156123,
+            "lat": -37.82040126036057
+          },
+          "latitude": -37.82040126036057,
+          "longitude": 144.9464365156123,
+          "easting": 319254.1,
+          "northing": 5812124.87,
+          "geolocation": {
+            "lon": 144.9464365156123,
+            "lat": -37.82040126036057
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/f4266677f3f7777a01a553250ed8803505554dd2"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "f4266677f3f7777a01a553250ed8803505554dd2",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 323,
+        "fields": {
+          "com_id": 1746215,
+          "common_name": "Green Honey Locust",
+          "scientific_name": "Gleditsia triacanthos",
+          "genus": "Gleditsia",
+          "family": "Fabaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2018",
+          "date_planted": "2018-10-23",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.91806430235138,
+            "lat": -37.793057660455204
+          },
+          "latitude": -37.793057660455204,
+          "longitude": 144.91806430235138,
+          "easting": 316689.01,
+          "northing": 5815103.81,
+          "geolocation": {
+            "lon": 144.91806430235138,
+            "lat": -37.793057660455204
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/d73ae8cd7c7f5b12c75173ed08db0bc437e9cd19"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "d73ae8cd7c7f5b12c75173ed08db0bc437e9cd19",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 312,
+        "fields": {
+          "com_id": 1664245,
+          "common_name": "Boobialla",
+          "scientific_name": "Myoporum insulare",
+          "genus": "Myoporum",
+          "family": "Scrophulariaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2017",
+          "date_planted": "2017-06-23",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.91405891589906,
+            "lat": -37.79512751680886
+          },
+          "latitude": -37.79512751680886,
+          "longitude": 144.91405891589906,
+          "easting": 316341.43,
+          "northing": 5814866.26,
+          "geolocation": {
+            "lon": 144.91405891589906,
+            "lat": -37.79512751680886
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/31cbb6bd74300fa120b01389f1032aaa686cf566"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "31cbb6bd74300fa120b01389f1032aaa686cf566",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 315,
+        "fields": {
+          "com_id": 1508516,
+          "common_name": "Kurrajong",
+          "scientific_name": "Brachychiton populneus",
+          "genus": "Brachychiton",
+          "family": "Malvaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2012",
+          "date_planted": "2012-05-15",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.95950750947978,
+            "lat": -37.80831548278664
+          },
+          "latitude": -37.80831548278664,
+          "longitude": 144.95950750947978,
+          "easting": 320375.38,
+          "northing": 5813491.2,
+          "geolocation": {
+            "lon": 144.95950750947978,
+            "lat": -37.80831548278664
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/89c0d96351f44c20c1d21f1628c40c39621e6d04"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "89c0d96351f44c20c1d21f1628c40c39621e6d04",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 300,
+        "fields": {
+          "com_id": 1520617,
+          "common_name": "Black Wattle",
+          "scientific_name": "Acacia mearnsii",
+          "genus": "Acacia",
+          "family": "Fabaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2013",
+          "date_planted": "2013-01-22",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.9439668167329,
+            "lat": -37.78455259586646
+          },
+          "latitude": -37.78455259586646,
+          "longitude": 144.9439668167329,
+          "easting": 318949.17,
+          "northing": 5816098.08,
+          "geolocation": {
+            "lon": 144.9439668167329,
+            "lat": -37.78455259586646
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/315167c2aab272e28a7ffc0a6e6b3bf82f74321d"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "315167c2aab272e28a7ffc0a6e6b3bf82f74321d",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 323,
+        "fields": {
+          "com_id": 1288296,
+          "common_name": "Elm",
+          "scientific_name": "Ulmus unknown",
+          "genus": "Ulmus",
+          "family": "Ulmaceae",
+          "diameter_breast_height": 21,
+          "year_planted": "1900",
+          "date_planted": "2000-01-01",
+          "age_description": "Semi-Mature",
+          "useful_life_expectency": "21-30 years",
+          "useful_life_expectency_value": 30,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.98655122838014,
+            "lat": -37.82905661568341
+          },
+          "latitude": -37.82905661568341,
+          "longitude": 144.98655122838014,
+          "easting": 322805.9,
+          "northing": 5811241.3,
+          "geolocation": {
+            "lon": 144.98655122838014,
+            "lat": -37.82905661568341
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/7ebcc665bf8e48854727ff5b4a94da2f2dcfd045"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "7ebcc665bf8e48854727ff5b4a94da2f2dcfd045",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 318,
+        "fields": {
+          "com_id": 1041860,
+          "common_name": "River red gum",
+          "scientific_name": "Eucalyptus camaldulensis",
+          "genus": "Eucalyptus",
+          "family": "Myrtaceae",
+          "diameter_breast_height": null,
+          "year_planted": "1998",
+          "date_planted": "1998-11-19",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.95617454657506,
+            "lat": -37.79092931204752
+          },
+          "latitude": -37.79092931204752,
+          "longitude": 144.95617454657506,
+          "easting": 320039.75,
+          "northing": 5815414.06,
+          "geolocation": {
+            "lon": 144.95617454657506,
+            "lat": -37.79092931204752
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/b08b4f3ffc888bf37ae625f5ba934fb92af41eab"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "b08b4f3ffc888bf37ae625f5ba934fb92af41eab",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 354,
+        "fields": {
+          "com_id": 1054986,
+          "common_name": "Prickly Paperbark",
+          "scientific_name": "Melaleuca styphelioides",
+          "genus": "Melaleuca",
+          "family": "Myrtaceae",
+          "diameter_breast_height": 16,
+          "year_planted": "1900",
+          "date_planted": "2000-01-01",
+          "age_description": "Semi-Mature",
+          "useful_life_expectency": "21-30 years",
+          "useful_life_expectency_value": 30,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.95066063991027,
+            "lat": -37.77841931587893
+          },
+          "latitude": -37.77841931587893,
+          "longitude": 144.95066063991027,
+          "easting": 319523.76,
+          "northing": 5816791.61,
+          "geolocation": {
+            "lon": 144.95066063991027,
+            "lat": -37.77841931587893
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/3795d2d9dd3ccf1c501324b9c8b123b04c128dd1"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "3795d2d9dd3ccf1c501324b9c8b123b04c128dd1",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 309,
+        "fields": {
+          "com_id": 1644345,
+          "common_name": "Trident maple",
+          "scientific_name": "Acer buergerianum",
+          "genus": "Acer",
+          "family": "Sapindaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2016",
+          "date_planted": "2016-09-11",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.9728753261868,
+            "lat": -37.798631870468114
+          },
+          "latitude": -37.798631870468114,
+          "longitude": 144.9728753261868,
+          "easting": 321528.96,
+          "northing": 5814591.37,
+          "geolocation": {
+            "lon": 144.9728753261868,
+            "lat": -37.798631870468114
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/738c797459e1884020b248deda1d2c557f02b0c2"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "738c797459e1884020b248deda1d2c557f02b0c2",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 335,
+        "fields": {
+          "com_id": 1439537,
+          "common_name": "Freeman Maple",
+          "scientific_name": "Acer x freemanii",
+          "genus": "Acer",
+          "family": "Sapindaceae",
+          "diameter_breast_height": 3,
+          "year_planted": "2009",
+          "date_planted": "2009-01-12",
+          "age_description": "Juvenile",
+          "useful_life_expectency": "31-60 years",
+          "useful_life_expectency_value": 60,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.9884396603562,
+            "lat": -37.81374687476201
+          },
+          "latitude": -37.81374687476201,
+          "longitude": 144.9884396603562,
+          "easting": 322935.52,
+          "northing": 5812943.74,
+          "geolocation": {
+            "lon": 144.9884396603562,
+            "lat": -37.81374687476201
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/cabb0f8923902877a6032fa48390a3a05956eafd"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "cabb0f8923902877a6032fa48390a3a05956eafd",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 348,
+        "fields": {
+          "com_id": 1014148,
+          "common_name": "Brush Box",
+          "scientific_name": "Lophostemon confertus",
+          "genus": "Lophostemon",
+          "family": "Myrtaceae",
+          "diameter_breast_height": 28,
+          "year_planted": "1997",
+          "date_planted": "1997-07-03",
+          "age_description": "Semi-Mature",
+          "useful_life_expectency": "31-60 years",
+          "useful_life_expectency_value": 60,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.9465484202316,
+            "lat": -37.805802576884446
+          },
+          "latitude": -37.805802576884446,
+          "longitude": 144.9465484202316,
+          "easting": 319228.34,
+          "northing": 5813745.05,
+          "geolocation": {
+            "lon": 144.9465484202316,
+            "lat": -37.805802576884446
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/27cfa96831ddc18229c41692fcf561243521f3df"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "27cfa96831ddc18229c41692fcf561243521f3df",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 308,
+        "fields": {
+          "com_id": 1525476,
+          "common_name": "Black Wattle",
+          "scientific_name": "Acacia melanoxylon",
+          "genus": "Acacia",
+          "family": "Fabaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2012",
+          "date_planted": "2012-04-27",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.91880929750712,
+            "lat": -37.80213229075273
+          },
+          "latitude": -37.80213229075273,
+          "longitude": 144.91880929750712,
+          "easting": 316777.04,
+          "northing": 5814098.29,
+          "geolocation": {
+            "lon": 144.91880929750712,
+            "lat": -37.80213229075273
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/08306b2873d7b12742f1578af16c7659f73269d3"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "08306b2873d7b12742f1578af16c7659f73269d3",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 316,
+        "fields": {
+          "com_id": 1578947,
+          "common_name": "Yellow Box",
+          "scientific_name": "Eucalyptus melliodora",
+          "genus": "Eucalyptus",
+          "family": "Myrtaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2015",
+          "date_planted": "2015-11-03",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.95517765042786,
+            "lat": -37.827258574293346
+          },
+          "latitude": -37.827258574293346,
+          "longitude": 144.95517765042786,
+          "easting": 320040.2,
+          "northing": 5811380.82,
+          "geolocation": {
+            "lon": 144.95517765042786,
+            "lat": -37.827258574293346
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/5148ca37cc35cf8e82df138ee950406b6ee1a67d"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "5148ca37cc35cf8e82df138ee950406b6ee1a67d",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 302,
+        "fields": {
+          "com_id": 1766576,
+          "common_name": "Willow Oak",
+          "scientific_name": "Quercus phellos",
+          "genus": "Quercus",
+          "family": "Fagaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2019",
+          "date_planted": "2019-07-25",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.93628841991932,
+            "lat": -37.82198309188872
+          },
+          "latitude": -37.82198309188872,
+          "longitude": 144.93628841991932,
+          "easting": 318364.69,
+          "northing": 5811929.65,
+          "geolocation": {
+            "lon": 144.93628841991932,
+            "lat": -37.82198309188872
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/80c7dca3b815e1187ffbf6ce161419fcabc22dc6"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "80c7dca3b815e1187ffbf6ce161419fcabc22dc6",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 316,
+        "fields": {
+          "com_id": 1604207,
+          "common_name": "Chinese Juniper",
+          "scientific_name": "Juniperus chinensis",
+          "genus": "Juniperus",
+          "family": "Cupressaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2015",
+          "date_planted": "2015-08-17",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.92587350260504,
+            "lat": -37.79612616027776
+          },
+          "latitude": -37.79612616027776,
+          "longitude": 144.92587350260504,
+          "easting": 317384.23,
+          "northing": 5814778.6,
+          "geolocation": {
+            "lon": 144.92587350260504,
+            "lat": -37.79612616027776
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/8d3db550ed2cde1ed5023d270ea17ea40ca7e560"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "8d3db550ed2cde1ed5023d270ea17ea40ca7e560",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 311,
+        "fields": {
+          "com_id": 1635443,
+          "common_name": "Chinaberry Tree",
+          "scientific_name": "Melia azedarach",
+          "genus": "Melia",
+          "family": "Meliaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2016",
+          "date_planted": "2016-07-15",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.95129038615175,
+            "lat": -37.802985460460114
+          },
+          "latitude": -37.802985460460114,
+          "longitude": 144.95129038615175,
+          "easting": 319638.98,
+          "northing": 5814066.82,
+          "geolocation": {
+            "lon": 144.95129038615175,
+            "lat": -37.802985460460114
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/bb0c7551394bc443d563d1ccf79fa42c01af4dfc"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "bb0c7551394bc443d563d1ccf79fa42c01af4dfc",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 310,
+        "fields": {
+          "com_id": 1288359,
+          "common_name": "Elm",
+          "scientific_name": "Ulmus unknown",
+          "genus": "Ulmus",
+          "family": "Ulmaceae",
+          "diameter_breast_height": 92,
+          "year_planted": "1900",
+          "date_planted": "2000-01-01",
+          "age_description": "Mature",
+          "useful_life_expectency": "11-20 years",
+          "useful_life_expectency_value": 20,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.94135120443,
+            "lat": -37.7883747558212
+          },
+          "latitude": -37.7883747558212,
+          "longitude": 144.94135120443,
+          "easting": 318728.16,
+          "northing": 5815668.88,
+          "geolocation": {
+            "lon": 144.94135120443,
+            "lat": -37.7883747558212
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/d2abc6f8cd23b6ab06c058b1f574036e6e97b707"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "d2abc6f8cd23b6ab06c058b1f574036e6e97b707",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 345,
+        "fields": {
+          "com_id": 1066003,
+          "common_name": "Kurrajong",
+          "scientific_name": "Brachychiton populneus",
+          "genus": "Brachychiton",
+          "family": "Malvaceae",
+          "diameter_breast_height": 6,
+          "year_planted": "2006",
+          "date_planted": "2006-10-02",
+          "age_description": "Juvenile",
+          "useful_life_expectency": "61+ years",
+          "useful_life_expectency_value": 80,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.96019731731948,
+            "lat": -37.790638042810045
+          },
+          "latitude": -37.790638042810045,
+          "longitude": 144.96019731731948,
+          "easting": 320393.29,
+          "northing": 5815454.12,
+          "geolocation": {
+            "lon": 144.96019731731948,
+            "lat": -37.790638042810045
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/534e8ea767bed6c0b14f271af47596d2cd212fde"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "534e8ea767bed6c0b14f271af47596d2cd212fde",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 295,
+        "fields": {
+          "com_id": 1037540,
+          "common_name": "English Elm",
+          "scientific_name": "Ulmus procera",
+          "genus": "Ulmus",
+          "family": "Ulmaceae",
+          "diameter_breast_height": null,
+          "year_planted": "1998",
+          "date_planted": "1998-10-30",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.9659267731349,
+            "lat": -37.80306363721653
+          },
+          "latitude": -37.80306363721653,
+          "longitude": 144.9659267731349,
+          "easting": 320927.84,
+          "northing": 5814086.3,
+          "geolocation": {
+            "lon": 144.9659267731349,
+            "lat": -37.80306363721653
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/43118fe25fce91e91ab73f7ed3bb4e39cec997ed"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "43118fe25fce91e91ab73f7ed3bb4e39cec997ed",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 314,
+        "fields": {
+          "com_id": 1662833,
+          "common_name": "unknown",
+          "scientific_name": "Castanopsis sclerophylla",
+          "genus": "Castanopsis",
+          "family": "Fagaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2017",
+          "date_planted": "2017-05-16",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.94466406296536,
+            "lat": -37.77620535057391
+          },
+          "latitude": -37.77620535057391,
+          "longitude": 144.94466406296536,
+          "easting": 318990.21,
+          "northing": 5817025.69,
+          "geolocation": {
+            "lon": 144.94466406296536,
+            "lat": -37.77620535057391
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/423c7380c54235769866c21821dcb3b7efdcb6e6"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "423c7380c54235769866c21821dcb3b7efdcb6e6",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 338,
+        "fields": {
+          "com_id": 1029401,
+          "common_name": "London Plane",
+          "scientific_name": "Platanus x acerifolia",
+          "genus": "Platanus",
+          "family": "Platanaceae",
+          "diameter_breast_height": 75,
+          "year_planted": "1997",
+          "date_planted": "1997-12-05",
+          "age_description": "Mature",
+          "useful_life_expectency": "21-30 years",
+          "useful_life_expectency_value": 30,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.9698234764644,
+            "lat": -37.8219321363852
+          },
+          "latitude": -37.8219321363852,
+          "longitude": 144.9698234764644,
+          "easting": 321316.43,
+          "northing": 5812000.0,
+          "geolocation": {
+            "lon": 144.9698234764644,
+            "lat": -37.8219321363852
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/ac1aad1a462dc1ea749851d76302559cac3c6bf4"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "ac1aad1a462dc1ea749851d76302559cac3c6bf4",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 317,
+        "fields": {
+          "com_id": 1663182,
+          "common_name": "Firewheel Tree",
+          "scientific_name": "Stenocarpus sinuatus",
+          "genus": "Stenocarpus",
+          "family": "Proteaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2017",
+          "date_planted": "2017-12-05",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.98002580857226,
+            "lat": -37.81291460715644
+          },
+          "latitude": -37.81291460715644,
+          "longitude": 144.98002580857226,
+          "easting": 322192.83,
+          "northing": 5813020.11,
+          "geolocation": {
+            "lon": 144.98002580857226,
+            "lat": -37.81291460715644
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/8b728fe7bfd434cd05f1a2de4736a40f63d34f1f"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "8b728fe7bfd434cd05f1a2de4736a40f63d34f1f",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 360,
+        "fields": {
+          "com_id": 1017228,
+          "common_name": "London Plane",
+          "scientific_name": "Platanus x acerifolia",
+          "genus": "Platanus",
+          "family": "Platanaceae",
+          "diameter_breast_height": 43,
+          "year_planted": "1997",
+          "date_planted": "1997-10-13",
+          "age_description": "Mature",
+          "useful_life_expectency": "6-10 years (<50% canopy)",
+          "useful_life_expectency_value": 10,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.92436032049133,
+            "lat": -37.795952608562104
+          },
+          "latitude": -37.795952608562104,
+          "longitude": 144.92436032049133,
+          "easting": 317250.56,
+          "northing": 5814794.9,
+          "geolocation": {
+            "lon": 144.92436032049133,
+            "lat": -37.795952608562104
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/d27511cc89a8f92dc2631a6a4670e5b250cb2be6"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "d27511cc89a8f92dc2631a6a4670e5b250cb2be6",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 321,
+        "fields": {
+          "com_id": 1045838,
+          "common_name": "River red gum",
+          "scientific_name": "Eucalyptus camaldulensis",
+          "genus": "Eucalyptus",
+          "family": "Myrtaceae",
+          "diameter_breast_height": null,
+          "year_planted": "1998",
+          "date_planted": "1998-12-03",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.95697241412498,
+            "lat": -37.789708902015335
+          },
+          "latitude": -37.789708902015335,
+          "longitude": 144.95697241412498,
+          "easting": 320107.05,
+          "northing": 5815551.02,
+          "geolocation": {
+            "lon": 144.95697241412498,
+            "lat": -37.789708902015335
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/9049223a7cd2881f27c276472589461e6e386754"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "9049223a7cd2881f27c276472589461e6e386754",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 333,
+        "fields": {
+          "com_id": 1028374,
+          "common_name": "Elm",
+          "scientific_name": "Ulmus unknown",
+          "genus": "Ulmus",
+          "family": "Ulmaceae",
+          "diameter_breast_height": 56,
+          "year_planted": "1997",
+          "date_planted": "1997-12-02",
+          "age_description": "Mature",
+          "useful_life_expectency": "1-5 years (<50% canopy)",
+          "useful_life_expectency_value": 5,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.98053999836316,
+            "lat": -37.84911456477558
+          },
+          "latitude": -37.84911456477558,
+          "longitude": 144.98053999836316,
+          "easting": 322324.97,
+          "northing": 5809004.12,
+          "geolocation": {
+            "lon": 144.98053999836316,
+            "lat": -37.84911456477558
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/1f7fb9330b0807c30022ce192a083d56d69f7711"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "1f7fb9330b0807c30022ce192a083d56d69f7711",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 309,
+        "fields": {
+          "com_id": 1523877,
+          "common_name": "Yellow Box",
+          "scientific_name": "Eucalyptus melliodora",
+          "genus": "Eucalyptus",
+          "family": "Myrtaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2013",
+          "date_planted": "2013-01-22",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.9400178923445,
+            "lat": -37.78015785482072
+          },
+          "latitude": -37.78015785482072,
+          "longitude": 144.9400178923445,
+          "easting": 318590.65,
+          "northing": 5816578.09,
+          "geolocation": {
+            "lon": 144.9400178923445,
+            "lat": -37.78015785482072
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/7d8b3937e5f8f038a27aec565e5fbc59eaf957cf"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "7d8b3937e5f8f038a27aec565e5fbc59eaf957cf",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 311,
+        "fields": {
+          "com_id": 1663106,
+          "common_name": "Urbanite Ash",
+          "scientific_name": "Fraxinus pennsylvanica",
+          "genus": "Fraxinus",
+          "family": "Oleaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2017",
+          "date_planted": "2017-06-06",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.9429261835235,
+            "lat": -37.82043712919514
+          },
+          "latitude": -37.82043712919514,
+          "longitude": 144.9429261835235,
+          "easting": 318945.19,
+          "northing": 5812114.09,
+          "geolocation": {
+            "lon": 144.9429261835235,
+            "lat": -37.82043712919514
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/bb05e4ca97371fd171f877ddc4ddee0d6f10249f"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "bb05e4ca97371fd171f877ddc4ddee0d6f10249f",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 326,
+        "fields": {
+          "com_id": 1046137,
+          "common_name": "Drooping sheoak",
+          "scientific_name": "Allocasuarina verticillata",
+          "genus": "Allocasuarina",
+          "family": "Casuarinaceae",
+          "diameter_breast_height": null,
+          "year_planted": "1998",
+          "date_planted": "1998-12-03",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.9545791541488,
+            "lat": -37.78840111624181
+          },
+          "latitude": -37.78840111624181,
+          "longitude": 144.9545791541488,
+          "easting": 319893.12,
+          "northing": 5815691.53,
+          "geolocation": {
+            "lon": 144.9545791541488,
+            "lat": -37.78840111624181
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/ef7504fa09be409366c2f7416dee3a7673d07ec1"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "ef7504fa09be409366c2f7416dee3a7673d07ec1",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 303,
+        "fields": {
+          "com_id": 1050354,
+          "common_name": "Black Wattle",
+          "scientific_name": "Acacia mearnsii",
+          "genus": "Acacia",
+          "family": "Fabaceae",
+          "diameter_breast_height": null,
+          "year_planted": "1998",
+          "date_planted": "1998-12-18",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.95502595974813,
+            "lat": -37.78324106712688
+          },
+          "latitude": -37.78324106712688,
+          "longitude": 144.95502595974813,
+          "easting": 319919.94,
+          "northing": 5816264.98,
+          "geolocation": {
+            "lon": 144.95502595974813,
+            "lat": -37.78324106712688
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/6b9ab1e4f27da8183cf3fd905980264552026f1c"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "6b9ab1e4f27da8183cf3fd905980264552026f1c",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 312,
+        "fields": {
+          "com_id": 1644448,
+          "common_name": "Canary Island Pine",
+          "scientific_name": "Pinus canariensis",
+          "genus": "Pinus",
+          "family": "Pinaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2016",
+          "date_planted": "2016-07-12",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.93540101098782,
+            "lat": -37.81688006206501
+          },
+          "latitude": -37.81688006206501,
+          "longitude": 144.93540101098782,
+          "easting": 318274.06,
+          "northing": 5812494.19,
+          "geolocation": {
+            "lon": 144.93540101098782,
+            "lat": -37.81688006206501
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/7c2d89efd217d87fa55f59dcc8d2051d849ad126"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "7c2d89efd217d87fa55f59dcc8d2051d849ad126",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 343,
+        "fields": {
+          "com_id": 1070283,
+          "common_name": "Spotted Gum",
+          "scientific_name": "Corymbia maculata",
+          "genus": "Corymbia",
+          "family": "Myrtaceae",
+          "diameter_breast_height": 22,
+          "year_planted": "2006",
+          "date_planted": "2006-11-13",
+          "age_description": "Semi-Mature",
+          "useful_life_expectency": "31-60 years",
+          "useful_life_expectency_value": 60,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.93266112172432,
+            "lat": -37.82205120809039
+          },
+          "latitude": -37.82205120809039,
+          "longitude": 144.93266112172432,
+          "easting": 318045.57,
+          "northing": 5811915.03,
+          "geolocation": {
+            "lon": 144.93266112172432,
+            "lat": -37.82205120809039
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/407ef03ddc589b3abe7ca450e395cf34ad032cc8"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "407ef03ddc589b3abe7ca450e395cf34ad032cc8",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 323,
+        "fields": {
+          "com_id": 1522741,
+          "common_name": "Drooping sheoak",
+          "scientific_name": "Allocasuarina verticillata",
+          "genus": "Allocasuarina",
+          "family": "Casuarinaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2013",
+          "date_planted": "2013-01-22",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.9516817783908,
+            "lat": -37.7882991235505
+          },
+          "latitude": -37.7882991235505,
+          "longitude": 144.9516817783908,
+          "easting": 319637.72,
+          "northing": 5815697.26,
+          "geolocation": {
+            "lon": 144.9516817783908,
+            "lat": -37.7882991235505
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/22b0e8121451635a3b8e04be8131acded39f94a0"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "22b0e8121451635a3b8e04be8131acded39f94a0",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 321,
+        "fields": {
+          "com_id": 1042588,
+          "common_name": "River red gum",
+          "scientific_name": "Eucalyptus camaldulensis",
+          "genus": "Eucalyptus",
+          "family": "Myrtaceae",
+          "diameter_breast_height": null,
+          "year_planted": "1998",
+          "date_planted": "1998-11-20",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.95365859502027,
+            "lat": -37.793972876634896
+          },
+          "latitude": -37.793972876634896,
+          "longitude": 144.95365859502027,
+          "easting": 319825.59,
+          "northing": 5815071.48,
+          "geolocation": {
+            "lon": 144.95365859502027,
+            "lat": -37.793972876634896
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/b8a2aa0fb9a07ddbb2c2321ec15c22b4b992f51c"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "b8a2aa0fb9a07ddbb2c2321ec15c22b4b992f51c",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 353,
+        "fields": {
+          "com_id": 1289616,
+          "common_name": "Willow Leaf Peppermint",
+          "scientific_name": "Eucalyptus nicholii",
+          "genus": "Eucalyptus",
+          "family": "Myrtaceae",
+          "diameter_breast_height": 51,
+          "year_planted": "2008",
+          "date_planted": "2008-12-18",
+          "age_description": "Mature",
+          "useful_life_expectency": "31-60 years",
+          "useful_life_expectency_value": 60,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.92790019116097,
+            "lat": -37.78955037688055
+          },
+          "latitude": -37.78955037688055,
+          "longitude": 144.92790019116097,
+          "easting": 317546.51,
+          "northing": 5815512.25,
+          "geolocation": {
+            "lon": 144.92790019116097,
+            "lat": -37.78955037688055
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/a3ed6244e580848ac3d4f58920a21692a0204a94"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "a3ed6244e580848ac3d4f58920a21692a0204a94",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 351,
+        "fields": {
+          "com_id": 1017817,
+          "common_name": "Brush Box",
+          "scientific_name": "Lophostemon confertus",
+          "genus": "Lophostemon",
+          "family": "Myrtaceae",
+          "diameter_breast_height": 19,
+          "year_planted": "1997",
+          "date_planted": "1997-10-20",
+          "age_description": "Semi-Mature",
+          "useful_life_expectency": "11-20 years",
+          "useful_life_expectency_value": 20,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.95644422164364,
+            "lat": -37.805044171594844
+          },
+          "latitude": -37.805044171594844,
+          "longitude": 144.95644422164364,
+          "easting": 320097.75,
+          "northing": 5813848.31,
+          "geolocation": {
+            "lon": 144.95644422164364,
+            "lat": -37.805044171594844
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/b6a6e35a116cf0d0e077dcf12b3a504ae992f58a"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "b6a6e35a116cf0d0e077dcf12b3a504ae992f58a",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 315,
+        "fields": {
+          "com_id": 1041577,
+          "common_name": "River red gum",
+          "scientific_name": "Eucalyptus camaldulensis",
+          "genus": "Eucalyptus",
+          "family": "Myrtaceae",
+          "diameter_breast_height": null,
+          "year_planted": "1998",
+          "date_planted": "1998-11-18",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.9551943179248,
+            "lat": -37.79308719920122
+          },
+          "latitude": -37.79308719920122,
+          "longitude": 144.9551943179248,
+          "easting": 319958.67,
+          "northing": 5815172.72,
+          "geolocation": {
+            "lon": 144.9551943179248,
+            "lat": -37.79308719920122
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/5aaf879efc1986b9c93824c3b011341a96c11cb3"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "5aaf879efc1986b9c93824c3b011341a96c11cb3",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 323,
+        "fields": {
+          "com_id": 1808818,
+          "common_name": "River Sheoak",
+          "scientific_name": "Casuarina cunninghamiana",
+          "genus": "Casuarina",
+          "family": "Casuarinaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2021",
+          "date_planted": "2021-07-29",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.94631551421298,
+            "lat": -37.820446821894876
+          },
+          "latitude": -37.820446821894876,
+          "longitude": 144.94631551421298,
+          "easting": 319243.56,
+          "northing": 5812119.58,
+          "geolocation": {
+            "lon": 144.94631551421298,
+            "lat": -37.820446821894876
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/78768c86667cac27408f7fab65054a9ba8d1ea38"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "78768c86667cac27408f7fab65054a9ba8d1ea38",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 320,
+        "fields": {
+          "com_id": 1552966,
+          "common_name": "River red gum",
+          "scientific_name": "Eucalyptus camaldulensis",
+          "genus": "Eucalyptus",
+          "family": "Myrtaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2013",
+          "date_planted": "2013-01-10",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.95410998740613,
+            "lat": -37.779440027927876
+          },
+          "latitude": -37.779440027927876,
+          "longitude": 144.95410998740613,
+          "easting": 319830.04,
+          "northing": 5816685.0,
+          "geolocation": {
+            "lon": 144.95410998740613,
+            "lat": -37.779440027927876
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/e21ff8d7ed9e8f34fcd070f2e6cca24df3c7836a"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "e21ff8d7ed9e8f34fcd070f2e6cca24df3c7836a",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 306,
+        "fields": {
+          "com_id": 1763556,
+          "common_name": "Lightwood Wattle",
+          "scientific_name": "Acacia implexa",
+          "genus": "Acacia",
+          "family": "Fabaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2019",
+          "date_planted": "2019-05-31",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.95769954499156,
+            "lat": -37.77867449968874
+          },
+          "latitude": -37.77867449968874,
+          "longitude": 144.95769954499156,
+          "easting": 320144.33,
+          "northing": 5816776.86,
+          "geolocation": {
+            "lon": 144.95769954499156,
+            "lat": -37.77867449968874
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/e0cbfdb15a06f5c9aecc49152f28204448d433d2"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "e0cbfdb15a06f5c9aecc49152f28204448d433d2",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 315,
+        "fields": {
+          "com_id": 1047421,
+          "common_name": "River red gum",
+          "scientific_name": "Eucalyptus camaldulensis",
+          "genus": "Eucalyptus",
+          "family": "Myrtaceae",
+          "diameter_breast_height": null,
+          "year_planted": "1998",
+          "date_planted": "1998-12-11",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.9469175700171,
+            "lat": -37.79229976088414
+          },
+          "latitude": -37.79229976088414,
+          "longitude": 144.9469175700171,
+          "easting": 319227.92,
+          "northing": 5815244.12,
+          "geolocation": {
+            "lon": 144.9469175700171,
+            "lat": -37.79229976088414
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/9a1cf933981114986e5c2d43e83e19dd317e821d"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "9a1cf933981114986e5c2d43e83e19dd317e821d",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 310,
+        "fields": {
+          "com_id": 1561485,
+          "common_name": "Japanese Zelkova",
+          "scientific_name": "Zelkova serrata",
+          "genus": "Zelkova",
+          "family": "Ulmaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2014",
+          "date_planted": "2014-05-06",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Street",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.98409715730483,
+            "lat": -37.81155510983812
+          },
+          "latitude": -37.81155510983812,
+          "longitude": 144.98409715730483,
+          "easting": 322547.99,
+          "northing": 5813178.71,
+          "geolocation": {
+            "lon": 144.98409715730483,
+            "lat": -37.81155510983812
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/32a33518e4c5c64d5426e3b4f1b6b917fdab8ee2"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "32a33518e4c5c64d5426e3b4f1b6b917fdab8ee2",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 308,
+        "fields": {
+          "com_id": 1804814,
+          "common_name": "Mutton-Wood",
+          "scientific_name": "Myrsine howittiana",
+          "genus": "Myrsine",
+          "family": "Primulaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2021",
+          "date_planted": "2021-10-06",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.96119524857798,
+            "lat": -37.77978908115158
+          },
+          "latitude": -37.77978908115158,
+          "longitude": 144.96119524857798,
+          "easting": 320454.91,
+          "northing": 5816659.9,
+          "geolocation": {
+            "lon": 144.96119524857798,
+            "lat": -37.77978908115158
+          }
+        }
+      }
+    },
+    {
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest/records/13fa065b1cd693cd85b8a139bc0d8db7d2ba2dbb"
+        },
+        {
+          "rel": "datasets",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets"
+        },
+        {
+          "rel": "dataset",
+          "href": "https://data.melbourne.vic.gov.au/api/v2/catalog/datasets/trees-with-species-and-dimensions-urban-forest"
+        }
+      ],
+      "record": {
+        "id": "13fa065b1cd693cd85b8a139bc0d8db7d2ba2dbb",
+        "timestamp": "2022-11-13T10:00:38.961Z",
+        "size": 320,
+        "fields": {
+          "com_id": 1735360,
+          "common_name": "Flame Tree",
+          "scientific_name": "Brachychiton acerifolius",
+          "genus": "Brachychiton",
+          "family": "Malvaceae",
+          "diameter_breast_height": null,
+          "year_planted": "2018",
+          "date_planted": "2018-05-29",
+          "age_description": null,
+          "useful_life_expectency": null,
+          "useful_life_expectency_value": null,
+          "precinct": null,
+          "located_in": "Park",
+          "uploaddate": "2021-01-10",
+          "coordinatelocation": {
+            "lon": 144.94493140146514,
+            "lat": -37.808500960560046
+          },
+          "latitude": -37.808500960560046,
+          "longitude": 144.94493140146514,
+          "easting": 319092.56,
+          "northing": 5813442.49,
+          "geolocation": {
+            "lon": 144.94493140146514,
+            "lat": -37.808500960560046
+          }
+        }
+      }
+    }
+  ]
+}
