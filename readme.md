@@ -140,7 +140,7 @@ Deployed to Koyeb: https://visiting-raynell-puzzleduck-f206ac43.koyeb.app/
 [x] add logging for system prompt generation and filter out <think> tags from prompts
 [x] stop assigning a system prompt when naming trees
 [x] system prompt generation validates structure and retries until valid
-[ ] update or add system prompt llm rating check
+[x] update or add system prompt llm rating check
 [ ] update system prompt generation to align with rating guidance
 [ ] create a database table for storing bounding boxes for melbourne suburbs and populate the table with data from ...
 [ ] when naming trees we should use lat/long data to lookup suburb and relative location in it. also save those details to the db for later use

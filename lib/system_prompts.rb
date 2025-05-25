@@ -60,7 +60,8 @@ module Tasks
                     response.dig('message', 'content')
                   end.to_s
         prompt = clean_prompt(content)
-        break prompt if valid_prompt?(prompt, tree, reasons)
+        next unless valid_prompt?(prompt, tree, reasons)
+        break prompt if verify_prompt(prompt, reasons)
       end
     end
 
@@ -109,6 +110,29 @@ module Tasks
       end
 
       true
+    end
+
+    def verify_prompt(prompt, reasons)
+      verify_messages = [
+        { 'role' => 'system', 'content' => @config['system_prompt_verify_prompt_template'] },
+        { 'role' => 'user', 'content' => prompt }
+      ]
+      verify = @client.chat({ model: @config['system_prompt_verify_model'], messages: verify_messages })
+      verify_content = if verify.is_a?(Array)
+                         verify.map { |r| r.dig('message', 'content') }.join
+                       else
+                         verify.dig('message', 'content')
+                       end.to_s.strip
+      rating_text = verify_content[/\d+(?:\.\d+)?/]
+      rating = rating_text ? rating_text.to_f : 0.0
+
+      if rating >= @config['system_prompt_rating_threshold'].to_f
+        true
+      else
+        puts "Rejected prompt after rating #{rating}: #{prompt.inspect}"
+        reasons << 'failed rating'
+        false
+      end
     end
   end
 end
