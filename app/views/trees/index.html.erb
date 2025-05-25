@@ -21,9 +21,9 @@
       <span class="text-2xl mr-2">💬</span>
       <h2 id="chat-title" class="m-0 text-xl">
         <span id="chat-title-name">Chat</span>
-        (<span id="neighbor-info" class="hover:underline cursor-pointer"><span id="neighbor-count">0/0</span> neighbors</span> -
-        <span id="friend-info" class="hover:underline cursor-pointer"><span id="friend-count">0/0</span> friends</span> -
-        <span id="species-info" class="hover:underline cursor-pointer"><span id="species-count">0/0</span> same species</span>)
+        (<span id="neighbor-info" class="hover:underline cursor-pointer"><span id="neighbor-count">0/0</span> Neighbors</span> -
+        <span id="friend-info" class="hover:underline cursor-pointer"><span id="friend-count">0/0</span> Friends</span> -
+        <span id="species-info" class="hover:underline cursor-pointer"><span id="species-count">0/0</span> Species</span>)
       </h2>
       <div id="relation-dropdown" class="hidden absolute left-0 top-full mt-1 bg-white dark:bg-gray-700 border dark:border-gray-600 rounded shadow p-2 text-sm z-10"></div>
     </div>
@@ -133,6 +133,7 @@
     var neighborInfo = document.getElementById('neighbor-info');
     var friendInfo = document.getElementById('friend-info');
     var speciesInfo = document.getElementById('species-info');
+    var chatTitle = document.getElementById('chat-title');
     var relationDropdown = document.getElementById('relation-dropdown');
     var backButton = document.getElementById('back-button');
     var lastTreeId = null;
@@ -515,22 +516,26 @@
 
       var hideDropdownTimeout = null;
 
-      function showRelationDropdown(kind, target) {
+      function showAllRelationsDropdown(target) {
         if (!currentTreeId) return;
         var tree = trees.find(function(t){ return t.id === currentTreeId; });
         if (!tree) return;
-        var items = kind === 'neighbor' ? (tree.neighbors || []) :
-                    (kind === 'friend' ? (tree.friends || []) : (tree.same_species || []));
         relationDropdown.innerHTML = '';
-        items.forEach(function(it){
+        var items = [];
+        (tree.neighbors || []).forEach(function(it){ items.push({rel: 'neighbor', data: it}); });
+        (tree.friends || []).forEach(function(it){ items.push({rel: 'friend', data: it}); });
+        (tree.same_species || []).forEach(function(it){ items.push({rel: 'species', data: it}); });
+        items.forEach(function(obj){
+          var it = obj.data;
           var div = document.createElement('div');
           var knownIdx = trees.findIndex(function(t){ return t.id === it.id; });
           var known = knownIdx !== -1;
-          div.textContent = known ? it.name : 'unknown';
           if (known) {
+            div.textContent = it.name + ' (' + obj.rel.replace('_', ' ') + ')';
             div.className = 'text-green-700 cursor-pointer hover:underline';
             div.dataset.treeId = it.id;
           } else {
+            div.textContent = 'unknown';
             div.className = 'text-gray-400';
           }
           relationDropdown.appendChild(div);
@@ -731,29 +736,27 @@
       });
     });
 
-    neighborInfo.addEventListener('mouseenter', function(e){
+    chatTitle.addEventListener('mouseenter', function(){
       clearTimeout(hideDropdownTimeout);
-      showRelationDropdown('neighbor', neighborInfo);
+      showAllRelationsDropdown(chatTitle);
     });
-    neighborInfo.addEventListener('mouseleave', scheduleHideDropdown);
+    chatTitle.addEventListener('mouseleave', scheduleHideDropdown);
     neighborInfo.addEventListener('click', function(){
       zoomAndHighlightGroup('neighbor');
     });
 
-    speciesInfo.addEventListener('mouseenter', function(e){
+    speciesInfo.addEventListener('mouseenter', function(){
       clearTimeout(hideDropdownTimeout);
-      showRelationDropdown('species', speciesInfo);
+      showAllRelationsDropdown(chatTitle);
     });
-    speciesInfo.addEventListener('mouseleave', scheduleHideDropdown);
     speciesInfo.addEventListener('click', function(){
       zoomAndHighlightGroup('species');
     });
 
-    friendInfo.addEventListener('mouseenter', function(e){
+    friendInfo.addEventListener('mouseenter', function(){
       clearTimeout(hideDropdownTimeout);
-      showRelationDropdown('friend', friendInfo);
+      showAllRelationsDropdown(chatTitle);
     });
-    friendInfo.addEventListener('mouseleave', scheduleHideDropdown);
     friendInfo.addEventListener('click', function(){
       zoomAndHighlightGroup('friend');
     });
