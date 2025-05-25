@@ -12,8 +12,15 @@ module Tasks
       generator = PromptGenerator.new(client, config)
 
       Tree.find_each do |tree|
+        identifier = tree.respond_to?(:id) ? "##{tree.id}" : tree.to_s
+        puts "Generating system prompt for tree #{identifier}"
+
         prompt = generator.generate(tree)
+        puts "Final prompt:\n#{prompt}"
+
         tree.update!(llm_sustem_prompt: prompt)
+        puts "Updated tree #{identifier}"
+        puts
       end
     end
 
@@ -44,10 +51,14 @@ module Tasks
                 else
                   response.dig('message', 'content')
                 end.to_s
-      content.strip
+      clean_prompt(content)
     end
 
     private
+
+    def clean_prompt(content)
+      content.to_s.gsub(%r{<think(ing)?[^>]*>.*?</think(ing)?>}mi, '').strip
+    end
 
     def facts_for(tree)
       lines = []
