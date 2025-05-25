@@ -132,6 +132,7 @@ Deployed to Koyeb: https://visiting-raynell-puzzleduck-f206ac43.koyeb.app/
 [x] review agents-advice.md and create AGENTS.md for project
 [x] get test coverage up to 50%
 [x] dark mode
+[x] add a dark mode toggle to the nav bar and allow users to toggle the mode
 [ ] trees should have missions/objectives that users can help with... find my enemy, find my lost friend, ... (tree must have relation)
 [ ] new tree mission: find the only... tree of a species, tree planted on x date, ... (must be unique in db)
 [ ] new tree mission: find all the ... trees named bob, trees of a species, trees on x road, trees in x park, ... (must be less than 6 in db)
