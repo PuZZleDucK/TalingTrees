@@ -25,6 +25,7 @@ class SystemPromptsTaskTest < Minitest::Test
     self.class.setup_tree_class
 
     @tree = Tree.new(name: 'Oak', treedb_common_name: 'Blue Gum')
+    @tree.define_singleton_method(:id) { 1 }
     class << @tree
       attr_reader :prompt
 
@@ -154,15 +155,31 @@ class SystemPromptsTaskTest < Minitest::Test
   end
 
   def test_retries_when_missing_relationships
+    TreeRelationship.singleton_class.class_eval do
+      attr_accessor :records
+      def where(tree_id:, kind: nil)
+        Array(records).select { |r| r.tree_id == tree_id }
+      end
+    end
+    related = Tree.new(name: 'Piny')
+    rel = TreeRelationship.new(tree_id: 1, related_tree: related, kind: 'neighbor')
+    TreeRelationship.records = [rel]
+
+    def @tree.chat_relationship_prompt
+      'Neighbors include: Piny.'
+    end
+
     Ollama.response_data = [
       { 'message' => { 'content' => 'You are to roleplay as Oak Blue Gum' } },
-      { 'message' => { 'content' => 'You are to roleplay as Oak Blue Gum rel info' } },
+      { 'message' => { 'content' => 'You are to roleplay as Oak Blue Gum Piny' } },
       { 'message' => { 'content' => 8 } }
     ]
     Rake.application['db:system_prompts'].reenable
     Rake.application['db:system_prompts'].invoke
-    assert_equal 'You are to roleplay as Oak Blue Gum rel info', @tree.prompt
+    assert_equal 'You are to roleplay as Oak Blue Gum Piny', @tree.prompt
     assert_equal 3, Ollama.call_count
+  ensure
+    TreeRelationship.records = nil
   end
 
   def test_followup_prompt_includes_rejection_reasons

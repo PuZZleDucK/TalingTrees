@@ -8,8 +8,8 @@ class TreeChatRelationshipPromptTest < Minitest::Test
     TreeRelationship.singleton_class.class_eval do
       attr_accessor :records
 
-      def where(tree_id:, kind:)
-        Array(records).select { |r| r.tree_id == tree_id && kind.include?(r.kind) }
+      def where(tree_id:, kind: nil)
+        Array(records).select { |r| r.tree_id == tree_id && (kind.nil? || kind.include?(r.kind)) }
       end
     end
   end
