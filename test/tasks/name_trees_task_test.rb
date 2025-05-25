@@ -99,6 +99,11 @@ class NameTreesTaskTest < Minitest::Test
     assert_equal 'Qwen3:0.6b', @tree.attributes['llm_model']
   end
 
+  def test_does_not_assign_system_prompt
+    Rake.application['db:name_trees'].invoke
+    assert_nil @tree.attributes['llm_sustem_prompt']
+  end
+
   def test_response_is_cleaned_of_think_tags
     self.class.response_data = [
       { 'message' => { 'content' => '<think>thinking</think>' } },
