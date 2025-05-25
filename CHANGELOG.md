@@ -2,6 +2,11 @@
 
 This log summarizes notable updates based on commit history and completed TODO items.
 
+## 2025-05-27
+- Switched tree name verification to a rating system with configurable threshold
+- Documented the rating scale and updated tests
+- Added reasons for each rating example to the verification prompt
+
 ## 2025-05-26
 - Added dark mode toggle with saved preference
 - Fixed styling so dark mode actually changes the page theme

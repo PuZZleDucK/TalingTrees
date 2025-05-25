@@ -34,7 +34,7 @@ class NameTreesTaskTest < Minitest::Test
     Tree.instances = [@tree]
     self.class.response_data = [
       { 'message' => { 'content' => 'Fancy Name' } },
-      { 'message' => { 'content' => 'YES' } }
+      { 'message' => { 'content' => 8 } }
     ]
 
     Kernel.module_eval do
@@ -103,7 +103,7 @@ class NameTreesTaskTest < Minitest::Test
     self.class.response_data = [
       { 'message' => { 'content' => '<think>thinking</think>' } },
       { 'message' => { 'content' => "\n\nCrimson Cap" } },
-      { 'message' => { 'content' => 'YES' } }
+      { 'message' => { 'content' => 8 } }
     ]
     Rake.application['db:name_trees'].reenable
     Rake.application['db:name_trees'].invoke
@@ -113,7 +113,7 @@ class NameTreesTaskTest < Minitest::Test
   def test_capitalizes_name_before_update
     self.class.response_data = [
       { 'message' => { 'content' => 'spruce' } },
-      { 'message' => { 'content' => 'YES' } }
+      { 'message' => { 'content' => 8 } }
     ]
     Rake.application['db:name_trees'].reenable
     Rake.application['db:name_trees'].invoke
@@ -132,7 +132,7 @@ class NameTreesTaskTest < Minitest::Test
     self.class.response_data = [
       { 'message' => { 'content' => 'A' } },
       { 'message' => { 'content' => 'Valid' } },
-      { 'message' => { 'content' => 'YES' } }
+      { 'message' => { 'content' => 8 } }
     ]
     Rake.application['db:name_trees'].reenable
     Rake.application['db:name_trees'].invoke
@@ -145,7 +145,7 @@ class NameTreesTaskTest < Minitest::Test
     self.class.response_data = [
       { 'message' => { 'content' => long_name } },
       { 'message' => { 'content' => 'Valid Name' } },
-      { 'message' => { 'content' => 'YES' } }
+      { 'message' => { 'content' => 8 } }
     ]
     Rake.application['db:name_trees'].reenable
     Rake.application['db:name_trees'].invoke
@@ -158,7 +158,7 @@ class NameTreesTaskTest < Minitest::Test
       { 'message' => { 'content' => 'A' } },
       { 'message' => { 'content' => 'B' } },
       { 'message' => { 'content' => 'Valid Name' } },
-      { 'message' => { 'content' => 'YES' } }
+      { 'message' => { 'content' => 8 } }
     ]
     Rake.application['db:name_trees'].reenable
     Rake.application['db:name_trees'].invoke
@@ -171,11 +171,11 @@ class NameTreesTaskTest < Minitest::Test
     self.class.response_data = [
       { 'message' => { 'content' => long_name } },
       { 'message' => { 'content' => 'BadName' } },
-      { 'message' => { 'content' => 'NO' } },
+      { 'message' => { 'content' => 4 } },
       { 'message' => { 'content' => 'Another Bad Name' } },
-      { 'message' => { 'content' => 'NO' } },
+      { 'message' => { 'content' => 4 } },
       { 'message' => { 'content' => 'Valid Name' } },
-      { 'message' => { 'content' => 'YES' } }
+      { 'message' => { 'content' => 8 } }
     ]
     Rake.application['db:name_trees'].reenable
     Rake.application['db:name_trees'].invoke
@@ -186,9 +186,9 @@ class NameTreesTaskTest < Minitest::Test
   def test_retries_when_verification_fails
     self.class.response_data = [
       { 'message' => { 'content' => 'Bad Name 123' } },
-      { 'message' => { 'content' => 'NO' } },
+      { 'message' => { 'content' => 4 } },
       { 'message' => { 'content' => 'Oak' } },
-      { 'message' => { 'content' => 'YES' } }
+      { 'message' => { 'content' => 8 } }
     ]
     Rake.application['db:name_trees'].reenable
     Rake.application['db:name_trees'].invoke
@@ -200,7 +200,7 @@ class NameTreesTaskTest < Minitest::Test
     self.class.response_data = [
       { 'message' => { 'content' => 'Bad?Name' } },
       { 'message' => { 'content' => 'Valid Name' } },
-      { 'message' => { 'content' => 'YES' } }
+      { 'message' => { 'content' => 8 } }
     ]
     Rake.application['db:name_trees'].reenable
     Rake.application['db:name_trees'].invoke
@@ -212,7 +212,7 @@ class NameTreesTaskTest < Minitest::Test
     self.class.response_data = [
       { 'message' => { 'content' => 'Root123' } },
       { 'message' => { 'content' => 'Valid Name' } },
-      { 'message' => { 'content' => 'YES' } }
+      { 'message' => { 'content' => 8 } }
     ]
     Rake.application['db:name_trees'].reenable
     Rake.application['db:name_trees'].invoke
@@ -224,7 +224,7 @@ class NameTreesTaskTest < Minitest::Test
     self.class.response_data = [
       { 'message' => { 'content' => 'Happy Tree' } },
       { 'message' => { 'content' => 'Valid Name' } },
-      { 'message' => { 'content' => 'YES' } }
+      { 'message' => { 'content' => 8 } }
     ]
     Rake.application['db:name_trees'].reenable
     Rake.application['db:name_trees'].invoke
@@ -237,7 +237,7 @@ class NameTreesTaskTest < Minitest::Test
     self.class.response_data = [
       { 'message' => { 'content' => 'Mighty Oak' } },
       { 'message' => { 'content' => 'Valid' } },
-      { 'message' => { 'content' => 'YES' } }
+      { 'message' => { 'content' => 8 } }
     ]
     Rake.application['db:name_trees'].reenable
     Rake.application['db:name_trees'].invoke
@@ -253,7 +253,7 @@ class NameTreesTaskTest < Minitest::Test
 
     self.class.response_data = [
       { 'message' => { 'content' => 'Spruce' } },
-      { 'message' => { 'content' => 'YES' } }
+      { 'message' => { 'content' => 8 } }
     ]
 
     Rake.application['db:name_trees'].reenable
@@ -271,7 +271,7 @@ class NameTreesTaskTest < Minitest::Test
 
     self.class.response_data = [
       { 'message' => { 'content' => 'Spruce' } },
-      { 'message' => { 'content' => 'YES' } }
+      { 'message' => { 'content' => 8 } }
     ]
 
     Rake.application['db:name_trees'].reenable
@@ -291,7 +291,7 @@ class NameTreesTaskTest < Minitest::Test
       { 'message' => { 'content' => 'Bad?Name' } },
       { 'message' => { 'content' => long_name } },
       { 'message' => { 'content' => 'Spruce' } },
-      { 'message' => { 'content' => 'YES' } }
+      { 'message' => { 'content' => 8 } }
     ]
 
     Rake.application['db:name_trees'].reenable

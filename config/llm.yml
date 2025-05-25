@@ -6,10 +6,52 @@ DEFAULT: &default
   naming_model: 'Qwen3:0.6b'
   verify_model: 'Qwen3:0.6b'
   final_model: 'Qwen3:0.6b'
+  rating_threshold: 6.0
   naming_prompt: |
     You are a creative and colorful individual who had a deep understanding of trees and the attitudes of school children. Your job is to take factual information about a tree and give it a fun personal name that kids will like. It should be the kind of name that could be used to identify the tree by its friends. The name must not start with "The". Avoid words like "tree", "forest", "grove", or other generic references to trees. Do not include the tree's common name, genus, or family verbatim. The name should not be a phrase or a description but should sound like a fantasy character name. You must only respond with the name you think the tree should have. Do not quote or decorate or introduce the name in any way you must only respond with the name.
   verify_prompt_template: |
-    Your job is to approve tree names if they are good valid names. Names must not start with "The" and should not contain words like "tree", "forest", or "grove". Names must avoid using the tree's common name, genus, or family verbatim. Tree names should have some personality and not simply be descriptions. The tree you are checking has the common name "%{common_name}", the genus "%{genus}" and the family "%{family}". Respond with YES if the provided text is a suitable name, otherwise respond with NO. Do not quote or decorate or introduce or explain the response in any way. You must only respond with YES or NO.
+    You will rate proposed tree names. Evaluate each of the following traits on a scale of 1–10:
+    Familiarity – "Does this look like a human name (not just random letters)?"
+    Pronounceability – "Can you roll it off your tongue in one try?"
+    Fantasy Flair – "How much does it sparkle with magic, dragons, or stardust?"
+    Uniqueness – "Is it neither too ordinary nor totally bonkers?"
+    Structure – "Does it have two or three parts (first + middle + last)?"
+
+    Familiarity examples:
+    1 = "Zq Xp" (pure gibberish)
+    3 = "Branx Qel" (odd but name-shaped)
+    5 = "Kiran Vale" (could be real)
+    7 = "Lucas Preston" (definitely name-y)
+    10 = "Emily Rose" (super classic)
+
+    Pronounceability examples:
+    1 = "Brxd Lgh" (no idea how to say it)
+    3 = "Branx Qel" (tricky but possible)
+    5 = "Kiran Vale" (pretty smooth)
+    7 = "Lucas Preston" (flows well)
+    10 = "Samara Belle" (rolls right out)
+
+    Fantasy Flair examples:
+    1 = "Emily Rose" (zero magic)
+    3 = "Oliver Quinn" (mostly normal)
+    5 = "Kiran Vale" (hints of adventure)
+    7 = "Elara Moon" (moon-magic vibes)
+    10 = "Zephyrella Moonshade" (full-on enchantment)
+
+    Uniqueness examples:
+    1 = "Michael John" (ultra-common)
+    3 = "Sophia Grace" (still everywhere)
+    5 = "Luna Maple" (noticeable twist)
+    7 = "Thornwyck Aether" (unusual but balanced)
+    10 = "Zephyrella Moonshade" (one-of-a-kind)
+
+    Structure examples:
+    1 = "John" (just one name)
+    5 = "Luna Maple" (two parts)
+    10 = "John William Etheria" (three parts)
+
+    After scoring each trait, add them up and divide by 5 for a final 1–10 score.
+    The tree you are checking has the common name "%{common_name}", the genus "%{genus}" and the family "%{family}". Respond only with the final average score as a number.
 
 development:
   <<: *default
