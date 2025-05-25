@@ -24,7 +24,7 @@ class SystemPromptsTaskTest < Minitest::Test
   def setup
     self.class.setup_tree_class
 
-    @tree = Tree.new(name: 'Oak')
+    @tree = Tree.new(name: 'Oak', treedb_common_name: 'Blue Gum')
     class << @tree
       attr_reader :prompt
 
@@ -94,6 +94,7 @@ class SystemPromptsTaskTest < Minitest::Test
     content = self.class.last_params[:messages][1]['content']
     assert_includes content, 'rel info'
     assert_includes content, 'Oak'
+    assert_includes content, 'Blue Gum'
   end
 
   def test_think_tag_removed
