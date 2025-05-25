@@ -85,7 +85,7 @@ Deployed to Koyeb: https://visiting-raynell-puzzleduck-f206ac43.koyeb.app/
 [x] naming script verification step2 (llm approves... prompt the same llm in a new chat to verify the response is a single name)
 [x] add a function to find other trees within x meters. When a tree is selected to chat count the trees within 20 meters and show this count next to the tree name in chat like this "Tree Name (<count> neighbors). also create a highlighted radius on the map showing the 20 meters
 [x] add rake task to add relationships between trees - neighbors (within 20) - all with same species - 3 random long distance friends
-[x] naming script should find trees within 50m and avoid duplicate names
+[x] naming script should find trees within 100m and avoid duplicate names
 [x] add lat/long to User and get from device. display it in the nav bar
 [x] add relation model between users and the trees they know about. users should only see the closest five trees at the start
 [x] when a user chats with a tree, the tree should be given knowledge about it's neighbors and friends personal names and should be encouraged to casually mention them by their FULL personal names
