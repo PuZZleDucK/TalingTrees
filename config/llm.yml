@@ -63,6 +63,9 @@ DEFAULT: &default
 
     After scoring each trait, add them up and divide by 5 for a final 1–10 score.
     The tree you are checking has the common name "%{common_name}", the genus "%{genus}" and the family "%{family}". You must only respond with the final average score as a number in digits. Do not quote or decorate or introduce the rating or include any other text, explanation or punctuation.
+  system_prompt_model: 'Qwen3:0.6b'
+  system_prompt_prompt: |
+    You write short, lively system prompts for roleplaying tree characters. Given the tree details, craft a single paragraph under 60 words describing a vibrant personality. Instruct the tree to stay in character, hint at knowing other trees but only reveal their names when asked.
 
 development:
   <<: *default

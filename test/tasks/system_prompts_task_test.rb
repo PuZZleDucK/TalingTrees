@@ -6,6 +6,8 @@ require 'minitest/autorun'
 
 class SystemPromptsTaskTest < Minitest::Test
   class << self
+    attr_accessor :last_params
+
     def setup_tree_class
       Tree.class_eval do
         class << self
@@ -37,6 +39,31 @@ class SystemPromptsTaskTest < Minitest::Test
 
     Tree.instances = [@tree]
 
+    Kernel.module_eval do
+      alias_method :orig_require, :require
+      def require(name)
+        return true if name == 'ollama-ai'
+
+        orig_require(name)
+      end
+    end
+    @require_patched = true
+
+    @previous_ollama = Object.const_get(:Ollama) if Object.const_defined?(:Ollama)
+    Object.send(:remove_const, :Ollama) if Object.const_defined?(:Ollama)
+
+    stub_ollama = Class.new do
+      class << self; attr_accessor :last_params; end
+
+      def initialize(credentials:); end
+
+      def chat(params)
+        SystemPromptsTaskTest.last_params = params
+        { 'message' => { 'content' => 'new prompt' } }
+      end
+    end
+    Object.const_set(:Ollama, stub_ollama)
+
     Rake.application = Rake::Application.new
     Rake::Task.define_task(:environment)
     load File.expand_path('../../lib/tasks/system_prompts.rake', __dir__)
@@ -44,11 +71,21 @@ class SystemPromptsTaskTest < Minitest::Test
 
   def teardown
     Tree.instances = nil
+    Object.send(:remove_const, :Ollama)
+    Object.const_set(:Ollama, @previous_ollama) if @previous_ollama
+    if @require_patched
+      Kernel.module_eval do
+        alias_method :require, :orig_require
+        remove_method :orig_require
+      end
+    end
   end
 
   def test_sets_system_prompt
     Rake.application['db:system_prompts'].invoke
-    assert_includes @tree.prompt, 'rel info'
-    assert_includes @tree.prompt.downcase, 'talking tree'
+    assert_equal 'new prompt', @tree.prompt
+    content = self.class.last_params[:messages][1]['content']
+    assert_includes content, 'rel info'
+    assert_includes content, 'Oak'
   end
 end
