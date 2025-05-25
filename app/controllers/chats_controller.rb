@@ -84,7 +84,7 @@ class ChatsController < ApplicationController
     Rails.logger.info("[Ollama] Requesting chat for tree #{tree.id} using model #{model}")
     Rails.logger.debug("[Ollama] Messages: #{messages.inspect}")
 
-    assistant_content = ''
+    assistant_content = String.new
     client.chat({ model: model, messages: messages }) do |chunk = nil, _raw = nil|
       content = chunk&.dig('message', 'content')
       next unless content
