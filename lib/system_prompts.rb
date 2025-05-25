@@ -102,8 +102,24 @@ module Tasks
         return false
       end
 
-      rel_info = tree.respond_to?(:chat_relationship_prompt) ? tree.chat_relationship_prompt.to_s.strip : ''
-      unless rel_info.empty? || prompt.include?(rel_info)
+      rel_names = if tree.respond_to?(:id)
+                    rels = if tree.respond_to?(:tree_relationships) && tree.tree_relationships.loaded?
+                             tree.tree_relationships
+                           elsif TreeRelationship.respond_to?(:where)
+                             TreeRelationship.where(tree_id: tree.id)
+                           elsif TreeRelationship.respond_to?(:records)
+                             Array(TreeRelationship.records).select { |r| r[:tree_id] == tree.id }
+                           else
+                             []
+                           end
+                    rels.filter_map do |rel|
+                      related = rel.respond_to?(:related_tree) ? rel.related_tree : rel[:related_tree]
+                      related&.name.to_s.strip
+                    end.reject(&:empty?).uniq
+                  else
+                    []
+                  end
+      unless rel_names.empty? || rel_names.all? { |n| prompt.downcase.include?(n.downcase) }
         puts "Rejected prompt due to missing relationships: #{prompt.inspect}"
         reasons << 'missing relationships'
         return false
