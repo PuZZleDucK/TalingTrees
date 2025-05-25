@@ -2,6 +2,10 @@
 
 This log summarizes notable updates based on commit history and completed TODO items.
 
+## 2025-05-28
+- Added combined relation dropdown listing all known relations in chat title
+- Updated title format to display counts as "Neighbors - Friends - Species"
+
 ## 2025-05-27
 - Switched tree name verification to a rating system with configurable threshold
 - Documented the rating scale and updated tests

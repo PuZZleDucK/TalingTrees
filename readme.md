@@ -132,7 +132,7 @@ Deployed to Koyeb: https://visiting-raynell-puzzleduck-f206ac43.koyeb.app/
 [x] review agents-advice.md and create AGENTS.md for project
 [x] get test coverage up to 50%
 [x] add a dark mode toggle to the nav bar and allow users to toggle the mode
-[ ] when showing tree relations in the title bar, we should still have the three counts in the title, but the popup should list all trees along with the relation type if the user knows of the trees in the list (i.e. not unknown)
+[x] when showing tree relations in the title bar, we should still have the three counts in the title, but the popup should list all trees along with the relation type if the user knows of the trees in the list (i.e. not unknown)
 [ ] replace the map pin icons with discs with a tree icon inside the disc (use the tree from the navbar for now)
 [x] update tree name rating scale for llm
 [x] update tree naming prompt to align with rating guidance
