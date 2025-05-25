@@ -28,7 +28,7 @@ module Tasks
       name = name.split.map(&:capitalize).join(' ')
 
       puts "Cleaned name: #{name}"
-      tree.update!(name: name, llm_model: @config['final_model'], llm_sustem_prompt: @config['naming_prompt'])
+      tree.update!(name: name, llm_model: @config['final_model'])
       puts "Updated tree #{identifier}"
       puts
     end
