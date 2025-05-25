@@ -1,5 +1,7 @@
 # Talk to Trees
 
+See [CHANGELOG.md](CHANGELOG.md) for recent updates.
+
 ## Dataset:
 https://data.melbourne.vic.gov.au/explore/dataset/trees-with-species-and-dimensions-urban-forest/api/
 
