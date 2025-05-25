@@ -36,7 +36,7 @@
         </div>
       </div>
     </div>
-    <div id="chat-history" class="overflow-y-auto border rounded p-2 mb-2 flex-1">
+    <div id="chat-history" class="overflow-y-auto border rounded p-2 mb-2 min-h-32">
       <!-- Chat messages will appear here -->
     </div>
     <div class="flex">
@@ -51,6 +51,10 @@
 <style>
   #tree-list li.selected { background-color: #e0f0ff; }
   #tag-dropdown { min-width: 6rem; }
+  #chat-history {
+    min-height: 8rem;
+    max-height: 50vh;
+  }
   #chat-history .user-message {
     background-color: #e0ffe0;
     padding: 5px 8px;
