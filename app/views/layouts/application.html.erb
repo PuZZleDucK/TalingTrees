@@ -5,8 +5,15 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <%= csrf_meta_tags %>
   <%= stylesheet_link_tag "application", media: "all", data: { turbo_track: "reload" } %>
+  <script>
+    (function() {
+      if (localStorage.theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
 </head>
-<body class="bg-gray-50 min-h-screen overflow-hidden">
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen overflow-hidden">
   <nav class="bg-gradient-to-r from-purple-600 to-indigo-500 text-white py-2 px-4 flex items-center justify-between">
     <div class="flex items-center">
       <span class="text-xl mr-2">🌳</span>
@@ -41,11 +48,30 @@
             onchange: 'this.form.submit();',
             class: 'border rounded p-1' %>
       <% end %>
+      <span id="theme-toggle" class="cursor-pointer ml-2" title="Toggle dark mode">🌙</span>
     </div>
   </nav>
   <%= yield %>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      var toggle = document.getElementById('theme-toggle');
+      var htmlEl = document.documentElement;
+      if (htmlEl.classList.contains('dark') && toggle) {
+        toggle.textContent = '☀️';
+      }
+      if (toggle) {
+        toggle.addEventListener('click', function() {
+          htmlEl.classList.toggle('dark');
+          if (htmlEl.classList.contains('dark')) {
+            localStorage.theme = 'dark';
+            toggle.textContent = '☀️';
+          } else {
+            localStorage.theme = 'light';
+            toggle.textContent = '🌙';
+          }
+        });
+      }
+
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(pos) {
           var info = document.getElementById('location-info');

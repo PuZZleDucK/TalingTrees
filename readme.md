@@ -71,6 +71,8 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    ./bin/dev
    ```
 
+When running the app you can toggle dark mode using the moon/sun icon in the navigation bar. Your preference is saved in local storage.
+
 ## Deployment
 Deployed to Koyeb: https://visiting-raynell-puzzleduck-f206ac43.koyeb.app/
 
@@ -129,7 +131,7 @@ Deployed to Koyeb: https://visiting-raynell-puzzleduck-f206ac43.koyeb.app/
 [x] create new github action to trigger deploy to Keyob on merge to master
 [x] review agents-advice.md and create AGENTS.md for project
 [x] get test coverage up to 50%
-[ ] dark mode
+[x] dark mode
 [ ] trees should have missions/objectives that users can help with... find my enemy, find my lost friend, ... (tree must have relation)
 [ ] new tree mission: find the only... tree of a species, tree planted on x date, ... (must be unique in db)
 [ ] new tree mission: find all the ... trees named bob, trees of a species, trees on x road, trees in x park, ... (must be less than 6 in db)
