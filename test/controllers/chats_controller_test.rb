@@ -10,15 +10,17 @@ UserStub = Struct.new(:id, keyword_init: true)
 # Minimal stub simulating the Ollama client used in ChatsController
 class Ollama
   class << self
-    attr_accessor :last_payload
+    attr_accessor :last_payload, :response_chunks
   end
 
   def initialize(credentials:, options: {}); end
 
   def chat(payload)
     self.class.last_payload = payload
-    # Simulate the gem calling the stream handler without arguments
-    yield
+    chunks = self.class.response_chunks || [nil]
+    chunks.each do |chunk|
+      yield(chunk)
+    end
   end
 end
 
@@ -37,9 +39,12 @@ class ChatsController
       credentials: { address: 'http://localhost:11434' },
       options: { server_sent_events: true }
     )
-    client.chat({ model: tree.llm_model, messages: messages }) do |_chunk = nil, _raw = nil|
-      nil
+    assistant_content = String.new
+    client.chat({ model: tree.llm_model, messages: messages }) do |chunk = nil, _raw = nil|
+      content = chunk&.dig('message', 'content')
+      assistant_content << content if content
     end
+    assistant_content
   end
 
   def history(chat)
@@ -109,6 +114,18 @@ class ChatsControllerTest < Minitest::Test
     assert_silent do
       controller.create(history: { 'role' => 'user', 'content' => 'hi' })
     end
+  end
+
+  def test_create_accumulates_response_content
+    controller = ChatsController.new
+    Ollama.response_chunks = [
+      { 'message' => { 'content' => 'hello ' } },
+      { 'message' => { 'content' => 'world' } }
+    ]
+    result = controller.create(history: { 'role' => 'user', 'content' => 'hi' })
+    assert_equal 'hello world', result
+  ensure
+    Ollama.response_chunks = nil
   end
 
   def test_history_returns_messages
