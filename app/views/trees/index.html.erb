@@ -1,19 +1,19 @@
-<div class="flex h-screen bg-gray-100 p-6 gap-6">
-  <div class="flex-1 p-4 bg-white rounded-lg shadow-md flex flex-col">
-    <section class="py-2 px-4 bg-white rounded-lg shadow mb-4">
-      <h2 class="text-2xl font-bold text-gray-800">Known Trees</h2>
+<div class="flex h-screen bg-gray-100 dark:bg-gray-800 p-6 gap-6 text-gray-900 dark:text-gray-100">
+  <div class="flex-1 p-4 bg-white dark:bg-gray-700 rounded-lg shadow-md flex flex-col">
+    <section class="py-2 px-4 bg-white dark:bg-gray-700 rounded-lg shadow mb-4">
+      <h2 class="text-2xl font-bold">Known Trees</h2>
     </section>
-    <div class="h-1/4 overflow-y-auto mb-4 bg-white border border-gray-200 rounded-lg p-4">
+    <div class="h-1/4 overflow-y-auto mb-4 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4">
       <ul id="tree-list" class="list-none p-0 m-0">
       <% @trees.each_with_index do |tree, idx| %>
-        <li data-index="<%= idx %>" class="cursor-pointer p-4 bg-white rounded-lg shadow hover:shadow-lg transition mb-2">
+        <li data-index="<%= idx %>" class="cursor-pointer p-4 bg-white dark:bg-gray-600 rounded-lg shadow hover:shadow-lg transition mb-2">
           <%= tree.name %>
         </li>
       <% end %>
       </ul>
     </div>
 
-    <div id="map" class="h-96 bg-white border border-gray-200 rounded-lg shadow-md mb-4"></div>
+    <div id="map" class="h-96 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg shadow-md mb-4"></div>
   </div>
   <div class="flex-1 flex flex-col bg-white rounded-lg shadow-md p-4">
     <button id="back-button" class="hidden mb-2 bg-gray-200 rounded px-2 py-1 text-sm self-start"></button>
@@ -25,20 +25,20 @@
         <span id="friend-info" class="hover:underline cursor-pointer"><span id="friend-count">0/0</span> friends</span> -
         <span id="species-info" class="hover:underline cursor-pointer"><span id="species-count">0/0</span> same species</span>)
       </h2>
-      <div id="relation-dropdown" class="hidden absolute left-0 top-full mt-1 bg-white border rounded shadow p-2 text-sm z-10"></div>
+      <div id="relation-dropdown" class="hidden absolute left-0 top-full mt-1 bg-white dark:bg-gray-700 border dark:border-gray-600 rounded shadow p-2 text-sm z-10"></div>
     </div>
     <div class="flex items-center mb-2">
       <div id="tree-tags" class="flex flex-wrap text-sm text-gray-600"></div>
       <div class="relative ml-2">
-        <button id="tag-dropdown-btn" class="bg-gray-200 rounded px-2 py-1">+ Tag</button>
-        <div id="tag-dropdown" class="hidden absolute left-0 mt-1 bg-white border rounded shadow z-10">
+        <button id="tag-dropdown-btn" class="bg-gray-200 dark:bg-gray-600 rounded px-2 py-1">+ Tag</button>
+        <div id="tag-dropdown" class="hidden absolute left-0 mt-1 bg-white dark:bg-gray-700 border dark:border-gray-600 rounded shadow z-10">
           <% TreeTag::ALLOWED_TAGS.each do |t| %>
-            <div class="tag-option px-3 py-1 cursor-pointer hover:bg-gray-100" data-tag="<%= t %>"><%= t %></div>
+            <div class="tag-option px-3 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600" data-tag="<%= t %>"><%= t %></div>
           <% end %>
         </div>
       </div>
     </div>
-    <div id="chat-history" class="bg-gray-50 rounded-lg shadow-inner p-4 mb-4 min-h-32">
+    <div id="chat-history" class="bg-gray-50 dark:bg-gray-800 rounded-lg shadow-inner p-4 mb-4 min-h-32">
       <!-- Chat messages will appear here -->
     </div>
     <div class="flex">
@@ -52,6 +52,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
   #tree-list li.selected { background-color: #e0f0ff; }
+  .dark #tree-list li.selected { background-color: #334155; }
   #tag-dropdown { min-width: 6rem; }
   #chat-history {
     min-height: 8rem;
@@ -59,23 +60,26 @@
   }
   #chat-history .user-message {
     background-color: #e0ffe0;
+  }
+  .dark #chat-history .user-message {
+    background-color: #22543d;
+  }
+  #chat-history .user-message,
+  #chat-history .bot-message {
     padding: 5px 8px;
     border-radius: 4px;
     margin: 4px 0;
     max-width: 70%;
     display: block;
     width: fit-content;
-    margin-left: auto;
   }
+  #chat-history .user-message { margin-left: auto; }
   #chat-history .bot-message {
     background-color: #f0e0d0;
-    padding: 5px 8px;
-    border-radius: 4px;
-    margin: 4px 0;
-    max-width: 70%;
-    display: block;
-    width: fit-content;
     margin-right: auto;
+  }
+  .dark #chat-history .bot-message {
+    background-color: #744210;
   }
   #chat-history details pre {
     white-space: pre-wrap;
@@ -85,6 +89,9 @@
     font-weight: bold;
     color: #006400;
   }
+  .dark #chat-history .tree-name {
+    color: #22c55e;
+  }
   #chat-history .tree-name:hover {
     cursor: pointer;
     text-decoration: underline;
@@ -92,6 +99,9 @@
   #chat-history .locked-thoughts {
     color: #888;
     font-style: italic;
+  }
+  .dark #chat-history .locked-thoughts {
+    color: #bbb;
   }
   #relation-dropdown div {
     padding: 2px 4px;
