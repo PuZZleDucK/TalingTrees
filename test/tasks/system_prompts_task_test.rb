@@ -54,22 +54,27 @@ class SystemPromptsTaskTest < Minitest::Test
 
     stub_ollama = Class.new do
       class << self
-        attr_accessor :last_params, :response_data
+        attr_accessor :last_params, :response_data, :call_count, :params_list
       end
 
       def initialize(credentials:); end
 
       def chat(params)
+        self.class.call_count = (self.class.call_count || 0) + 1
+        self.class.last_params = params
+        self.class.params_list ||= []
+        self.class.params_list << params
         SystemPromptsTaskTest.last_params = params
         data = self.class.response_data
         if data.is_a?(Array)
           self.class.response_data = data[1..] || []
           data = data.first
         end
-        data || { 'message' => { 'content' => 'new prompt' } }
+        data || { 'message' => { 'content' => 'You are to roleplay as Oak Blue Gum rel info' } }
       end
     end
     Object.const_set(:Ollama, stub_ollama)
+    Ollama.call_count = 0
 
     Rake.application = Rake::Application.new
     Rake::Task.define_task(:environment)
@@ -90,19 +95,77 @@ class SystemPromptsTaskTest < Minitest::Test
 
   def test_sets_system_prompt
     Rake.application['db:system_prompts'].invoke
-    assert_equal 'new prompt', @tree.prompt
+    assert_equal 'You are to roleplay as Oak Blue Gum rel info', @tree.prompt
     content = self.class.last_params[:messages][1]['content']
     assert_includes content, 'rel info'
     assert_includes content, 'Oak'
     assert_includes content, 'Blue Gum'
+    assert_equal 1, Ollama.call_count
   end
 
   def test_think_tag_removed
     Ollama.response_data = [
-      { 'message' => { 'content' => '<think>hmm</think>Final' } }
+      { 'message' => { 'content' => '<think>hmm</think>You are to roleplay as Oak Blue Gum rel info' } }
     ]
     Rake.application['db:system_prompts'].reenable
     Rake.application['db:system_prompts'].invoke
-    assert_equal 'Final', @tree.prompt
+    assert_equal 'You are to roleplay as Oak Blue Gum rel info', @tree.prompt
+  end
+
+  def test_retries_when_missing_intro
+    Ollama.response_data = [
+      { 'message' => { 'content' => 'Bad start' } },
+      { 'message' => { 'content' => 'You are to roleplay as Oak Blue Gum rel info' } }
+    ]
+    Rake.application['db:system_prompts'].reenable
+    Rake.application['db:system_prompts'].invoke
+    assert_equal 'You are to roleplay as Oak Blue Gum rel info', @tree.prompt
+    assert_equal 2, Ollama.call_count
+  end
+
+  def test_retries_when_missing_name
+    Ollama.response_data = [
+      { 'message' => { 'content' => 'You are to roleplay as ??? Blue Gum rel info' } },
+      { 'message' => { 'content' => 'You are to roleplay as Oak Blue Gum rel info' } }
+    ]
+    Rake.application['db:system_prompts'].reenable
+    Rake.application['db:system_prompts'].invoke
+    assert_equal 'You are to roleplay as Oak Blue Gum rel info', @tree.prompt
+    assert_equal 2, Ollama.call_count
+  end
+
+  def test_retries_when_missing_common_name
+    Ollama.response_data = [
+      { 'message' => { 'content' => 'You are to roleplay as Oak rel info' } },
+      { 'message' => { 'content' => 'You are to roleplay as Oak Blue Gum rel info' } }
+    ]
+    Rake.application['db:system_prompts'].reenable
+    Rake.application['db:system_prompts'].invoke
+    assert_equal 'You are to roleplay as Oak Blue Gum rel info', @tree.prompt
+    assert_equal 2, Ollama.call_count
+  end
+
+  def test_retries_when_missing_relationships
+    Ollama.response_data = [
+      { 'message' => { 'content' => 'You are to roleplay as Oak Blue Gum' } },
+      { 'message' => { 'content' => 'You are to roleplay as Oak Blue Gum rel info' } }
+    ]
+    Rake.application['db:system_prompts'].reenable
+    Rake.application['db:system_prompts'].invoke
+    assert_equal 'You are to roleplay as Oak Blue Gum rel info', @tree.prompt
+    assert_equal 2, Ollama.call_count
+  end
+
+  def test_followup_prompt_includes_rejection_reasons
+    Ollama.response_data = [
+      { 'message' => { 'content' => 'Bad start' } },
+      { 'message' => { 'content' => 'You are to roleplay as ???' } },
+      { 'message' => { 'content' => 'You are to roleplay as Oak Blue Gum rel info' } }
+    ]
+    Rake.application['db:system_prompts'].reenable
+    Rake.application['db:system_prompts'].invoke
+    follow_up = Ollama.params_list[1][:messages][1]['content']
+    assert_includes follow_up, 'Previous failures'
+    assert_includes follow_up, 'missing intro'
   end
 end

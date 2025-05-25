@@ -43,17 +43,25 @@ module Tasks
     end
 
     def generate(tree)
-      messages = [
-        { 'role' => 'system', 'content' => @config['system_prompt_prompt'] },
-        { 'role' => 'user', 'content' => facts_for(tree) }
-      ]
-      response = @client.chat({ model: @config['system_prompt_model'], messages: messages })
-      content = if response.is_a?(Array)
-                  response.map { |r| r.dig('message', 'content') }.join
-                else
-                  response.dig('message', 'content')
-                end.to_s
-      clean_prompt(content)
+      attempt = 0
+      reasons = []
+      loop do
+        attempt += 1
+        user_content = facts_for(tree)
+        user_content += "\nPrevious failures: #{reasons.join('; ')}" if reasons.any?
+        messages = [
+          { 'role' => 'system', 'content' => @config['system_prompt_prompt'] },
+          { 'role' => 'user', 'content' => user_content }
+        ]
+        response = @client.chat({ model: @config['system_prompt_model'], messages: messages })
+        content = if response.is_a?(Array)
+                    response.map { |r| r.dig('message', 'content') }.join
+                  else
+                    response.dig('message', 'content')
+                  end.to_s
+        prompt = clean_prompt(content)
+        break prompt if valid_prompt?(prompt, tree, reasons)
+      end
     end
 
     private
@@ -66,6 +74,41 @@ module Tasks
       details = TreeFacts.new(tree).facts
       rel_prompt = tree.chat_relationship_prompt.to_s
       [details, rel_prompt].reject { |l| l.to_s.strip.empty? }.join("\n")
+    end
+
+    def valid_prompt?(prompt, tree, reasons)
+      unless prompt.start_with?('You are to roleplay as')
+        puts "Rejected prompt due to missing intro: #{prompt.inspect}"
+        reasons << 'missing intro'
+        return false
+      end
+
+      name = tree.respond_to?(:name) ? tree.name.to_s.strip : ''
+      unless name.empty? || prompt.include?(name)
+        puts "Rejected prompt due to missing name: #{prompt.inspect}"
+        reasons << 'missing name'
+        return false
+      end
+
+      common = if tree.respond_to?(:treedb_common_name)
+                 tree.treedb_common_name.to_s.strip
+               else
+                 ''
+               end
+      unless common.empty? || prompt.downcase.include?(common.downcase)
+        puts "Rejected prompt due to missing common name: #{prompt.inspect}"
+        reasons << 'missing common name'
+        return false
+      end
+
+      rel_info = tree.respond_to?(:chat_relationship_prompt) ? tree.chat_relationship_prompt.to_s.strip : ''
+      unless rel_info.empty? || prompt.include?(rel_info)
+        puts "Rejected prompt due to missing relationships: #{prompt.inspect}"
+        reasons << 'missing relationships'
+        return false
+      end
+
+      true
     end
   end
 end
