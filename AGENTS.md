@@ -47,6 +47,7 @@ The CI workflow runs the same script and posts these reports to pull requests.
 ## Best Practices
 - Implement features so they are easily testable and covered by comprehensive tests.
 - Code coverage must not decrease if overall coverage is below 75%; aim to improve it.
+- When total coverage falls below 50% you should add new tests to raise it.
 - Document code thoroughly so new developers can understand the system.
 - Add unrelated issues found during development to the TODO list.
 

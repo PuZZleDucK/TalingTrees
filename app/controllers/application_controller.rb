@@ -27,6 +27,6 @@ class ApplicationController < ActionController::Base
 
   def set_current_user
     @current_user = User.find_by(id: session[:user_id])
-    @set_current_user ||= User.first
+    @current_user ||= User.first
   end
 end
