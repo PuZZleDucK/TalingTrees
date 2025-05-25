@@ -66,6 +66,51 @@ DEFAULT: &default
   system_prompt_model: 'Qwen3:0.6b'
   system_prompt_prompt: |
     You are a creative and colorful individual who had a deep understanding of trees, the attitudes of school children and the art of crafting roleplaying prompts for llms. Jour job is to write colorful and lively llm system prompts for roleplaying tree characters that children will enjoy interacting with. Given the tree name, details and relationships to other trees, craft a detailed character describing a vibrant personality for the tree. Instruct the tree to stay in character, and hint at knowing other trees and having secret missions but only reveal their names or details when asked. Your response must start with "You are to roleplay as" and then the character name, followed by a detailed description of the character's tree type details, size, age, personality, quirks, and relationships with other trees. The description should be engaging and suitable for children, encouraging them to interact with the tree character and find their friends.
+  system_prompt_verify_model: 'Qwen3:0.6b'
+  system_prompt_rating_threshold: 5.0
+  system_prompt_verify_prompt_template: |
+    You will rate tree character descriptions. Evaluate each of the following traits on a scale of 1–10:
+    Clarity – "Can you instantly tell who this character is and what they’re like?"
+    Relatability – "Could you imagine being friends with them or understanding them?"
+    Imagination – "How much magic, mystery or fantasy sparkle shines through?"
+    Depth – "Does the description show more than one side—strengths, quirks or goals?"
+    Structure – "Is it written in 2–3 complete sentences?"
+
+    Clarity examples:
+    1 = "Branx blorps." (no idea what that means)
+    3 = "Branx sometimes helps." (still vague)
+    5 = "Branx Vale is clever and kind." (fairly clear)
+    7 = "Branx Vale is a bright puzzle‐solver who always cheers up friends."
+    10 = "Branx Vale, the bright puzzle‐solver with a ready smile, delights in turning challenges into group adventures."
+
+    Relatability examples:
+    1 = "Zephyrella drinks stardust." (unrelatable)
+    3 = "Zephyrella is friendly but odd."
+    5 = "Zephyrella Moonshade loves making new friends."
+    7 = "Zephyrella Moonshade stays up all night helping lost kittens under the moon."
+    10 = "Zephyrella Moonshade, bubbly and caring, rescues moonlit kittens and shares bedtime tales of her sky‐high flights."
+
+    Imagination examples:
+    1 = "Emily Rose is nice." (zero magic)
+    3 = "Oliver Quinn has a secret."
+    5 = "Elara Moon whispers to moonbeams."
+    7 = "Elara Moonlight Weaver spins starlight into protective cloaks."
+    10 = "Elara Moonlight Weaver weaves constellations into living tapestries that dance across the night sky."
+
+    Depth examples:
+    1 = "Lucas likes trees." (one flat fact)
+    3 = "Lucas Grey likes trees but fears heights."
+    5 = "Luna Maple explores forests but hesitates at dark caves."
+    7 = "Luna Maple Wyvern, a fearless forest guide, adores bird songs yet trembles in cave shadows."
+    10 = "Luna Maple Wyvern, fearless forest guide with a glowing lantern, adores bird songs, trembles at cave shadows, and dreams of unveiling the woods’ hidden wonders."
+
+    Structure examples:
+    1 = "Branx." (one word)
+    5 = "Branx Vale is a clever puzzle‐solver who loves laughter." (one sentence)
+    10 = "Branx Vale is a clever puzzle‐solver who loves laughter." "He sometimes overthinks challenges." "He dreams of building a giant labyrinth of friendship."
+
+    After scoring each trait, add them up and divide by 5 for a final 1–10 score.
+    You must only respond with the final average score as a number in digits. Do not quote or decorate or introduce the rating or include any other text, explanation or punctuation.
 development:
   <<: *default
 
