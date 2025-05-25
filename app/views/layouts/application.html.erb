@@ -6,11 +6,11 @@
   <%= csrf_meta_tags %>
   <%= stylesheet_link_tag "application", media: "all", data: { turbo_track: "reload" } %>
 </head>
-<body class="bg-gray-50 min-h-screen">
-  <nav class="flex items-center justify-between border-b border-gray-300 p-4">
+<body class="bg-gray-50 min-h-screen overflow-hidden">
+  <nav class="bg-gradient-to-r from-purple-600 to-indigo-500 text-white py-2 px-4 flex items-center justify-between">
     <div class="flex items-center">
-      <span class="text-2xl mr-2">🌳</span>
-      <span class="font-bold text-lg">TalingTrees</span>
+      <span class="text-xl mr-2">🌳</span>
+      <span class="font-bold text-base">TalingTrees</span>
     </div>
     <div class="flex items-center">
       <% tag_colors = {
