@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'tree_namer'
+
 module Tasks
   # Generates system prompts for trees using an LLM
   class SystemPrompts
@@ -61,14 +63,9 @@ module Tasks
     end
 
     def facts_for(tree)
-      lines = []
-      lines << "Name: #{tree.name}" if tree.respond_to?(:name)
-      if tree.respond_to?(:treedb_common_name) && tree.treedb_common_name.present?
-        lines << "Species: #{tree.treedb_common_name}"
-      end
+      details = TreeFacts.new(tree).facts
       rel_prompt = tree.chat_relationship_prompt.to_s
-      lines << rel_prompt unless rel_prompt.empty?
-      lines.join("\n")
+      [details, rel_prompt].reject { |l| l.to_s.strip.empty? }.join("\n")
     end
   end
 end

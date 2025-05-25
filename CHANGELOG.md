@@ -13,6 +13,10 @@ This log summarizes notable updates based on commit history and completed TODO i
 - Added logging for system prompt generation
 - Filtered <think> tags from generated system prompts
 
+## 2025-05-31
+- Added tree details to system prompt generation
+- Included tree name in the generated prompt facts
+
 ## 2025-05-27
 - Switched tree name verification to a rating system with configurable threshold
 - Documented the rating scale and updated tests
