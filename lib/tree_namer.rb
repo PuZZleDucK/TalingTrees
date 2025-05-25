@@ -153,13 +153,17 @@ module Tasks
                        else
                          verify.dig('message', 'content')
                        end.to_s.strip
-      if verify_content =~ /^y(es)?/i
+
+      rating_text = verify_content[/\d+(?:\.\d+)?/]
+      rating = rating_text ? rating_text.to_f : 0.0
+
+      if rating >= @config['rating_threshold'].to_f
         return false if duplicate_name?(name, tree, reasons)
 
         true
       else
-        puts "Rejected name after verification: #{name.inspect}"
-        reasons << 'failed verification'
+        puts "Rejected name after rating #{rating}: #{name.inspect}"
+        reasons << 'failed rating'
         false
       end
     end
