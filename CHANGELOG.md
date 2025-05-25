@@ -9,6 +9,10 @@ This log summarizes notable updates based on commit history and completed TODO i
 ## 2025-05-29
 - Generated unique system prompts for each tree using an LLM
 
+## 2025-05-30
+- Added logging for system prompt generation
+- Filtered <think> tags from generated system prompts
+
 ## 2025-05-27
 - Switched tree name verification to a rating system with configurable threshold
 - Documented the rating scale and updated tests

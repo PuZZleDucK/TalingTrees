@@ -53,13 +53,20 @@ class SystemPromptsTaskTest < Minitest::Test
     Object.send(:remove_const, :Ollama) if Object.const_defined?(:Ollama)
 
     stub_ollama = Class.new do
-      class << self; attr_accessor :last_params; end
+      class << self
+        attr_accessor :last_params, :response_data
+      end
 
       def initialize(credentials:); end
 
       def chat(params)
         SystemPromptsTaskTest.last_params = params
-        { 'message' => { 'content' => 'new prompt' } }
+        data = self.class.response_data
+        if data.is_a?(Array)
+          self.class.response_data = data[1..] || []
+          data = data.first
+        end
+        data || { 'message' => { 'content' => 'new prompt' } }
       end
     end
     Object.const_set(:Ollama, stub_ollama)
@@ -87,5 +94,14 @@ class SystemPromptsTaskTest < Minitest::Test
     content = self.class.last_params[:messages][1]['content']
     assert_includes content, 'rel info'
     assert_includes content, 'Oak'
+  end
+
+  def test_think_tag_removed
+    Ollama.response_data = [
+      { 'message' => { 'content' => '<think>hmm</think>Final' } }
+    ]
+    Rake.application['db:system_prompts'].reenable
+    Rake.application['db:system_prompts'].invoke
+    assert_equal 'Final', @tree.prompt
   end
 end
