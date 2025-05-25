@@ -118,7 +118,7 @@ Deployed to Koyeb: https://visiting-raynell-puzzleduck-f206ac43.koyeb.app/
 [x] add rubocop report to github action as another new comment
 [x] address rubocop issues
 [x] create new github action to trigger deploy to Keyob on merge to master
-[ ] review agents-advice.md and create AGENTS.md for project
+[x] review agents-advice.md and create AGENTS.md for project
 [ ] get test coverage up to 50%
 [ ] dark mode
 [ ] trees should have missions/objectives that users can help with... find my enemy, find my lost friend, ... (tree must have relation)
