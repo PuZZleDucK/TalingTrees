@@ -42,7 +42,12 @@ class ChatsController < ApplicationController
   def parse_history(hist)
     hist = JSON.parse(hist) if hist.is_a?(String)
     hist = [hist] if hist.is_a?(Hash)
-    hist
+    Array(hist).map do |msg|
+      if msg.is_a?(ActionController::Parameters)
+        msg = msg.to_unsafe_h
+      end
+      { 'role' => msg['role'], 'content' => msg['content'] }
+    end
   end
 
   def find_or_create_chat(tree)
@@ -74,15 +79,31 @@ class ChatsController < ApplicationController
       options: { server_sent_events: true }
     )
 
+    model = tree.llm_model.presence || default_llm_model
+
+    Rails.logger.info("[Ollama] Requesting chat for tree #{tree.id} using model #{model}")
+    Rails.logger.debug("[Ollama] Messages: #{messages.inspect}")
+
     assistant_content = ''
-    client.chat({ model: tree.llm_model, messages: messages }) do |chunk = nil, _raw = nil|
+    client.chat({ model: model, messages: messages }) do |chunk = nil, _raw = nil|
       content = chunk&.dig('message', 'content')
       next unless content
 
+      Rails.logger.debug("[Ollama] Received chunk: #{content}")
       assistant_content << content
       response.stream.write(content)
     end
+    Rails.logger.info("[Ollama] Completed chat for tree #{tree.id}")
     assistant_content
+  end
+
+  def default_llm_model
+    env = Rails.env || 'development'
+    config = YAML.load_file(Rails.root.join('config', 'llm.yml'), aliases: true)
+    config.fetch(env, {})['final_model']
+  rescue StandardError => e
+    Rails.logger.error("[Chat] Failed to load default model: #{e}")
+    nil
   end
 
   def user_message_count(chat)

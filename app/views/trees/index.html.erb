@@ -765,6 +765,11 @@
       input.value = '';
       historyDiv.scrollTop = historyDiv.scrollHeight;
 
+      console.log('Sending chat request', {
+        treeId: currentTreeId,
+        history: chatHistory.map(function(m){ return { role: m.role, content: m.content }; }),
+        chat_id: currentChatId
+      });
       fetch('/trees/' + currentTreeId + '/chat', {
         method: 'POST',
         headers: {
@@ -776,6 +781,7 @@
           chat_id: currentChatId
         })
       }).then(function(response){
+        console.log('Streaming response...');
         if (!currentChatId) {
           currentChatId = response.headers.get('X-Chat-Id');
         }
@@ -794,6 +800,7 @@
           reader.read().then(function(result){
             if (result.done) {
               var finalText = botContent.replace(/<think>[\s\S]*?<\/think>/, '');
+              console.log('Completed streaming', finalText);
               chatHistory.push({ role: 'assistant', content: botContent, div: botDiv });
               recordKnownTrees(finalText);
               recordUserTags(finalText);
@@ -801,6 +808,7 @@
               return;
             }
             var chunkText = decoder.decode(result.value, {stream: true});
+            console.log('Received chunk', chunkText);
             botContent += chunkText;
             renderBotContent();
             historyDiv.scrollTop = historyDiv.scrollHeight;
