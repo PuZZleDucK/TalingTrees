@@ -57,7 +57,7 @@ module Tasks
                   .map { |k, v| v.nil? || v.to_s.strip.empty? ? nil : "#{k}: #{v}" }
                   .compact.join("\n")
       neighbor_names = if @tree.respond_to?(:treedb_lat) && @tree.respond_to?(:treedb_long)
-                         @tree.neighbors_within(50).map { |n| n.name.to_s.strip }.reject(&:empty?)
+                         @tree.neighbors_within(100).map { |n| n.name.to_s.strip }.reject(&:empty?)
                        else
                          []
                        end
@@ -170,14 +170,14 @@ module Tasks
 
     def duplicate_name?(name, tree, reasons)
       neighbor_names = if tree.respond_to?(:treedb_lat) && tree.respond_to?(:treedb_long)
-                         tree.neighbors_within(50).map { |n| n.name.to_s.downcase.strip }.reject(&:empty?)
+                         tree.neighbors_within(100).map { |n| n.name.to_s.downcase.strip }.reject(&:empty?)
                        else
                          []
                        end
       return false unless neighbor_names.include?(name.downcase)
 
-      puts "Rejected duplicate name within 50m: #{name.inspect}"
-      reasons << 'duplicate within 50m'
+      puts "Rejected duplicate name within 100m: #{name.inspect}"
+      reasons << 'duplicate within 100m'
       true
     end
   end

@@ -2,6 +2,9 @@
 
 This log summarizes notable updates based on commit history and completed TODO items.
 
+## 2025-06-03
+- Increased duplicate name check radius to 100m
+
 ## 2025-06-02
 - Added validation loop for system prompt generation
 
