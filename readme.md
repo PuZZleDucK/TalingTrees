@@ -57,9 +57,16 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    bundle exec bundler-audit check
    bundle exec brakeman -q
    ```
+
+11. Build css:
+   ```
+   bundle exec rails assets:clobber
+   RAILS_ENV=development bundle exec rails assets:precompile
+   ```
+
 11. Start the Rails server:
    ```bash
-   bundle exec rails server
+   ./bin/dev
    ```
 
 ## Deployment
