@@ -58,14 +58,14 @@
             }
           }
           document.dispatchEvent(new CustomEvent('location-updated', { detail: { lat: pos.coords.latitude, lon: pos.coords.longitude } }));
-          fetch('<%= update_location_path %>', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
-            },
-            body: JSON.stringify({ lat: pos.coords.latitude, long: pos.coords.longitude })
-          });
+            var headers = { 'Content-Type': 'application/json' };
+            var meta = document.querySelector('meta[name="csrf-token"]');
+            if (meta) { headers['X-CSRF-Token'] = meta.content; }
+            fetch('<%= update_location_path %>', {
+              method: 'POST',
+              headers: headers,
+              body: JSON.stringify({ lat: pos.coords.latitude, long: pos.coords.longitude })
+            });
         });
       }
     });
