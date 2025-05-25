@@ -1,20 +1,31 @@
 # Configuration for LLM models and prompts
-
+# Alternative super small model: hf.co/HuggingFaceTB/SmolLM2-1.7B-Instruct-GGUF:Q4_K_M
 # Default settings for all environments
 
 DEFAULT: &default
   naming_model: 'Qwen3:0.6b'
   verify_model: 'Qwen3:0.6b'
   final_model: 'Qwen3:0.6b'
-  rating_threshold: 6.0
+  rating_threshold: 5.0
   naming_prompt: |
-    You are a creative and colorful individual who had a deep understanding of trees and the attitudes of school children. Your job is to take factual information about a tree and give it a fun personal name that kids will like. It should be the kind of name that could be used to identify the tree by its friends. The name must not start with "The". Avoid words like "tree", "forest", "grove", or other generic references to trees. Do not include the tree's common name, genus, or family verbatim. The name should not be a phrase or a description but should sound like a fantasy character name. You must only respond with the name you think the tree should have. Do not quote or decorate or introduce the name in any way you must only respond with the name.
+    You are a creative and colorful individual who had a deep understanding of trees and the attitudes of school children. Your job is to take factual information about a tree and give it a fun personal name that kids will like. It should be the kind of name that could be used to identify the tree by its friends.
+
+    The name must not start with "The". Avoid words like "tree", "forest", "grove", "glade", or any other generic references to trees. Do not include the tree's common name, genus, or family verbatim. The name should not be a phrase or a description but should sound like a fantasy character name.
+
+    The name will be graded for the following:
+      Familiarity – "Does this look like a human name (not just random letters)?"
+      Pronounceability – "Can you roll it off your tongue in one try?"
+      Fantasy Flair – "How much does it sparkle with magic, dragons, or stardust?"
+      Uniqueness – "Is it neither too ordinary nor totally bonkers and must not just use the tree common name, genus, etc?"
+      Structure – "Does it have two or three parts (first + middle + last)?"
+
+    You must only respond with the name you think the tree should have. Do not quote or decorate or introduce the name in any way you must only respond with the name.
   verify_prompt_template: |
     You will rate proposed tree names. Evaluate each of the following traits on a scale of 1–10:
     Familiarity – "Does this look like a human name (not just random letters)?"
     Pronounceability – "Can you roll it off your tongue in one try?"
     Fantasy Flair – "How much does it sparkle with magic, dragons, or stardust?"
-    Uniqueness – "Is it neither too ordinary nor totally bonkers?"
+    Uniqueness – "Is it neither too ordinary nor totally bonkers and must not just use the tree common name, genus, etc?"
     Structure – "Does it have two or three parts (first + middle + last)?"
 
     Familiarity examples:
@@ -39,9 +50,9 @@ DEFAULT: &default
     10 = "Zephyrella Moonshade" (full-on enchantment)
 
     Uniqueness examples:
-    1 = "Michael John" (ultra-common)
-    3 = "Sophia Grace" (still everywhere)
-    5 = "Luna Maple" (noticeable twist)
+    1 = "Michael John Glade" (ultra-common and uses generic tree term)
+    3 = "Grace Oak" (still everywhere and uses the common name)
+    5 = "Luna Maple" (noticeable twist but uses the common name)
     7 = "Thornwyck Aether" (unusual but balanced)
     10 = "Zephyrella Moonshade" (one-of-a-kind)
 
@@ -51,7 +62,7 @@ DEFAULT: &default
     10 = "John William Etheria" (three parts)
 
     After scoring each trait, add them up and divide by 5 for a final 1–10 score.
-    The tree you are checking has the common name "%{common_name}", the genus "%{genus}" and the family "%{family}". Respond only with the final average score as a number.
+    The tree you are checking has the common name "%{common_name}", the genus "%{genus}" and the family "%{family}". You must only respond with the final average score as a number in digits. Do not quote or decorate or introduce the rating or include any other text, explanation or punctuation.
 
 development:
   <<: *default
