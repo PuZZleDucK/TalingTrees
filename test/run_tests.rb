@@ -14,6 +14,7 @@ Minitest.after_run do
     coverage.each do |file, data|
       next unless file.start_with?(root)
       next if file.include?('/test/')
+      next if file.include?('/vendor/bundle/')
 
       covered_lines = data.count { |line| line&.positive? }
       total_lines_file = data.size
