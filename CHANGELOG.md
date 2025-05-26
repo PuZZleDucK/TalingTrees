@@ -8,6 +8,9 @@ This log summarizes notable updates based on commit history and completed TODO i
 - Simplified CI workflow to rely on `test/run_tests.rb` for security and linting reports
 - Added workflow to build Docker image in CI
 
+## 2025-05-26
+- Added rake task `db:download_vic_suburbs` to download Victorian suburb shapefiles
+
 ## 2025-06-09
 - Installed Node.js 20 via NodeSource in Docker build to ensure corepack is available
 - Documented Node.js requirement in README
