@@ -36,7 +36,7 @@ RUN bash -lc "\
       asdf global ruby \$(awk '/^ruby/ {print \$2}' .tool-versions) \
     " && \
     bash -lc "gem install bundler && bundle install --without development test --jobs 4 --retry 3" \
-    && yarn install --frozen-lockfile
+    && yarn install --immutable
 
 # copy the rest of your code
 COPY . .
