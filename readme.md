@@ -143,6 +143,7 @@ must configure this value manually.
 [x] address bundler-audit issues
 [x] add rubocop report to github action as another new comment
 [x] address rubocop issues
+[x] build docker image in CI
 [x] create new github action to trigger deploy to Keyob on merge to master
 [x] review agents-advice.md and create AGENTS.md for project
 [x] get test coverage up to 50%
@@ -155,7 +156,7 @@ must configure this value manually.
 [x] stop assigning a system prompt when naming trees
 [x] system prompt generation validates structure and retries until valid
 [x] update or add system prompt llm rating check
-[ ] update system prompt generation to align with rating guidance
+[x] update system prompt generation to align with rating guidance
 [ ] create a database table for storing bounding boxes for melbourne suburbs and populate the table with data from ...
 [ ] when naming trees we should use lat/long data to lookup suburb and relative location in it. also save those details to the db for later use
 [ ] when naming trees we should use lat/long data to lookup nearby landmarks. also save those details to the db for later use

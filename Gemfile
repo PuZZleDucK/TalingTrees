@@ -19,4 +19,5 @@ group :development do
   gem 'bundler-audit', require: false
   gem 'listen'
   gem 'rubocop', require: false
+  gem 'rubocop-discourse'
 end

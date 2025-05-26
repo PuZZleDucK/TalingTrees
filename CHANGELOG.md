@@ -4,9 +4,9 @@ This log summarizes notable updates based on commit history and completed TODO i
 
 ## 2025-06-12
 - Raised RuboCop metric limits and cleaned up tests to remove inline disables
-
-## 2025-06-11
 - Simplified CI workflow to rely on `test/run_tests.rb` for security and linting reports
+- Simplified CI workflow to rely on `test/run_tests.rb` for security and linting reports
+- Added workflow to build Docker image in CI
 
 ## 2025-06-09
 - Installed Node.js 20 via NodeSource in Docker build to ensure corepack is available
