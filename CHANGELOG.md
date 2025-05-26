@@ -2,6 +2,11 @@
 
 This log summarizes notable updates based on commit history and completed TODO items.
 
+## 2025-06-09
+- Installed Node.js 20 via NodeSource in Docker build to ensure corepack is available
+- Documented Node.js requirement in README
+- Enabled Yarn 4 via corepack in the Docker build and README instructions
+
 ## 2025-06-07
 - Switched Docker build to use `yarn install --immutable` for compatibility with Yarn 4
 - Updated controller tests to exercise real application code

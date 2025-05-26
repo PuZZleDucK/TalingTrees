@@ -16,48 +16,53 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    ```bash
    bundle install
    ```
-2. Install Node packages (requires Yarn 4 via corepack):
+2. Install Node.js 20 or later (example for Ubuntu):
+   ```bash
+   curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+   sudo apt-get install -y nodejs
+   ```
+3. Install Node packages (requires Yarn 4 via corepack):
    ```bash
    corepack enable
    corepack prepare yarn@stable --activate
    yarn install --immutable
    ```
-3. Install or update Ollama and download the models:
+4. Install or update Ollama and download the models:
    ```bash
    bundle exec rake ollama:setup
    ```
-4. Create and migrate the database:
+5. Create and migrate the database:
    ```bash
    bundle exec rails db:create
    bundle exec rails db:migrate
    ```
-5. Seed initial users:
+6. Seed initial users:
    ```bash
    bundle exec rails db:seed
    ```
-6. Download tree data:
+7. Download tree data:
    ```bash
    bundle exec rake db:download_trees
    ```
-7. Import the downloaded tree data (clears existing trees):
+8. Import the downloaded tree data (clears existing trees):
    ```bash
    bundle exec rake db:import_trees
    ```
    The prompts and models used when naming trees are configured in `config/llm.yml`.
-8. Name the trees:
+9. Name the trees:
    ```bash
    bundle exec rake db:name_trees
    ```
-9. Add tree relationships:
+10. Add tree relationships:
    ```bash
    bundle exec rake db:add_relationships
    ```
-10. Generate system prompts:
+11. Generate system prompts:
    ```bash
    bundle exec rake db:system_prompts
    ```
    This task now calls the configured LLM to craft a unique personality prompt for each tree based on its name and relationships.
-11. Run the test suite:
+12. Run the test suite:
    ```bash
    ruby test/run_tests.rb
    ```
@@ -67,12 +72,12 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    bundle exec brakeman -q
    ```
 
-12. Build css:
+13. Build css:
    ```bash
    yarn build:css
    ```
 
-13. Start the Rails server:
+14. Start the Rails server:
    ```bash
    ./bin/dev
    ```

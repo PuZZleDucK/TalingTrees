@@ -15,8 +15,9 @@ RUN apt-get update -qq && \
       libyaml-dev \
       git \
       curl \
-      nodejs \
       libpq-dev && \
+    curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs && \
     rm -rf /var/lib/apt/lists/* && \
     corepack enable && corepack prepare yarn@stable --activate
 
