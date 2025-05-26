@@ -56,7 +56,7 @@ module Tasks
         tree.public_send("#{attr}=", value) if current.blank?
       end
 
-      tree.llm_sustem_prompt = nil if tree.new_record?
+      tree.llm_system_prompt = nil if tree.new_record?
       tree.save! if tree.changed?
     end
 

@@ -53,7 +53,7 @@ module Tasks
 
     def facts
       base = @tree.attributes
-                  .except('id', 'treedb_com_id', 'llm_model', 'llm_sustem_prompt', 'created_at', 'updated_at')
+                 .except('id', 'treedb_com_id', 'llm_model', 'llm_system_prompt', 'created_at', 'updated_at')
                   .map { |k, v| v.nil? || v.to_s.strip.empty? ? nil : "#{k}: #{v}" }
                   .compact.join("\n")
       neighbor_names = if @tree.respond_to?(:treedb_lat) && @tree.respond_to?(:treedb_long)

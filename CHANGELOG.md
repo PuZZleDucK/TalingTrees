@@ -2,6 +2,9 @@
 
 This log summarizes notable updates based on commit history and completed TODO items.
 
+## 2025-06-05
+- Renamed `llm_sustem_prompt` column to `llm_system_prompt`
+
 ## 2025-06-03
 - Increased duplicate name check radius to 100m
 

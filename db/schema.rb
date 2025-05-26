@@ -67,7 +67,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_20_100020) do
     t.float "treedb_lat"
     t.float "treedb_long"
     t.string "llm_model"
-    t.text "llm_sustem_prompt"
+    t.text "llm_system_prompt"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

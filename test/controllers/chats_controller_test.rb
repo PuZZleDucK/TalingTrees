@@ -2,7 +2,7 @@
 
 require_relative '../test_helper'
 require 'minitest/autorun'
-TreeStub = Struct.new(:id, :llm_model, :llm_sustem_prompt, :chat_relationship_prompt, keyword_init: true)
+TreeStub = Struct.new(:id, :llm_model, :llm_system_prompt, :chat_relationship_prompt, keyword_init: true)
 MessageStub = Struct.new(:role, :content, keyword_init: true)
 ChatStub = Struct.new(:id, :user, :tree, :messages, keyword_init: true)
 UserStub = Struct.new(:id, keyword_init: true)
@@ -27,12 +27,12 @@ end
 # Minimal version of ChatsController#create focusing on the Ollama call
 class ChatsController
   def create(params)
-    tree = params[:tree] || TreeStub.new(llm_model: 'model', llm_sustem_prompt: 'prompt')
+    tree = params[:tree] || TreeStub.new(llm_model: 'model', llm_system_prompt: 'prompt')
     history = params[:history]
     history = JSON.parse(history) if history.is_a?(String)
     history = [history] if history.is_a?(Hash)
 
-    system_prompt = tree.llm_sustem_prompt.to_s
+    system_prompt = tree.llm_system_prompt.to_s
     messages = [{ 'role' => 'system', 'content' => system_prompt }] + history.to_a
 
     client = Ollama.new(
@@ -149,7 +149,7 @@ class ChatsControllerTest < Minitest::Test
 
   def test_create_uses_only_system_prompt
     controller = ChatsController.new
-    tree = TreeStub.new(llm_model: 'model', llm_sustem_prompt: 'base', chat_relationship_prompt: ' extras')
+    tree = TreeStub.new(llm_model: 'model', llm_system_prompt: 'base', chat_relationship_prompt: ' extras')
     controller.create(history: { 'role' => 'user', 'content' => 'hi' }, tree: tree)
     messages = Ollama.last_payload[:messages]
     assert_equal 'base', messages.first['content']

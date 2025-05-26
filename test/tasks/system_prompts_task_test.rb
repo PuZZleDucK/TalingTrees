@@ -24,7 +24,15 @@ class SystemPromptsTaskTest < Minitest::Test
   def setup
     self.class.setup_tree_class
 
-    @tree = Tree.new(name: 'Oak', treedb_common_name: 'Blue Gum')
+    TreeRelationship.singleton_class.class_eval do
+      attr_accessor :records
+
+      def where(tree_id:, kind: nil)
+        Array(records).select { |r| r.tree_id == tree_id }
+      end
+    end
+
+    @tree = Tree.new(name: 'Oak', treedb_common_name: 'Blue Gum', llm_system_prompt: nil)
     @tree.define_singleton_method(:id) { 1 }
     class << @tree
       attr_reader :prompt
@@ -34,7 +42,7 @@ class SystemPromptsTaskTest < Minitest::Test
       end
 
       def update!(attrs)
-        @prompt = attrs[:llm_sustem_prompt]
+        @prompt = attrs[:llm_system_prompt]
       end
     end
 
@@ -161,7 +169,7 @@ class SystemPromptsTaskTest < Minitest::Test
         Array(records).select { |r| r.tree_id == tree_id }
       end
     end
-    related = Tree.new(name: 'Piny')
+    related = Tree.new(name: 'Piny', llm_system_prompt: nil)
     rel = TreeRelationship.new(tree_id: 1, related_tree: related, kind: 'neighbor')
     TreeRelationship.records = [rel]
 

@@ -101,7 +101,7 @@ class NameTreesTaskTest < Minitest::Test
 
   def test_does_not_assign_system_prompt
     Rake.application['db:name_trees'].invoke
-    assert_nil @tree.attributes['llm_sustem_prompt']
+    assert_nil @tree.attributes['llm_system_prompt']
   end
 
   def test_response_is_cleaned_of_think_tags
