@@ -14,5 +14,5 @@ Rails.application.configure do
   config.active_storage.service = :local
 
   # koyeb deployment
-  config.hosts << "visiting-raynell-puzzleduck-f206ac43.koyeb.app"
+  config.hosts << 'visiting-raynell-puzzleduck-f206ac43.koyeb.app'
 end
