@@ -27,7 +27,7 @@ ENV PATH=${ASDF_DIR}/bin:${ASDF_DIR}/shims:${PATH}
 RUN git clone https://github.com/asdf-vm/asdf.git ${ASDF_DIR} --branch v0.12.0
 
 WORKDIR /myapp
-COPY .tool-versions Gemfile Gemfile.lock ./
+COPY .tool-versions Gemfile Gemfile.lock package.json yarn.lock ./
 
 RUN bash -lc "\
       . ${ASDF_DIR}/asdf.sh && \
@@ -35,10 +35,12 @@ RUN bash -lc "\
       asdf install && \
       asdf global ruby \$(awk '/^ruby/ {print \$2}' .tool-versions) \
     " && \
-    bash -lc "gem install bundler && bundle install --without development test --jobs 4 --retry 3"
+    bash -lc "gem install bundler && bundle install --without development test --jobs 4 --retry 3" \
+    && yarn install --frozen-lockfile
 
 # copy the rest of your code
 COPY . .
+RUN yarn build:css
 ENV RAILS_ENV=production
 ENV SECRET_KEY_BASE=705bbf912138dbddea76f9a859a37a9f1e966d0d61fdc9f093ded8f4bfa44f0104ebae62022199d31700a8346aa912f39212ca2f7d8e8cc9a3f7600a2eb3375c
 RUN bundle exec rails db:migrate

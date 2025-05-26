@@ -18,5 +18,8 @@ sleep 5
 # bundle exec rake db:add_relationships
 # bundle exec rake db:system_prompts
 
+# Compile Tailwind CSS
+yarn build:css
+
 # 4) Finally, launch Rails
 exec bundle exec rails server -b 0.0.0.0
