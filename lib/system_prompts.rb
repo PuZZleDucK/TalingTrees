@@ -15,6 +15,9 @@ module Tasks
 
       Tree.find_each do |tree|
         identifier = tree.respond_to?(:id) ? "##{tree.id}" : tree.to_s
+        next if tree.llm_sustem_prompt.present?
+
+        puts ''
         puts "Generating system prompt for tree #{identifier}"
 
         prompt = generator.generate(tree)
@@ -80,6 +83,7 @@ module Tasks
     def valid_prompt?(prompt, tree, reasons)
       unless prompt.start_with?('You are to roleplay as')
         puts "Rejected prompt due to missing intro: #{prompt.inspect}"
+        puts ''
         reasons << 'missing intro'
         return false
       end
@@ -87,7 +91,7 @@ module Tasks
       name = tree.respond_to?(:name) ? tree.name.to_s.strip : ''
       unless name.empty? || prompt.include?(name)
         puts "Rejected prompt due to missing name: #{prompt.inspect}"
-        reasons << 'missing name'
+        reasons << "missing name: '#{name}'"
         return false
       end
 
@@ -119,7 +123,7 @@ module Tasks
                   else
                     []
                   end
-      unless rel_names.empty? || rel_names.all? { |n| prompt.downcase.include?(n.downcase) }
+      unless rel_names.empty? || rel_names.any? { |n| prompt.downcase.include?(n.downcase) }
         puts "Rejected prompt due to missing relationships: #{prompt.inspect}"
         reasons << 'missing relationships'
         return false
