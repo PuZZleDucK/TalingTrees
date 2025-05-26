@@ -16,8 +16,10 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    ```bash
    bundle install
    ```
-2. Install Node packages:
+2. Install Node packages (requires Yarn 4 via corepack):
    ```bash
+   corepack enable
+   corepack prepare yarn@stable --activate
    yarn install --immutable
    ```
 3. Install or update Ollama and download the models:
