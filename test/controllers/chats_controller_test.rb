@@ -2,10 +2,7 @@
 
 require_relative '../test_helper'
 require 'minitest/autorun'
-TreeStub = Struct.new(:id, :llm_model, :llm_system_prompt, :chat_relationship_prompt, keyword_init: true)
-MessageStub = Struct.new(:role, :content, keyword_init: true)
-ChatStub = Struct.new(:id, :user, :tree, :messages, keyword_init: true)
-UserStub = Struct.new(:id, keyword_init: true)
+require_relative '../../app/controllers/chats_controller'
 
 # Minimal stub simulating the Ollama client used in ChatsController
 class Ollama
@@ -24,73 +21,71 @@ class Ollama
   end
 end
 
-# Minimal version of ChatsController#create focusing on the Ollama call
-class ChatsController
-  def create(params)
-    tree = params[:tree] || TreeStub.new(llm_model: 'model', llm_system_prompt: 'prompt')
-    history = params[:history]
-    history = JSON.parse(history) if history.is_a?(String)
-    history = [history] if history.is_a?(Hash)
-
-    system_prompt = tree.llm_system_prompt.to_s
-    messages = [{ 'role' => 'system', 'content' => system_prompt }] + history.to_a
-
-    client = Ollama.new(
-      credentials: { address: 'http://localhost:11434' },
-      options: { server_sent_events: true }
-    )
-    assistant_content = String.new
-    client.chat({ model: tree.llm_model, messages: messages }) do |chunk = nil, _raw = nil|
-      content = chunk&.dig('message', 'content')
-      assistant_content << content if content
-    end
-    assistant_content
+# Helper association for storing messages on Chat records in tests
+class MessagesAssoc
+  def initialize(chat)
+    @chat = chat
+    @records = []
   end
 
-  def history(chat)
-    if chat
-      msgs = chat.messages.map { |m| { role: m.role, content: m.content } }
-      { chat_id: chat.id, messages: msgs }
-    else
-      { chat_id: nil, messages: [] }
-    end
+  def create!(attrs)
+    msg = Message.new(attrs)
+    @records << msg
+    Message.records << { chat_id: @chat.id, role: attrs[:role], content: attrs[:content] }
+    msg
   end
 
-  def maybe_mark_friendly(chat)
-    user = chat.user
-    tree = chat.tree
+  def order(*_args)
+    @records
+  end
 
-    count = if Message.respond_to?(:joins)
-              0
-            else
-              msgs = Array(Message.records)
-              chats = Array(Chat.records)
-              msgs.count do |m|
-                next false unless m[:role] == 'user'
+  def map(&block)
+    @records.map(&block)
+  end
 
-                rec = chats.find { |c| c[:id] == m[:chat_id] }
-                rec && rec[:user_id] == user.id && rec[:tree_id] == tree.id
-              end
-            end
-
-    return unless count >= 3
-
-    if UserTag.respond_to?(:find_or_create_by!)
-      UserTag.find_or_create_by!(tree: tree, user: user, tag: 'friendly')
-    else
-      UserTag.records ||= []
-      unless UserTag.records.any? { |r| r[:tree_id] == tree.id && r[:user_id] == user.id && r[:tag] == 'friendly' }
-        UserTag.records << { tree_id: tree.id, user_id: user.id, tag: 'friendly' }
-      end
-    end
+  def empty?
+    @records.empty?
   end
 end
 
+
 class ChatsControllerTest < Minitest::Test
   def setup
-    Chat.singleton_class.class_eval { attr_accessor :records }
+    Chat.singleton_class.class_eval do
+      attr_accessor :records
+
+      def create!(attrs)
+        self.records ||= []
+        chat = Chat.new(attrs.merge(id: (records.size + 1)))
+        chat.define_singleton_method(:messages) { @messages ||= MessagesAssoc.new(self) }
+        records << { id: chat.id, user_id: attrs[:user].id, tree_id: attrs[:tree].id, obj: chat }
+        chat
+      end
+
+      def where(user:, tree:)
+        Array(records).select { |r| r[:user_id] == user.id && r[:tree_id] == tree.id }.map { |r| r[:obj] }.tap do |arr|
+          def arr.order(created_at: :desc)
+            self
+          end
+        end
+      end
+
+      def find(id)
+        rec = Array(records).find { |r| r[:id] == id }
+        rec && rec[:obj]
+      end
+    end
+
+    Tree.singleton_class.class_eval do
+      attr_accessor :records
+      def find(id)
+        Array(records).find { |t| t.id == id }
+      end
+    end
+
     Message.singleton_class.class_eval { attr_accessor :records }
     UserTag.singleton_class.class_eval { attr_accessor :records }
+
     Chat.records = []
     Message.records = []
     UserTag.records = []
@@ -100,43 +95,69 @@ class ChatsControllerTest < Minitest::Test
     Chat.records = nil
     Message.records = nil
     UserTag.records = nil
+    Tree.records = nil
   end
 
   def test_create_handles_stream_without_arguments
+    tree = Tree.new(id: 1, llm_model: 'model', llm_system_prompt: 'prompt')
+    Tree.records = [tree]
+
     controller = ChatsController.new
-    assert_silent do
-      controller.create(history: [{ 'role' => 'user', 'content' => 'hi' }])
-    end
+    controller.instance_variable_set(:@current_user, User.new(id: 1))
+    controller.params = { id: 1, history: [{ 'role' => 'user', 'content' => 'hi' }] }
+
+    assert_silent { controller.create }
+  ensure
+    Tree.records = nil
   end
 
   def test_create_accepts_single_message_hash
+    tree = Tree.new(id: 1, llm_model: 'model', llm_system_prompt: 'prompt')
+    Tree.records = [tree]
     controller = ChatsController.new
-    assert_silent do
-      controller.create(history: { 'role' => 'user', 'content' => 'hi' })
-    end
+    controller.instance_variable_set(:@current_user, User.new(id: 1))
+    controller.params = { id: 1, history: { 'role' => 'user', 'content' => 'hi' } }
+    assert_silent { controller.create }
+  ensure
+    Tree.records = nil
   end
 
   def test_create_accumulates_response_content
+    tree = Tree.new(id: 1, llm_model: 'model', llm_system_prompt: 'prompt')
+    Tree.records = [tree]
     controller = ChatsController.new
+    controller.instance_variable_set(:@current_user, User.new(id: 1))
+    controller.params = { id: 1, history: { 'role' => 'user', 'content' => 'hi' } }
     Ollama.response_chunks = [
       { 'message' => { 'content' => 'hello ' } },
       { 'message' => { 'content' => 'world' } }
     ]
-    result = controller.create(history: { 'role' => 'user', 'content' => 'hi' })
-    assert_equal 'hello world', result
+    controller.create
+    assert_equal 'hello world', controller.response.stream.chunks.join
+    chat = Chat.records.last[:obj]
+    assert_equal 'hello world', chat.messages.map(&:content).last
   ensure
     Ollama.response_chunks = nil
+    Tree.records = nil
   end
 
   def test_history_returns_messages
+    user = User.new(id: 1)
+    tree = Tree.new(id: 2)
+
+    Tree.records = [tree]
+
+    chat = Chat.new(id: 1, user: user, tree: tree)
+    chat.define_singleton_method(:messages) { @messages ||= MessagesAssoc.new(chat) }
+    chat.messages.create!(role: 'user', content: 'hi')
+    chat.messages.create!(role: 'assistant', content: 'hello')
+    Chat.records << { id: 1, user_id: 1, tree_id: 2, obj: chat }
+
     controller = ChatsController.new
-    chat = ChatStub.new(
-      id: 1,
-      messages: [
-        MessageStub.new(role: 'user', content: 'hi'),
-        MessageStub.new(role: 'assistant', content: 'hello')
-      ]
-    )
+    controller.instance_variable_set(:@current_user, user)
+    controller.params = { id: 2 }
+    controller.history
+
     expected = {
       chat_id: 1,
       messages: [
@@ -144,34 +165,43 @@ class ChatsControllerTest < Minitest::Test
         { role: 'assistant', content: 'hello' }
       ]
     }
-    assert_equal expected, controller.history(chat)
+
+    assert_equal expected, controller.rendered
+  ensure
+    Chat.records = nil
+    Tree.records = nil
   end
 
   def test_create_uses_only_system_prompt
+    tree = Tree.new(id: 1, llm_model: 'model', llm_system_prompt: 'base', chat_relationship_prompt: ' extras')
+    Tree.records = [tree]
     controller = ChatsController.new
-    tree = TreeStub.new(llm_model: 'model', llm_system_prompt: 'base', chat_relationship_prompt: ' extras')
-    controller.create(history: { 'role' => 'user', 'content' => 'hi' }, tree: tree)
+    controller.instance_variable_set(:@current_user, User.new(id: 1))
+    controller.params = { id: 1, history: { 'role' => 'user', 'content' => 'hi' } }
+    controller.create
     messages = Ollama.last_payload[:messages]
     assert_equal 'base', messages.first['content']
+  ensure
+    Tree.records = nil
   end
 
   def test_maybe_mark_friendly_adds_tag_after_three_messages
     controller = ChatsController.new
-    user = UserStub.new(id: 1)
-    tree = TreeStub.new(id: 2)
-    chat = ChatStub.new(id: 3, user: user, tree: tree)
-    Chat.records << { id: 3, user_id: 1, tree_id: 2 }
+    user = User.new(id: 1)
+    tree = Tree.new(id: 2)
+    chat = Chat.new(id: 3, user: user, tree: tree)
+    Chat.records << { id: 3, user_id: 1, tree_id: 2, obj: chat }
 
     Message.records << { chat_id: 3, role: 'user', content: 'hi1' }
-    controller.maybe_mark_friendly(chat)
+    controller.send(:maybe_mark_friendly, chat)
     assert_empty UserTag.records
 
     Message.records << { chat_id: 3, role: 'user', content: 'hi2' }
-    controller.maybe_mark_friendly(chat)
+    controller.send(:maybe_mark_friendly, chat)
     assert_empty UserTag.records
 
     Message.records << { chat_id: 3, role: 'user', content: 'hi3' }
-    controller.maybe_mark_friendly(chat)
+    controller.send(:maybe_mark_friendly, chat)
     assert_includes UserTag.records, { tree_id: 2, user_id: 1, tag: 'friendly' }
   end
 end

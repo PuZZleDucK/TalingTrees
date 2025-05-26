@@ -2,11 +2,9 @@
 
 This log summarizes notable updates based on commit history and completed TODO items.
 
-## 2025-06-08
-- Enabled Yarn 4 via corepack in the Docker build and README instructions
-
 ## 2025-06-07
 - Switched Docker build to use `yarn install --immutable` for compatibility with Yarn 4
+- Updated controller tests to exercise real application code
 
 ## 2025-06-06
 - Installed Node dependencies and compiled Tailwind CSS during Docker build
