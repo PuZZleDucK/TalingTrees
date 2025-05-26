@@ -73,6 +73,7 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    ```
 
 When running the app you can toggle dark mode using the moon/sun icon in the navigation bar. Your preference is saved in local storage.
+Use the search box above the tree list to quickly filter by name.
 
 ## Deployment
 Deployed to Koyeb: https://visiting-raynell-puzzleduck-f206ac43.koyeb.app/
@@ -153,3 +154,4 @@ Deployed to Koyeb: https://visiting-raynell-puzzleduck-f206ac43.koyeb.app/
 [ ] new tree mission: find all the ... trees named bob, trees of a species, trees on x road, trees in x park, ... (must be less than 6 in db)
 [ ] custom tree images - trees have images that start as the default logo, but users with the right tags could take a selfie of the tree and update it's image
 [ ] get test coverage up
+[ ] fix RuboCop offenses across the repository

@@ -26,22 +26,20 @@ class ApplicationRecord < ActiveRecord::Base
       attrs.each { |k, v| send("#{k}=", v) }
     end
 
-    def method_missing(name, *args, &)
-      attr = name.to_s
-      if attr.end_with?('=')
-        (@attributes ||= {})[attr.chomp('=').to_sym] = args.first
-      elsif (@attributes ||= {}).key?(name.to_sym)
-        @attributes[name.to_sym]
-      else
-        super
+      def method_missing(name, *args, &)
+        attr = name.to_s
+        if attr.end_with?('=')
+          (@attributes ||= {})[attr.chomp('=').to_sym] = args.first
+        else
+          (@attributes ||= {})[name.to_sym]
+        end
       end
-    end
 
-    def respond_to_missing?(name, include_private = false)
-      attr = name.to_s
-      (@attributes ||= {}).key?(name.to_sym) ||
-        (@attributes ||= {}).key?(attr.chomp('=').to_sym) ||
-        super
-    end
+      def respond_to_missing?(name, include_private = false)
+        attr = name.to_s
+        (@attributes ||= {}).key?(name.to_sym) ||
+          (@attributes ||= {}).key?(attr.chomp('=').to_sym) ||
+          super
+      end
   end
 end
