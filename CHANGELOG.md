@@ -8,6 +8,9 @@ This log summarizes notable updates based on commit history and completed TODO i
 ## 2025-06-04
 - Added rating verification for system prompts
 
+## 2025-06-05
+- Added search box to filter the tree list
+
 ## 2025-06-02
 - Added validation loop for system prompt generation
 
