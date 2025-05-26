@@ -25,7 +25,7 @@ jobs:
           bundle exec brakeman -q | tee brakeman_report.txt
       - name: Run RuboCop
         run: |
-          bundle exec rubocop | tee rubocop_report.txt
+          bundle exec rubocop --format simple --no-color | tee rubocop_report.txt
         continue-on-error: true
       - name: Run bundler-audit
         run: |
@@ -61,7 +61,11 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const report = fs.readFileSync('rubocop_report.txt','utf8');
+            const path = 'rubocop_report.txt';
+            let report = '';
+            if (fs.existsSync(path)) {
+              report = fs.readFileSync(path, 'utf8');
+            }
             const body = `**RuboCop Report**\n\n\`\`\`\n${report}\n\`\`\``;
             github.rest.issues.createComment({
               owner: context.repo.owner,
