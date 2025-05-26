@@ -16,42 +16,46 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    ```bash
    bundle install
    ```
-2. Install or update Ollama and download the models:
+2. Install Node packages:
+   ```bash
+   yarn install --immutable
+   ```
+3. Install or update Ollama and download the models:
    ```bash
    bundle exec rake ollama:setup
    ```
-3. Create and migrate the database:
+4. Create and migrate the database:
    ```bash
    bundle exec rails db:create
    bundle exec rails db:migrate
    ```
-4. Seed initial users:
+5. Seed initial users:
    ```bash
    bundle exec rails db:seed
    ```
-5. Download tree data:
+6. Download tree data:
    ```bash
    bundle exec rake db:download_trees
    ```
-6. Import the downloaded tree data (clears existing trees):
+7. Import the downloaded tree data (clears existing trees):
    ```bash
    bundle exec rake db:import_trees
    ```
    The prompts and models used when naming trees are configured in `config/llm.yml`.
-7. Name the trees:
+8. Name the trees:
    ```bash
    bundle exec rake db:name_trees
    ```
-8. Add tree relationships:
+9. Add tree relationships:
    ```bash
    bundle exec rake db:add_relationships
    ```
-9. Generate system prompts:
+10. Generate system prompts:
    ```bash
    bundle exec rake db:system_prompts
    ```
    This task now calls the configured LLM to craft a unique personality prompt for each tree based on its name and relationships.
-10. Run the test suite:
+11. Run the test suite:
    ```bash
    ruby test/run_tests.rb
    ```
@@ -61,12 +65,12 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    bundle exec brakeman -q
    ```
 
-11. Build css:
+12. Build css:
    ```bash
    yarn build:css
    ```
 
-12. Start the Rails server:
+13. Start the Rails server:
    ```bash
    ./bin/dev
    ```
