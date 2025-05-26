@@ -44,25 +44,29 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    ```bash
    bundle exec rake db:download_trees
    ```
-8. Import the downloaded tree data (clears existing trees):
+8. Download the Victorian suburbs dataset:
+   ```bash
+   bundle exec rake db:download_vic_suburbs
+   ```
+9. Import the downloaded tree data (clears existing trees):
    ```bash
    bundle exec rake db:import_trees
    ```
    The prompts and models used when naming trees are configured in `config/llm.yml`.
-9. Name the trees:
+10. Name the trees:
    ```bash
    bundle exec rake db:name_trees
    ```
-10. Add tree relationships:
+11. Add tree relationships:
    ```bash
    bundle exec rake db:add_relationships
    ```
-11. Generate system prompts:
+12. Generate system prompts:
    ```bash
    bundle exec rake db:system_prompts
    ```
    This task now calls the configured LLM to craft a unique personality prompt for each tree based on its name and relationships.
-12. Run the test suite:
+13. Run the test suite:
    ```bash
    ruby test/run_tests.rb
    ```
@@ -72,12 +76,12 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    bundle exec brakeman -q
    ```
 
-13. Build css:
+14. Build css:
    ```bash
    yarn build:css
    ```
 
-14. Start the Rails server:
+15. Start the Rails server:
    ```bash
    ./bin/dev
    ```
@@ -157,6 +161,7 @@ must configure this value manually.
 [x] system prompt generation validates structure and retries until valid
 [x] update or add system prompt llm rating check
 [x] update system prompt generation to align with rating guidance
+[x] add rake task to download Victorian suburb shapefiles from data.gov.au
 [ ] create a database table for storing bounding boxes for melbourne suburbs and populate the table with data from ...
 [ ] when naming trees we should use lat/long data to lookup suburb and relative location in it. also save those details to the db for later use
 [ ] when naming trees we should use lat/long data to lookup nearby landmarks. also save those details to the db for later use
