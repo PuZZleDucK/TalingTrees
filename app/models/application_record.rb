@@ -33,7 +33,7 @@ class ApplicationRecord < ActiveRecord::Base
       elsif (@attributes ||= {}).key?(name.to_sym)
         @attributes[name.to_sym]
       else
-        super
+        nil
       end
     end
 

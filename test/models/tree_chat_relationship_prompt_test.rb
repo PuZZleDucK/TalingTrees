@@ -5,6 +5,7 @@ require 'minitest/autorun'
 
 class TreeChatRelationshipPromptTest < Minitest::Test
   def setup
+    @prev_where = TreeRelationship.method(:where) if TreeRelationship.respond_to?(:where)
     TreeRelationship.singleton_class.class_eval do
       attr_accessor :records
 
@@ -16,6 +17,11 @@ class TreeChatRelationshipPromptTest < Minitest::Test
 
   def teardown
     TreeRelationship.records = nil
+    if @prev_where
+      TreeRelationship.define_singleton_method(:where, @prev_where)
+    else
+      TreeRelationship.singleton_class.remove_method(:where)
+    end
   end
 
   def test_prompt_includes_extra_info
