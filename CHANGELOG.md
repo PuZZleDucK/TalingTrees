@@ -3,6 +3,7 @@
 This log summarizes notable updates based on commit history and completed TODO items.
 
 ## 2025-06-11
+- Simplified CI workflow to rely on `test/run_tests.rb` for security and linting reports
 - Added workflow to build Docker image in CI
 
 ## 2025-06-09
