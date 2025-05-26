@@ -143,6 +143,7 @@ must configure this value manually.
 [x] address bundler-audit issues
 [x] add rubocop report to github action as another new comment
 [x] address rubocop issues
+[x] fix blank rubocop report in CI comment
 [x] create new github action to trigger deploy to Keyob on merge to master
 [x] review agents-advice.md and create AGENTS.md for project
 [x] get test coverage up to 50%
