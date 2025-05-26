@@ -2,46 +2,57 @@
 
 require_relative '../test_helper'
 require 'minitest/autorun'
-require 'ostruct'
-
-class TreesController
-  def show(params)
-    tree = params[:tree]
-    {
-      id: tree[:id],
-      name: tree[:name],
-      treedb_lat: tree[:treedb_lat],
-      treedb_long: tree[:treedb_long],
-      neighbor_total: tree[:neighbor_total],
-      neighbor_known: tree[:neighbor_known],
-      friend_total: tree[:friend_total],
-      friend_known: tree[:friend_known],
-      species_total: tree[:species_total],
-      species_known: tree[:species_known],
-      neighbors: tree[:neighbors] || [],
-      friends: tree[:friends] || [],
-      same_species: tree[:same_species] || []
-    }
-  end
-end
+require_relative '../../app/controllers/trees_controller'
 
 class TreesControllerTest < Minitest::Test
   def test_show_returns_tree_data
-    tree = {
+    t1 = Tree.new(id: 1, name: 'Oak', treedb_lat: 1.0, treedb_long: 2.0)
+    t2 = Tree.new(id: 2, name: 'Pine')
+    t3 = Tree.new(id: 3, name: 'Birch')
+
+    def t1.neighbor_ids; [2]; end
+    def t1.friend_ids; [3]; end
+    def t1.same_species_ids; []; end
+    def t1.tag_counts; { 'good' => 1 }; end
+    def t1.tags_for_user(_u); ['good']; end
+
+    Tree.singleton_class.class_eval do
+      attr_accessor :records
+      def find(id)
+        Array(records).find { |t| t.id == id }
+      end
+    end
+
+    Tree.records = [t1, t2, t3]
+
+    user = User.new
+    user.define_singleton_method(:known_trees) { [t2] }
+
+    controller = TreesController.new
+    controller.instance_variable_set(:@current_user, user)
+    controller.params = { id: 1 }
+    controller.show
+
+    expected = {
       id: 1,
       name: 'Oak',
       treedb_lat: 1.0,
       treedb_long: 2.0,
-      neighbor_total: 0,
-      neighbor_known: 0,
-      friend_total: 0,
+      neighbor_total: 1,
+      neighbor_known: 1,
+      friend_total: 1,
       friend_known: 0,
       species_total: 0,
-      species_known: 0
+      species_known: 0,
+      tag_counts: { 'good' => 1 },
+      user_tags: ['good'],
+      neighbors: [{ id: 2, name: 'Pine' }],
+      friends: [{ id: 3, name: 'Birch' }],
+      same_species: []
     }
-    controller = TreesController.new
-    result = controller.show(tree: tree)
-    expected = tree.merge(neighbors: [], friends: [], same_species: [])
-    assert_equal expected, result
+
+    assert_equal expected, controller.rendered
+  ensure
+    Tree.records = nil
   end
 end
