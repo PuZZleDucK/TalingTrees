@@ -2,6 +2,9 @@
 
 This log summarizes notable updates based on commit history and completed TODO items.
 
+## 2025-06-08
+- Enabled Yarn 4 via corepack in the Docker build and README instructions
+
 ## 2025-06-07
 - Switched Docker build to use `yarn install --immutable` for compatibility with Yarn 4
 
