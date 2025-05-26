@@ -21,6 +21,7 @@ class ApplicationControllerTest < Minitest::Test
 
     Tree.singleton_class.class_eval do
       attr_accessor :records
+
       def find_by(id:)
         Array(records).find { |t| t.id == id }
       end
@@ -28,6 +29,7 @@ class ApplicationControllerTest < Minitest::Test
 
     UserTree.singleton_class.class_eval do
       attr_accessor :records
+
       def find_or_create_by!(user:, tree:)
         self.records ||= []
         rec = records.find { |r| r[:user] == user && r[:tree] == tree }

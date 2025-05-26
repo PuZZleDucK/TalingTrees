@@ -43,9 +43,7 @@ class ChatsController < ApplicationController
     hist = JSON.parse(hist) if hist.is_a?(String)
     hist = [hist] if hist.is_a?(Hash)
     Array(hist).map do |msg|
-      if msg.is_a?(ActionController::Parameters)
-        msg = msg.to_unsafe_h
-      end
+      msg = msg.to_unsafe_h if msg.is_a?(ActionController::Parameters)
       { 'role' => msg['role'], 'content' => msg['content'] }
     end
   end

@@ -12,12 +12,10 @@ class Ollama
 
   def initialize(credentials:, options: {}); end
 
-  def chat(payload)
+  def chat(payload, &)
     self.class.last_payload = payload
     chunks = self.class.response_chunks || [nil]
-    chunks.each do |chunk|
-      yield(chunk)
-    end
+    chunks.each(&)
   end
 end
 
@@ -39,15 +37,14 @@ class MessagesAssoc
     @records
   end
 
-  def map(&block)
-    @records.map(&block)
+  def map(&)
+    @records.map(&)
   end
 
   def empty?
     @records.empty?
   end
 end
-
 
 class ChatsControllerTest < Minitest::Test
   def setup
@@ -64,7 +61,7 @@ class ChatsControllerTest < Minitest::Test
 
       def where(user:, tree:)
         Array(records).select { |r| r[:user_id] == user.id && r[:tree_id] == tree.id }.map { |r| r[:obj] }.tap do |arr|
-          def arr.order(created_at: :desc)
+          def arr.order(*)
             self
           end
         end
@@ -78,6 +75,7 @@ class ChatsControllerTest < Minitest::Test
 
     Tree.singleton_class.class_eval do
       attr_accessor :records
+
       def find(id)
         Array(records).find { |t| t.id == id }
       end

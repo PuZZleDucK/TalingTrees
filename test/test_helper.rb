@@ -42,9 +42,7 @@ module ActionController
       @rendered = json
     end
 
-    def rendered
-      @rendered
-    end
+    attr_reader :rendered
 
     Response = Struct.new(:headers, :stream) do
       def initialize
@@ -54,6 +52,7 @@ module ActionController
 
     class Stream
       attr_reader :chunks
+
       def initialize
         @chunks = []
       end
