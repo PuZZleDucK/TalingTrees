@@ -73,6 +73,7 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    ```
 
 When running the app you can toggle dark mode using the moon/sun icon in the navigation bar. Your preference is saved in local storage.
+Use the search box above the tree list to quickly filter by name.
 
 ## Deployment
 Deployed to Koyeb: https://visiting-raynell-puzzleduck-f206ac43.koyeb.app/
