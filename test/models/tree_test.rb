@@ -28,11 +28,12 @@ class TreeTest < Minitest::Test
   end
 
   def test_same_species_ids_returns_matching_ids
+    prev_where = TreeRelationship.method(:where) if TreeRelationship.respond_to?(:where)
     TreeRelationship.singleton_class.class_eval do
       attr_accessor :records
 
-      def where(tree_id:, kind:)
-        Array(records).select { |r| r[:tree_id] == tree_id && r[:kind] == kind }
+      def where(tree_id:, kind: nil)
+        Array(records).select { |r| r[:tree_id] == tree_id && (kind.nil? || r[:kind] == kind) }
       end
     end
 
@@ -46,14 +47,20 @@ class TreeTest < Minitest::Test
     assert_equal [2], tree.same_species_ids
   ensure
     TreeRelationship.records = nil
+    if prev_where
+      TreeRelationship.define_singleton_method(:where, prev_where)
+    else
+      TreeRelationship.singleton_class.remove_method(:where)
+    end
   end
 
   def test_neighbor_ids_returns_only_neighbor_ids
+    prev_where = TreeRelationship.method(:where) if TreeRelationship.respond_to?(:where)
     TreeRelationship.singleton_class.class_eval do
       attr_accessor :records
 
-      def where(tree_id:, kind:)
-        Array(records).select { |r| r[:tree_id] == tree_id && r[:kind] == kind }
+      def where(tree_id:, kind: nil)
+        Array(records).select { |r| r[:tree_id] == tree_id && (kind.nil? || r[:kind] == kind) }
       end
     end
 
@@ -66,14 +73,20 @@ class TreeTest < Minitest::Test
     assert_equal [2], tree.neighbor_ids
   ensure
     TreeRelationship.records = nil
+    if prev_where
+      TreeRelationship.define_singleton_method(:where, prev_where)
+    else
+      TreeRelationship.singleton_class.remove_method(:where)
+    end
   end
 
   def test_friend_ids_returns_only_friend_ids
+    prev_where = TreeRelationship.method(:where) if TreeRelationship.respond_to?(:where)
     TreeRelationship.singleton_class.class_eval do
       attr_accessor :records
 
-      def where(tree_id:, kind:)
-        Array(records).select { |r| r[:tree_id] == tree_id && r[:kind] == kind }
+      def where(tree_id:, kind: nil)
+        Array(records).select { |r| r[:tree_id] == tree_id && (kind.nil? || r[:kind] == kind) }
       end
     end
 
@@ -86,6 +99,11 @@ class TreeTest < Minitest::Test
     assert_equal [3], tree.friend_ids
   ensure
     TreeRelationship.records = nil
+    if prev_where
+      TreeRelationship.define_singleton_method(:where, prev_where)
+    else
+      TreeRelationship.singleton_class.remove_method(:where)
+    end
   end
 
   def test_tags_for_user_filters_by_user
