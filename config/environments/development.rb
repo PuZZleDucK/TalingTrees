@@ -6,7 +6,7 @@ Rails.application.configure do
   config.assets.debug       = false   # no live re-splitting
   config.assets.compile     = false   # don’t compile missing assets on the fly
   config.assets.digest      = true    # generate & expect fingerprinted names
-  config.public_file_server.enabled = true  # serve files out of public/assets
+  config.public_file_server.enabled = true # serve files out of public/assets
 
   config.cache_classes = false
   config.eager_load = false

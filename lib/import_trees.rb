@@ -30,15 +30,15 @@ module Tasks
 
     def run
       require 'json'
-      Dir.glob(File.join(@dir, '*.json')).sort.each do |file|
+      Dir.glob(File.join(@dir, '*.json')).each do |file|
         json = JSON.parse(File.read(file))
         records = json['records'] || []
         records.each do |record|
           import_record(record.dig('record', 'fields') || {})
           @imported = (@imported || 0) + 1
-          return if stop?(@imported)
+          break if stop?(@imported)
         end
-        return if stop?(@imported)
+        break if stop?(@imported)
       end
     end
 
