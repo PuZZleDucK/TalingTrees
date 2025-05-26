@@ -19,7 +19,7 @@ RUN apt-get update -qq && \
     curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
     apt-get install -y nodejs && \
     rm -rf /var/lib/apt/lists/* && \
-    corepack enable && corepack prepare yarn@stable --activate
+    corepack enable && corepack prepare yarn@1.22.19 --activate
 
 # asdf for Ruby 3.2.3 (your .tool-versions)
 ENV ASDF_DIR=/root/.asdf
@@ -37,7 +37,7 @@ RUN bash -lc "\
       asdf global ruby \$(awk '/^ruby/ {print \$2}' .tool-versions) \
     " && \
     bash -lc "gem install bundler && bundle install --without development test --jobs 4 --retry 3" \
-    && yarn install --immutable
+    && yarn install --frozen-lockfile
 
 # copy the rest of your code
 COPY . .

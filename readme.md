@@ -21,11 +21,11 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
    sudo apt-get install -y nodejs
    ```
-3. Install Node packages (requires Yarn 4 via corepack):
+3. Install Node packages (requires Yarn 1 via corepack):
    ```bash
    corepack enable
-   corepack prepare yarn@stable --activate
-   yarn install --immutable
+   corepack prepare yarn@1.22.19 --activate
+   yarn install --frozen-lockfile
    ```
 4. Install or update Ollama and download the models:
    ```bash

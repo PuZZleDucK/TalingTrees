@@ -7,6 +7,10 @@ This log summarizes notable updates based on commit history and completed TODO i
 - Documented Node.js requirement in README
 - Enabled Yarn 4 via corepack in the Docker build and README instructions
 
+## 2025-06-10
+- Reverted to Yarn 1 to avoid lockfile modifications during Docker builds
+- Updated Dockerfile and README accordingly
+
 ## 2025-06-07
 - Switched Docker build to use `yarn install --immutable` for compatibility with Yarn 4
 - Updated controller tests to exercise real application code
