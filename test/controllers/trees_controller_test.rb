@@ -10,14 +10,15 @@ class TreesControllerTest < Minitest::Test
     t2 = Tree.new(id: 2, name: 'Pine')
     t3 = Tree.new(id: 3, name: 'Birch')
 
-    def t1.neighbor_ids; [2]; end
-    def t1.friend_ids; [3]; end
-    def t1.same_species_ids; []; end
-    def t1.tag_counts; { 'good' => 1 }; end
-    def t1.tags_for_user(_u); ['good']; end
+    t1.define_singleton_method(:neighbor_ids) { [2] }
+    t1.define_singleton_method(:friend_ids) { [3] }
+    t1.define_singleton_method(:same_species_ids) { [] }
+    t1.define_singleton_method(:tag_counts) { { 'good' => 1 } }
+    t1.define_singleton_method(:tags_for_user) { |_user| ['good'] }
 
     Tree.singleton_class.class_eval do
       attr_accessor :records
+
       def find(id)
         Array(records).find { |t| t.id == id }
       end

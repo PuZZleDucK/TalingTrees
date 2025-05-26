@@ -32,8 +32,6 @@ class ApplicationRecord < ActiveRecord::Base
         (@attributes ||= {})[attr.chomp('=').to_sym] = args.first
       elsif (@attributes ||= {}).key?(name.to_sym)
         @attributes[name.to_sym]
-      else
-        nil
       end
     end
 

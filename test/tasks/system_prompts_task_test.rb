@@ -27,7 +27,7 @@ class SystemPromptsTaskTest < Minitest::Test
     TreeRelationship.singleton_class.class_eval do
       attr_accessor :records
 
-      def where(tree_id:, kind: nil)
+      def where(tree_id:, _kind: nil)
         Array(records).select { |r| r.tree_id == tree_id }
       end
     end
@@ -94,11 +94,11 @@ class SystemPromptsTaskTest < Minitest::Test
     Tree.instances = nil
     Object.send(:remove_const, :Ollama)
     Object.const_set(:Ollama, @previous_ollama) if @previous_ollama
-    if @require_patched
-      Kernel.module_eval do
-        alias_method :require, :orig_require
-        remove_method :orig_require
-      end
+    return unless @require_patched
+
+    Kernel.module_eval do
+      alias_method :require, :orig_require
+      remove_method :orig_require
     end
   end
 
@@ -165,7 +165,8 @@ class SystemPromptsTaskTest < Minitest::Test
   def test_retries_when_missing_relationships
     TreeRelationship.singleton_class.class_eval do
       attr_accessor :records
-      def where(tree_id:, kind: nil)
+
+      def where(tree_id:, _kind: nil)
         Array(records).select { |r| r.tree_id == tree_id }
       end
     end

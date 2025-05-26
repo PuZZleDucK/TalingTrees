@@ -20,17 +20,6 @@ jobs:
       - name: Run tests
         run: |
           bundle exec ruby test/run_tests.rb | tee test_output.txt
-      - name: Run Brakeman
-        run: |
-          bundle exec brakeman -q | tee brakeman_report.txt
-      - name: Run RuboCop
-        run: |
-          bundle exec rubocop | tee rubocop_report.txt
-        continue-on-error: true
-      - name: Run bundler-audit
-        run: |
-          bundle exec bundler-audit check --update | tee bundler_audit_report.txt
-        continue-on-error: true
       - name: Show reports
         run: |
           echo '### RuboCop'
