@@ -16,9 +16,9 @@ RUN apt-get update -qq && \
       git \
       curl \
       nodejs \
-      yarn \
       libpq-dev && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    corepack enable && corepack prepare yarn@stable --activate
 
 # asdf for Ruby 3.2.3 (your .tool-versions)
 ENV ASDF_DIR=/root/.asdf
@@ -36,7 +36,7 @@ RUN bash -lc "\
       asdf global ruby \$(awk '/^ruby/ {print \$2}' .tool-versions) \
     " && \
     bash -lc "gem install bundler && bundle install --without development test --jobs 4 --retry 3" \
-    && yarn install --frozen-lockfile
+    && yarn install --immutable
 
 # copy the rest of your code
 COPY . .
