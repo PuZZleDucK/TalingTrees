@@ -2,6 +2,10 @@
 
 This log summarizes notable updates based on commit history and completed TODO items.
 
+## 2025-06-06
+- Installed Node dependencies and compiled Tailwind CSS during Docker build
+- Compiled CSS in the entrypoint to ensure styles are available
+
 ## 2025-06-05
 - Renamed `llm_sustem_prompt` column to `llm_system_prompt`
 

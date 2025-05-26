@@ -62,12 +62,11 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    ```
 
 11. Build css:
-   ```
-   bundle exec rails assets:clobber
-   RAILS_ENV=development bundle exec rails assets:precompile
+   ```bash
+   yarn build:css
    ```
 
-11. Start the Rails server:
+12. Start the Rails server:
    ```bash
    ./bin/dev
    ```
