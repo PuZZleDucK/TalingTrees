@@ -15,7 +15,7 @@ module Tasks
 
       Tree.find_each do |tree|
         identifier = tree.respond_to?(:id) ? "##{tree.id}" : tree.to_s
-        next if tree.llm_sustem_prompt.present?
+        next if tree.llm_system_prompt.present?
 
         puts ''
         puts "Generating system prompt for tree #{identifier}"
@@ -23,7 +23,7 @@ module Tasks
         prompt = generator.generate(tree)
         puts "Final prompt:\n#{prompt}"
 
-        tree.update!(llm_sustem_prompt: prompt)
+        tree.update!(llm_system_prompt: prompt)
         puts "Updated tree #{identifier}"
         puts
       end

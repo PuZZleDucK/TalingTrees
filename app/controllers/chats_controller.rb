@@ -67,7 +67,7 @@ class ChatsController < ApplicationController
   end
 
   def build_messages(tree, chat, history)
-    system_prompt = tree.llm_sustem_prompt.to_s
+    system_prompt = tree.llm_system_prompt.to_s
     system_prompt += @current_user.chat_tags_prompt if chat.messages.empty?
     [{ 'role' => 'system', 'content' => system_prompt }] + history.to_a
   end

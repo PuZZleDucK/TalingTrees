@@ -31,7 +31,7 @@ class ImportTreesTaskTest < Minitest::Test
               treedb_uploaddate: nil,
               treedb_lat: nil,
               treedb_long: nil,
-              llm_sustem_prompt: nil
+              llm_system_prompt: nil
             )
             obj.define_singleton_method(:new_record?) { true }
             obj.define_singleton_method(:changed?) { true }
