@@ -2,6 +2,9 @@
 
 This log summarizes notable updates based on commit history and completed TODO items.
 
+## 2025-06-11
+- Simplified CI workflow to rely on `test/run_tests.rb` for security and linting reports
+
 ## 2025-06-09
 - Installed Node.js 20 via NodeSource in Docker build to ensure corepack is available
 - Documented Node.js requirement in README
