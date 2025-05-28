@@ -33,9 +33,11 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    ```
 5. Create and migrate the database:
    ```bash
-   bundle exec rails db:create
-   bundle exec rails db:migrate
-   ```
+  bundle exec rails db:create
+  bundle exec rails db:migrate
+  ```
+   The application attempts to load the `mod_spatialite` extension when Rails
+   connects to SQLite. Install the library if you want spatial queries to work.
 6. Seed initial users:
    ```bash
    bundle exec rails db:seed
@@ -162,7 +164,8 @@ must configure this value manually.
 [x] update or add system prompt llm rating check
 [x] update system prompt generation to align with rating guidance
 [x] add rake task to download Victorian suburb shapefiles from data.gov.au
-[ ] create a database table for storing bounding boxes for melbourne suburbs and populate the table with data from ...
+[x] create a suburbs table with a geometry boundary column using SpatiaLite
+[ ] populate the suburbs table with data from the downloaded shapefiles
 [ ] when naming trees we should use lat/long data to lookup suburb and relative location in it. also save those details to the db for later use
 [ ] when naming trees we should use lat/long data to lookup nearby landmarks. also save those details to the db for later use
 [ ] when naming trees we should use lat/long data to lookup nearby streets. also save those details to the db for later use
