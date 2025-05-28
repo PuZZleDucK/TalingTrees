@@ -105,6 +105,8 @@ GEM
       faraday (~> 2.0)
       typhoeus (~> 1.4)
     ffi (1.17.2-x86_64-linux-gnu)
+    ffi-geos (2.5.0)
+      ffi (>= 1.0.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
     i18n (1.14.7)
@@ -296,6 +298,7 @@ DEPENDENCIES
   brakeman
   bundler-audit
   cssbundling-rails
+  ffi-geos
   listen
   ollama-ai
   puma (~> 6.0)
