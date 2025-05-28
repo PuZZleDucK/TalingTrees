@@ -87,7 +87,10 @@ GEM
     crass (1.0.6)
     cssbundling-rails (1.4.3)
       railties (>= 6.0.0)
+    csv (3.3.4)
     date (3.4.1)
+    dbf (4.3.2)
+      csv
     drb (2.2.1)
     erubi (1.13.1)
     ethon (0.16.0)
@@ -208,6 +211,10 @@ GEM
     regexp_parser (2.10.0)
     reline (0.6.1)
       io-console (~> 0.5)
+    rgeo (3.0.1)
+    rgeo-shapefile (3.1.0)
+      dbf (~> 4.0)
+      rgeo (>= 1.0)
     rubocop (1.75.6)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
@@ -293,6 +300,8 @@ DEPENDENCIES
   ollama-ai
   puma (~> 6.0)
   rails (~> 7.1)
+  rgeo
+  rgeo-shapefile
   rubocop
   rubocop-discourse
   sprockets-rails
