@@ -2,6 +2,11 @@
 
 This log summarizes notable updates based on commit history and completed TODO items.
 
+## 2025-06-13
+- Added `Suburb` model and migration for storing suburb boundaries
+- Application attempts to load `mod_spatialite` when available
+- Documented optional SpatiaLite setup steps in README
+
 ## 2025-06-12
 - Raised RuboCop metric limits and cleaned up tests to remove inline disables
 - Simplified CI workflow to rely on `test/run_tests.rb` for security and linting reports
