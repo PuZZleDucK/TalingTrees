@@ -16,6 +16,11 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    ```bash
    bundle install
    ```
+   If bundler warns that `stringio` has multiple versions installed, run:
+   ```bash
+   gem cleanup stringio
+   ```
+   Then rerun `bundle install`.
 2. Install GEOS (required for suburb shapefile import):
    ```bash
    sudo apt-get install -y libgeos-dev
