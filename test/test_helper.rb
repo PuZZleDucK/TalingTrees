@@ -83,6 +83,7 @@ require_relative '../app/models/tree_relationship'
 require_relative '../app/models/user_tree'
 require_relative '../app/models/tree_tag'
 require_relative '../app/models/user_tag'
+require_relative '../app/models/suburb'
 
 module Rails
   def self.logger

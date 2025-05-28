@@ -16,12 +16,16 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    ```bash
    bundle install
    ```
-2. Install Node.js 20 or later (example for Ubuntu):
+2. Install GEOS (required for suburb shapefile import):
+   ```bash
+   sudo apt-get install -y libgeos-dev
+   ```
+3. Install Node.js 20 or later (example for Ubuntu):
    ```bash
    curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
    sudo apt-get install -y nodejs
    ```
-3. Install Node packages (requires Yarn 1 via corepack):
+4. Install Node packages (requires Yarn 1 via corepack):
    ```bash
    corepack enable
    corepack prepare yarn@1.22.19 --activate
@@ -50,25 +54,29 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    ```bash
    bundle exec rake db:download_vic_suburbs
    ```
-9. Import the downloaded tree data (clears existing trees):
+9. Import the Victorian suburbs dataset:
+   ```bash
+   bundle exec rake db:import_suburbs
+   ```
+10. Import the downloaded tree data (clears existing trees):
    ```bash
    bundle exec rake db:import_trees
    ```
    The prompts and models used when naming trees are configured in `config/llm.yml`.
-10. Name the trees:
+11. Name the trees:
    ```bash
    bundle exec rake db:name_trees
    ```
-11. Add tree relationships:
+12. Add tree relationships:
    ```bash
    bundle exec rake db:add_relationships
    ```
-12. Generate system prompts:
+13. Generate system prompts:
    ```bash
    bundle exec rake db:system_prompts
    ```
    This task now calls the configured LLM to craft a unique personality prompt for each tree based on its name and relationships.
-13. Run the test suite:
+14. Run the test suite:
    ```bash
    ruby test/run_tests.rb
    ```
@@ -78,12 +86,12 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    bundle exec brakeman -q
    ```
 
-14. Build css:
+15. Build css:
    ```bash
    yarn build:css
    ```
 
-15. Start the Rails server:
+16. Start the Rails server:
    ```bash
    ./bin/dev
    ```
@@ -165,7 +173,7 @@ must configure this value manually.
 [x] update system prompt generation to align with rating guidance
 [x] add rake task to download Victorian suburb shapefiles from data.gov.au
 [x] create a suburbs table with a geometry boundary column using SpatiaLite
-[ ] populate the suburbs table with data from the downloaded shapefiles
+[x] populate the suburbs table with data from the downloaded shapefiles
 [ ] when naming trees we should use lat/long data to lookup suburb and relative location in it. also save those details to the db for later use
 [ ] when naming trees we should use lat/long data to lookup nearby landmarks. also save those details to the db for later use
 [ ] when naming trees we should use lat/long data to lookup nearby streets. also save those details to the db for later use

@@ -2,6 +2,14 @@
 
 This log summarizes notable updates based on commit history and completed TODO items.
 
+## 2025-06-14
+- Added rake task to import Victorian suburb shapefile data
+- Added `rgeo` and `rgeo-shapefile` gems
+
+## 2025-06-15
+- Documented GEOS requirement for suburb import
+- Improved suburb import task error handling
+
 ## 2025-06-13
 - Added `Suburb` model and migration for storing suburb boundaries
 - Application attempts to load `mod_spatialite` when available
