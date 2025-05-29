@@ -50,7 +50,11 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const report = fs.readFileSync('rubocop_report.txt','utf8');
+            let report = fs.readFileSync('rubocop_report.txt','utf8');
+            const maxLength = 65000;
+            if (report.length > maxLength) {
+              report = report.slice(0, maxLength) + '\n...truncated...';
+            }
             const body = `**RuboCop Report**\n\n\`\`\`\n${report}\n\`\`\``;
             github.rest.issues.createComment({
               owner: context.repo.owner,
