@@ -104,6 +104,8 @@ Deployed to Koyeb: https://visiting-raynell-puzzleduck-f206ac43.koyeb.app/
 When deploying or running in production, ensure the `SECRET_KEY_BASE` environment
 variable is set. The provided Dockerfile sets a default, but other environments
 must configure this value manually.
+The Dockerfile also clears any HTTP proxy variables during build to avoid `apt`
+failures. It also installs `libgeos-dev` so the `ffi-geos` gem can parse shapefiles when importing data.
 
 ## Todos
 [x] add tailwind and style tree list page
