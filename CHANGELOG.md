@@ -10,6 +10,9 @@ This log summarizes notable updates based on commit history and completed TODO i
 - Documented GEOS requirement for suburb import
 - Improved suburb import task error handling
 
+## 2025-06-16
+- Truncated CI report comments when exceeding GitHub's 65k limit
+
 ## 2025-06-13
 - Added `Suburb` model and migration for storing suburb boundaries
 - Application attempts to load `mod_spatialite` when available
