@@ -4,8 +4,10 @@ FROM ollama/ollama:0.6.6
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Australia/Melbourne
 
+# disable proxies just for apt commands
 USER root
-RUN apt-get update -qq && \
+RUN http_proxy= https_proxy= HTTP_PROXY= HTTPS_PROXY= \
+    apt-get update -qq && \
     apt-get install -y --no-install-recommends \
       build-essential \
       libssl-dev \

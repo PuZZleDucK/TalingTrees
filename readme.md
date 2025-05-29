@@ -104,6 +104,7 @@ Deployed to Koyeb: https://visiting-raynell-puzzleduck-f206ac43.koyeb.app/
 When deploying or running in production, ensure the `SECRET_KEY_BASE` environment
 variable is set. The provided Dockerfile sets a default, but other environments
 must configure this value manually.
+The Dockerfile clears HTTP proxy variables only for the `apt` commands during build to avoid package installation failures.
 
 ## Todos
 [x] add tailwind and style tree list page
@@ -184,4 +185,5 @@ must configure this value manually.
 [ ] new tree mission: find all the ... trees named bob, trees of a species, trees on x road, trees in x park, ... (must be less than 6 in db)
 [ ] custom tree images - trees have images that start as the default logo, but users with the right tags could take a selfie of the tree and update it's image
 [x] get test coverage up
+[ ] fix remaining RuboCop warnings
 [x] address remaining RuboCop warnings
