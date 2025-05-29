@@ -2,6 +2,9 @@
 
 This log summarizes notable updates based on commit history and completed TODO items.
 
+## 2025-06-18
+- Scoped proxy disabling to `apt` commands in Docker build to fix package installation issues
+
 ## 2025-06-16
 - Truncated long RuboCop report in CI comments to avoid exceeding GitHub limits
 
