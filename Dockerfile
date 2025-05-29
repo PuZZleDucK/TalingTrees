@@ -12,6 +12,7 @@ RUN apt-get update -qq && \
       libreadline-dev \
       zlib1g-dev \
       libffi-dev \
+      libgeos-dev \
       libyaml-dev \
       git \
       curl \

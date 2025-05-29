@@ -2,6 +2,10 @@
 
 This log summarizes notable updates based on commit history and completed TODO items.
 
+## 2025-06-18
+- Added `libgeos-dev` to the Docker image for GEOS support
+- Removed proxy clearing from the Dockerfile to use system proxies
+
 ## 2025-06-16
 - Truncated long RuboCop report in CI comments to avoid exceeding GitHub limits
 
