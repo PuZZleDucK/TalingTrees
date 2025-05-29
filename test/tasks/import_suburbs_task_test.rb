@@ -3,17 +3,19 @@
 require_relative '../test_helper'
 require 'rake'
 require 'minitest/autorun'
-require 'ostruct'
+
+SuburbRecord = Struct.new(:attributes, :geometry)
 
 class ImportSuburbsTaskTest < Minitest::Test
   RECORDS = [
-    OpenStruct.new(attributes: { 'NAME' => 'Alpha' }, geometry: :poly1),
-    OpenStruct.new(attributes: { 'LOCALITY' => 'Beta' }, geometry: :poly2)
-  ]
+    SuburbRecord.new({ 'NAME' => 'Alpha' }, :poly1),
+    SuburbRecord.new({ 'LOCALITY' => 'Beta' }, :poly2)
+  ].freeze
 
   def setup
     Suburb.singleton_class.class_eval do
       attr_accessor :records
+
       def delete_all = self.records = []
       def create!(attrs) = (self.records ||= []) << attrs
     end
@@ -23,6 +25,7 @@ class ImportSuburbsTaskTest < Minitest::Test
       alias_method :orig_require, :require
       def require(name)
         return true if name == 'rgeo/shapefile'
+
         orig_require(name)
       end
     end
