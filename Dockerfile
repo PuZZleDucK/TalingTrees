@@ -3,6 +3,8 @@ FROM ollama/ollama:0.6.6
 # avoid interactive tzdata prompts, set proper zone
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Australia/Melbourne
+# disable build-time proxies that can break apt
+ENV http_proxy="" https_proxy="" HTTP_PROXY="" HTTPS_PROXY=""
 
 USER root
 RUN apt-get update -qq && \
