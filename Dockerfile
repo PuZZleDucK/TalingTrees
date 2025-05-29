@@ -3,9 +3,10 @@ FROM ollama/ollama:0.6.6
 # avoid interactive tzdata prompts, set proper zone
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Australia/Melbourne
-
+# disable proxies for apt commands to avoid installation errors
 USER root
-RUN apt-get update -qq && \
+RUN http_proxy= https_proxy= HTTP_PROXY= HTTPS_PROXY= \
+    apt-get update -qq && \
     apt-get install -y --no-install-recommends \
       build-essential \
       libssl-dev \
