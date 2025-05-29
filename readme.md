@@ -185,3 +185,5 @@ must configure this value manually.
 [ ] custom tree images - trees have images that start as the default logo, but users with the right tags could take a selfie of the tree and update it's image
 [x] get test coverage up
 [x] address remaining RuboCop warnings
+[x] truncate CI report comments to avoid GitHub's size limit
+[x] avoid rubocop-minitest load error by clearing plugin requirements
