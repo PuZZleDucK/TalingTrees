@@ -2,6 +2,9 @@
 
 This log summarizes notable updates based on commit history and completed TODO items.
 
+## 2025-06-16
+- Truncated long RuboCop report in CI comments to avoid exceeding GitHub limits
+
 ## 2025-06-14
 - Added rake task to import Victorian suburb shapefile data
 - Added `rgeo` and `rgeo-shapefile` gems
