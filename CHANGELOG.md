@@ -11,6 +11,10 @@ This log summarizes notable updates based on commit history and completed TODO i
 ## 2025-06-18
 - Fixed remaining RuboCop warnings
 
+## 2025-05-29
+- Refactored `TreesController` to reduce RuboCop offenses
+- Removed temporary rubocop directives from controller and test helper
+
 ## 2025-06-14
 - Added rake task to import Victorian suburb shapefile data
 - Added `rgeo` and `rgeo-shapefile` gems
