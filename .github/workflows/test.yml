@@ -50,8 +50,15 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const report = fs.readFileSync('rubocop_report.txt','utf8');
-            const body = `**RuboCop Report**\n\n\`\`\`\n${report}\n\`\`\``;
+            const report = fs.readFileSync('rubocop_report.txt', 'utf8');
+            const header = '**RuboCop Report**\n\n```\n';
+            const footer = '\n```';
+            const limit = 65000;
+            let body = `${header}${report}${footer}`;
+            if (body.length > limit) {
+              const maxReport = limit - header.length - footer.length - 20;
+              body = `${header}${report.slice(0, maxReport)}\n...truncated...${footer}`;
+            }
             github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -64,8 +71,15 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const report = fs.readFileSync('bundler_audit_report.txt','utf8');
-            const body = `**bundler-audit Report**\n\n\`\`\`\n${report}\n\`\`\``;
+            const report = fs.readFileSync('bundler_audit_report.txt', 'utf8');
+            const header = '**bundler-audit Report**\n\n```\n';
+            const footer = '\n```';
+            const limit = 65000;
+            let body = `${header}${report}${footer}`;
+            if (body.length > limit) {
+              const maxReport = limit - header.length - footer.length - 20;
+              body = `${header}${report.slice(0, maxReport)}\n...truncated...${footer}`;
+            }
             github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -78,8 +92,15 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const report = fs.readFileSync('brakeman_report.txt','utf8');
-            const body = `**Brakeman Report**\n\n\`\`\`\n${report}\n\`\`\``;
+            const report = fs.readFileSync('brakeman_report.txt', 'utf8');
+            const header = '**Brakeman Report**\n\n```\n';
+            const footer = '\n```';
+            const limit = 65000;
+            let body = `${header}${report}${footer}`;
+            if (body.length > limit) {
+              const maxReport = limit - header.length - footer.length - 20;
+              body = `${header}${report.slice(0, maxReport)}\n...truncated...${footer}`;
+            }
             github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
