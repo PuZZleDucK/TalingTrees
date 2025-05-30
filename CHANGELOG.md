@@ -2,6 +2,12 @@
 
 This log summarizes notable updates based on commit history and completed TODO items.
 
+## 2025-06-19
+- Added API endpoint and frontend support to display suburb boundaries on the map
+
+## 2025-06-20
+- Ensured `RGeo` is loaded in `Suburb#polygons` so tests pass after removing the constant
+
 ## 2025-06-16
 - Truncated long RuboCop report in CI comments to avoid exceeding GitHub limits
 
