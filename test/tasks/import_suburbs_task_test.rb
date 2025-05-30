@@ -17,7 +17,23 @@ class ImportSuburbsTaskTest < Minitest::Test
       attr_accessor :records
 
       def delete_all = self.records = []
+
       def create!(attrs) = (self.records ||= []) << attrs
+
+      def count = (records || []).size
+
+      def where(tree_count:)
+        results = (self.records || []).select { |r| r[:tree_count] == tree_count }
+        Struct.new(:records) do
+          def initialize(records)
+            @records = records
+          end
+
+          def delete_all
+            @records.each { |rec| Suburb.records.delete(rec) }
+          end
+        end.new(results)
+      end
     end
     Suburb.records = []
 
@@ -44,7 +60,16 @@ class ImportSuburbsTaskTest < Minitest::Test
     end
     shapefile_module.const_set(:Reader, reader_class)
     rgeo_module.const_set(:Shapefile, shapefile_module)
+    @previous_rgeo = Object.const_get(:RGeo) if Object.const_defined?(:RGeo)
+    Object.send(:remove_const, :RGeo) if Object.const_defined?(:RGeo)
     Object.const_set(:RGeo, rgeo_module)
+
+    require File.expand_path('../../lib/import_suburbs', __dir__)
+
+    @orig_tree_count = Tasks::ImportSuburbs.instance_method(:tree_count_for_polygon)
+    Tasks::ImportSuburbs.define_method(:tree_count_for_polygon) do |polygon|
+      polygon == :poly1 ? 1 : 0
+    end
 
     Rake.application = Rake::Application.new
     Rake::Task.define_task(:environment)
@@ -54,6 +79,8 @@ class ImportSuburbsTaskTest < Minitest::Test
   def teardown
     Suburb.records = []
     Object.send(:remove_const, :RGeo)
+    Object.const_set(:RGeo, @previous_rgeo) if @previous_rgeo
+    Tasks::ImportSuburbs.define_method(:tree_count_for_polygon, @orig_tree_count)
     return unless @require_patched
 
     Kernel.module_eval do
@@ -66,6 +93,12 @@ class ImportSuburbsTaskTest < Minitest::Test
     Rake.application['db:import_suburbs'].invoke('dummy')
     names = Suburb.records.map { |r| r[:name] }
     assert_includes names, 'Alpha'
-    assert_includes names, 'Beta'
+    refute_includes names, 'Beta'
+  end
+
+  def test_saves_tree_count
+    Rake.application['db:import_suburbs'].invoke('dummy')
+    record = Suburb.records.find { |r| r[:name] == 'Alpha' }
+    assert_equal 1, record[:tree_count]
   end
 end

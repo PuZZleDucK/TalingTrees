@@ -61,9 +61,12 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    The prompts and models used when naming trees are configured in `config/llm.yml`.
 10. Import the Victorian suburbs dataset:
    ```bash
-   bundle exec rake db:import_suburbs
-   ```
-   Suburb boundaries will appear on the map when this dataset is loaded.
+  bundle exec rake db:import_suburbs
+  ```
+  Suburb boundaries will appear on the map when this dataset is loaded.
+  Each suburb stores a `tree_count` of trees within its boundary and suburbs with
+  no trees are discarded during import. Progress messages are printed showing the
+  number of trees found per suburb and suburb counts before and after removal.
 11. Name the trees:
    ```bash
    bundle exec rake db:name_trees
