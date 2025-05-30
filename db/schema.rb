@@ -32,6 +32,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_13_000000) do
   create_table "suburbs", force: :cascade do |t|
     t.string "name"
     t.text "boundary"
+    t.integer "tree_count", default: 0, null: false
   end
 
   create_table "tree_relationships", force: :cascade do |t|
