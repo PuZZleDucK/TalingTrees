@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "../presenters/tree_presenter"
+require_relative '../presenters/tree_presenter'
 # Provides endpoints for listing and interacting with trees.
 class TreesController < ApplicationController
   def index
