@@ -178,6 +178,10 @@ must configure this value manually.
 [x] add rake task to download Victorian suburb shapefiles from data.gov.au
 [x] create a suburbs table with a geometry boundary column using SpatiaLite
 [x] populate the suburbs table with data from the downloaded shapefiles
+[ ] osm overpass
+[ ] Victorian Heritage Register
+[ ] Public Transport Victoria (PTV) provides open data for all train stations, tram stops, and bus stops. The static GTFS (General Transit Feed Specification) dataset
+[ ] wikipedia lookup table, scan and summarize
 [ ] when naming trees we should use lat/long data to lookup suburb and relative location in it. also save those details to the db for later use
 [ ] when naming trees we should use lat/long data to lookup nearby landmarks. also save those details to the db for later use
 [ ] when naming trees we should use lat/long data to lookup nearby streets. also save those details to the db for later use
