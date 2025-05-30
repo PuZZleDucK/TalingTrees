@@ -54,16 +54,16 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    ```bash
    bundle exec rake db:download_vic_suburbs
    ```
-9. Import the Victorian suburbs dataset:
-   ```bash
-   bundle exec rake db:import_suburbs
-   ```
-   Suburb boundaries will appear on the map when this dataset is loaded.
-10. Import the downloaded tree data (clears existing trees):
+9. Import the downloaded tree data (clears existing trees):
    ```bash
    bundle exec rake db:import_trees
    ```
    The prompts and models used when naming trees are configured in `config/llm.yml`.
+10. Import the Victorian suburbs dataset:
+   ```bash
+   bundle exec rake db:import_suburbs
+   ```
+   Suburb boundaries will appear on the map when this dataset is loaded.
 11. Name the trees:
    ```bash
    bundle exec rake db:name_trees
