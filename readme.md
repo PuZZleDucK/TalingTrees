@@ -58,6 +58,7 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    ```bash
    bundle exec rake db:import_suburbs
    ```
+   Suburb boundaries will appear on the map when this dataset is loaded.
 10. Import the downloaded tree data (clears existing trees):
    ```bash
    bundle exec rake db:import_trees
