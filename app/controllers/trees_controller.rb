@@ -17,18 +17,6 @@ class TreesController < ApplicationController
     render json: presenter.summary_data(presenter.known_ids_for_user).merge(presenter.related_ids_data)
   end
 
-  private
-
-  def select_trees
-    if @current_user&.user_trees&.any?
-      @current_user.known_trees
-    elsif @current_user
-      @current_user.closest_trees
-    else
-      Tree.all
-    end
-  end
-
   def tag
     tree = Tree.find(params[:id])
     tag = params[:tag].to_s
@@ -61,5 +49,17 @@ class TreesController < ApplicationController
       tag_counts: tree.tag_counts,
       user_tags: tree.tags_for_user(@current_user)
     }
+  end
+
+  private
+
+  def select_trees
+    if @current_user&.user_trees&.any?
+      @current_user.known_trees
+    elsif @current_user
+      @current_user.closest_trees
+    else
+      Tree.all
+    end
   end
 end
