@@ -56,4 +56,48 @@ class TreesControllerTest < Minitest::Test
   ensure
     Tree.records = nil
   end
+
+  def test_tag_creates_record
+    tree = Tree.new(id: 1)
+    Tree.singleton_class.class_eval do
+      attr_accessor :records
+
+      def find(id)
+        Array(records).find { |t| t.id == id }
+      end
+    end
+    Tree.records = [tree]
+    TreeTag.singleton_class.class_eval do
+      attr_accessor :records
+
+      def find_or_create_by!(attrs)
+        self.records ||= []
+        rec = records.find { |r| r == attrs }
+        unless rec
+          rec = attrs.dup
+          records << rec
+        end
+        rec
+      end
+    end
+    TreeTag.records = []
+
+    controller = TreesController.new
+    controller.instance_variable_set(:@current_user, User.new(id: 2))
+    controller.params = { id: 1, tag: 'good' }
+    controller.tag
+
+    expected = { tree: tree, user: controller.instance_variable_get(:@current_user), tag: 'good' }
+    assert_includes TreeTag.records, expected
+  ensure
+    Tree.records = nil
+    TreeTag.records = nil
+  end
+
+  def test_tag_actions_are_public
+    c = TreesController.new
+    assert c.respond_to?(:tag)
+    assert c.respond_to?(:tag_user)
+    assert c.respond_to?(:untag)
+  end
 end
