@@ -152,7 +152,9 @@ must configure this value manually.
 [x] populate the suburbs table with data from the downloaded shapefiles
 [x] when populating suburbs add a count of how many trees would be in the suburb and do not add suburbs with a tree count of 0
 [x] add suburb information as additional data to the tree naming prompt
-[ ] Victorian Heritage Register
+[ ] create 'landmark' table and import Victorian Heritage Register from data/heritage/HERITAGE_REGISTER.shp
+[ ] show landmarks on map
+[ ] add landmarks to as additional data to the tree naming prompt if within 50m of the tree
 [ ] Public Transport Victoria (PTV) provides open data for all train stations, tram stops, and bus stops. The static GTFS (General Transit Feed Specification) dataset
 [ ] wikipedia lookup table, scan and summarize
 [ ] import osm overpass data
