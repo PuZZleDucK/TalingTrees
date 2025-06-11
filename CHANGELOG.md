@@ -33,6 +33,7 @@ This log summarizes notable updates based on commit history and completed TODO i
 ## 2025-05-29
 - Refactored `TreesController` to reduce RuboCop offenses
 - Removed temporary rubocop directives from controller and test helper
+- Fixed presenter require quoting style for RuboCop
 
 ## 2025-06-14
 - Added rake task to import Victorian suburb shapefile data
