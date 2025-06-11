@@ -62,6 +62,12 @@ module Tasks
                          []
                        end
       base += "\nNearby tree names to avoid: #{neighbor_names.join(', ')}" unless neighbor_names.empty?
+
+      suburb = if defined?(Suburb) && @tree.respond_to?(:treedb_lat) && @tree.respond_to?(:treedb_long)
+                 Suburb.find_containing(@tree.treedb_lat, @tree.treedb_long)
+               end
+      base += "\nsuburb: #{suburb.name}" if suburb
+
       base
     end
   end
