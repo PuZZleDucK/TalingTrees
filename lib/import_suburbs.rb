@@ -21,12 +21,34 @@ module Tasks
           name = attrs['NAME'] || attrs['LOC_NAME'] || attrs['LOCALITY'] || attrs['suburb_name']
           polygon = record.geometry
 
+          count = tree_count_for_polygon(polygon)
+
+          next if count.zero?
+
           if Suburb.columns_hash['boundary'].type == :text
-            Suburb.create!(name: name, boundary: polygon.as_text)
+            Suburb.create!(name: name, boundary: polygon.as_text, tree_count: count)
           else
-            Suburb.create!(name: name, boundary: polygon)
+            Suburb.create!(name: name, boundary: polygon, tree_count: count)
           end
         end
+      end
+    end
+
+    private
+
+    def tree_count_for_polygon(polygon)
+      factory = polygon.factory
+      scope = if Tree.respond_to?(:where)
+                Tree.where.not(treedb_lat: nil, treedb_long: nil)
+              else
+                Array(Tree.records).select { |t| t[:treedb_lat] && t[:treedb_long] }
+              end
+      scope = scope.to_a if scope.respond_to?(:to_a)
+      scope.count do |tree|
+        lat = tree.respond_to?(:treedb_lat) ? tree.treedb_lat : tree[:treedb_lat]
+        lon = tree.respond_to?(:treedb_long) ? tree.treedb_long : tree[:treedb_long]
+        point = factory.point(lon, lat)
+        polygon.contains?(point)
       end
     end
   end

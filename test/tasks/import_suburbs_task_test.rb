@@ -44,15 +44,28 @@ class ImportSuburbsTaskTest < Minitest::Test
 
     reader_class = Class.new do
       def self.open(_path)
-        record = Struct.new(:attributes, :geometry).new({ 'LOC_NAME' => 'Foo' }, Struct.new(:as_text).new('POLY'))
-        yield [record]
+        geometry = Struct.new(:as_text)
+        records = [
+          Struct.new(:attributes, :geometry).new({ 'NAME' => 'Alpha' }, geometry.new('POLY1')),
+          Struct.new(:attributes, :geometry).new({ 'LOCALITY' => 'Beta' }, geometry.new('POLY2'))
+        ]
+        yield records
       end
     end
     shapefile_module = Module.new
     shapefile_module.const_set(:Reader, reader_class)
     rgeo_module = Module.new
     rgeo_module.const_set(:Shapefile, shapefile_module)
+    @previous_rgeo = Object.const_get(:RGeo) if Object.const_defined?(:RGeo)
+    Object.send(:remove_const, :RGeo) if Object.const_defined?(:RGeo)
     Object.const_set(:RGeo, rgeo_module)
+
+    require File.expand_path('../../lib/import_suburbs', __dir__)
+
+    @orig_method = Tasks::ImportSuburbs.instance_method(:tree_count_for_polygon)
+    Tasks::ImportSuburbs.define_method(:tree_count_for_polygon) do |polygon|
+      polygon.as_text == 'POLY1' ? 1 : 0
+    end
 
     Rake.application = Rake::Application.new
     Rake::Task.define_task(:environment)
@@ -68,14 +81,17 @@ class ImportSuburbsTaskTest < Minitest::Test
       end
     end
     Object.send(:remove_const, :RGeo) if Object.const_defined?(:RGeo)
+    Object.const_set(:RGeo, @previous_rgeo) if @previous_rgeo
+    Tasks::ImportSuburbs.define_method(:tree_count_for_polygon, @orig_method)
   end
 
   def test_creates_suburb_records
     Rake.application['db:import_suburbs'].invoke
-    assert_equal 1, Suburb.records.length
-    rec = Suburb.records.first
-    assert_equal 'Foo', rec[:name]
-    assert_equal 'POLY', rec[:boundary]
+    names = Suburb.records.map { |r| r[:name] }
+    assert_includes names, 'Alpha'
+    refute_includes names, 'Beta'
+    record = Suburb.records.find { |r| r[:name] == 'Alpha' }
+    assert_equal 1, record[:tree_count]
   end
 
   def test_raises_when_file_missing

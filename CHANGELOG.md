@@ -2,6 +2,9 @@
 
 This log summarizes notable updates based on commit history and completed TODO items.
 
+## 2025-06-23
+- Restored tree counting during suburb import and skipped suburbs without trees
+
 ## 2025-06-19
 - Added API endpoint and frontend support to display suburb boundaries on the map
 
