@@ -270,16 +270,9 @@ class NameTreesTaskTest < Minitest::Test
   end
 
   def test_prompt_includes_suburb_name
-    Suburb.singleton_class.class_eval do
-      attr_accessor :records
-
-      def all = records
-
-      def find_containing(_lat, _lon)
-        records.first
-      end
-    end
-    Suburb.records = [Suburb.new(name: 'Alpha', boundary: 'POLYGON((0 0,1 0,1 1,0 1,0 0))')]
+    suburb = Suburb.new(name: 'Alpha', boundary: 'POLYGON((0 0,1 0,1 1,0 1,0 0))')
+    original_find = Suburb.method(:find_containing) if Suburb.respond_to?(:find_containing)
+    Suburb.define_singleton_method(:find_containing) { |_lat, _lon| suburb }
 
     @tree.define_singleton_method(:treedb_lat) { 0.5 }
     @tree.define_singleton_method(:treedb_long) { 0.5 }
@@ -296,7 +289,11 @@ class NameTreesTaskTest < Minitest::Test
     user_content = Ollama.params_list.first[:messages][1]['content']
     assert_includes user_content, 'suburb: Alpha'
   ensure
-    Suburb.records = nil
+    if original_find
+      Suburb.define_singleton_method(:find_containing, original_find)
+    else
+      Suburb.singleton_class.remove_method(:find_containing)
+    end
   end
 
   def test_verify_prompt_includes_tree_details

@@ -131,12 +131,14 @@ must configure this value manually.
 [x] address brakeman issues
 [x] add bundler-audit report to github action as another new comment
 [x] address bundler-audit issues
+[ ] update rack gem to '>= 3.1.16' to resolve CVE-2025-49007
 [x] add rubocop report to github action as another new comment
 [x] address rubocop issues
 [x] build docker image in CI
 [x] create new github action to trigger deploy to Keyob on merge to master
 [x] review agents-advice.md and create AGENTS.md for project
 [x] get test coverage up to 50%
+[ ] raise test coverage above 50%
 [x] add a dark mode toggle to the nav bar and allow users to toggle the mode
 [x] when showing tree relations in the title bar, we should still have the three counts in the title, but the popup should list all trees along with the relation type if the user knows of the trees in the list (i.e. not unknown)
 [x] update tree name rating scale for llm

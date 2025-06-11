@@ -175,3 +175,6 @@ This log summarizes notable updates based on commit history and completed TODO i
 - Integrated streaming chat with local Ollama LLM
 - Added tasks to import and name trees with tests
 - Set up CI with coverage reports and security checks
+\n## 2025-06-25
+- Fixed flaky Suburb.find_containing stub in tests
+- Added TODO to update rack gem due to security advisory
