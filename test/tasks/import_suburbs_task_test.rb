@@ -4,37 +4,32 @@ require_relative '../test_helper'
 require 'rake'
 require 'minitest/autorun'
 
-SuburbRecord = Struct.new(:attributes, :geometry)
-
 class ImportSuburbsTaskTest < Minitest::Test
-  RECORDS = [
-    SuburbRecord.new({ 'NAME' => 'Alpha' }, :poly1),
-    SuburbRecord.new({ 'LOCALITY' => 'Beta' }, :poly2)
-  ].freeze
-
-  def setup
-    Suburb.singleton_class.class_eval do
-      attr_accessor :records
-
-      def delete_all = self.records = []
-
-      def create!(attrs) = (self.records ||= []) << attrs
-
-      def count = (records || []).size
-
-      def where(tree_count:)
-        results = (self.records || []).select { |r| r[:tree_count] == tree_count }
-        Struct.new(:records) do
-          def initialize(records)
-            @records = records
-          end
+  class << self
+    def setup_suburb_class
+      Suburb.class_eval do
+        class << self
+          attr_accessor :records
 
           def delete_all
-            @records.each { |rec| Suburb.records.delete(rec) }
+            self.records = []
           end
-        end.new(results)
+
+          def create!(attrs)
+            self.records ||= []
+            self.records << attrs
+          end
+
+          def columns_hash
+            { 'boundary' => Struct.new(:type).new(:text) }
+          end
+        end
       end
     end
+  end
+
+  def setup
+    self.class.setup_suburb_class
     Suburb.records = []
 
     Kernel.module_eval do
@@ -47,29 +42,17 @@ class ImportSuburbsTaskTest < Minitest::Test
     end
     @require_patched = true
 
-    rgeo_module = Module.new
-    shapefile_module = Module.new
     reader_class = Class.new do
-      def self.open(_file)
-        file = Object.new
-        def file.each(&blk)
-          ImportSuburbsTaskTest::RECORDS.each(&blk)
-        end
-        yield file
+      def self.open(_path)
+        record = Struct.new(:attributes, :geometry).new({ 'LOC_NAME' => 'Foo' }, Struct.new(:as_text).new('POLY'))
+        yield [record]
       end
     end
+    shapefile_module = Module.new
     shapefile_module.const_set(:Reader, reader_class)
+    rgeo_module = Module.new
     rgeo_module.const_set(:Shapefile, shapefile_module)
-    @previous_rgeo = Object.const_get(:RGeo) if Object.const_defined?(:RGeo)
-    Object.send(:remove_const, :RGeo) if Object.const_defined?(:RGeo)
     Object.const_set(:RGeo, rgeo_module)
-
-    require File.expand_path('../../lib/import_suburbs', __dir__)
-
-    @orig_tree_count = Tasks::ImportSuburbs.instance_method(:tree_count_for_polygon)
-    Tasks::ImportSuburbs.define_method(:tree_count_for_polygon) do |polygon|
-      polygon == :poly1 ? 1 : 0
-    end
 
     Rake.application = Rake::Application.new
     Rake::Task.define_task(:environment)
@@ -77,28 +60,27 @@ class ImportSuburbsTaskTest < Minitest::Test
   end
 
   def teardown
-    Suburb.records = []
-    Object.send(:remove_const, :RGeo)
-    Object.const_set(:RGeo, @previous_rgeo) if @previous_rgeo
-    Tasks::ImportSuburbs.define_method(:tree_count_for_polygon, @orig_tree_count)
-    return unless @require_patched
-
-    Kernel.module_eval do
-      alias_method :require, :orig_require
-      remove_method :orig_require
+    Suburb.records = nil
+    if @require_patched
+      Kernel.module_eval do
+        alias_method :require, :orig_require
+        remove_method :orig_require
+      end
     end
+    Object.send(:remove_const, :RGeo) if Object.const_defined?(:RGeo)
   end
 
   def test_creates_suburb_records
-    Rake.application['db:import_suburbs'].invoke('dummy')
-    names = Suburb.records.map { |r| r[:name] }
-    assert_includes names, 'Alpha'
-    refute_includes names, 'Beta'
+    Rake.application['db:import_suburbs'].invoke
+    assert_equal 1, Suburb.records.length
+    rec = Suburb.records.first
+    assert_equal 'Foo', rec[:name]
+    assert_equal 'POLY', rec[:boundary]
   end
 
-  def test_saves_tree_count
-    Rake.application['db:import_suburbs'].invoke('dummy')
-    record = Suburb.records.find { |r| r[:name] == 'Alpha' }
-    assert_equal 1, record[:tree_count]
+  def test_raises_when_file_missing
+    assert_raises RuntimeError do
+      Rake.application['db:import_suburbs'].invoke('missing.shp')
+    end
   end
 end

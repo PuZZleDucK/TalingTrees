@@ -40,6 +40,8 @@ This log summarizes notable updates based on commit history and completed TODO i
 - Added `Suburb` model and migration for storing suburb boundaries
 - Application attempts to load `mod_spatialite` when available
 - Documented optional SpatiaLite setup steps in README
+- Added rake task `db:import_suburbs` to import suburb data
+- Fixed spatialite initializer to skip when database connection isn't established
 
 ## 2025-06-12
 - Raised RuboCop metric limits and cleaned up tests to remove inline disables

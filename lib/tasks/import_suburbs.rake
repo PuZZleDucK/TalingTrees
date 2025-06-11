@@ -3,8 +3,8 @@
 require_relative '../import_suburbs'
 
 namespace :db do
-  desc 'Import Victorian suburb data from shapefile'
-  task :import_suburbs, [:file] => :environment do |_, args|
-    Tasks::ImportSuburbs.new(file: args[:file]).run
+  desc 'Import Victorian suburb data from shapefiles'
+  task :import_suburbs, [:path] => :environment do |_, args|
+    Tasks::ImportSuburbs.new(path: args[:path]).run
   end
 end
