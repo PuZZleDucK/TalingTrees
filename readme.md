@@ -50,25 +50,32 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    ```bash
    bundle exec rake db:download_vic_suburbs
    ```
-9. Import the downloaded tree data (clears existing trees):
+9. Import the Victorian suburbs dataset:
+   ```bash
+   bundle exec rake db:import_suburbs
+   ```
+   The task reads the shapefile from
+   `data/suburbs/GDA2020/vic_localities.shp` by default. Override with
+   `PATH=/path/to/file.shp` if your data is elsewhere.
+10. Import the downloaded tree data (clears existing trees):
    ```bash
    bundle exec rake db:import_trees
    ```
    The prompts and models used when naming trees are configured in `config/llm.yml`.
-10. Name the trees:
+11. Name the trees:
    ```bash
    bundle exec rake db:name_trees
    ```
-11. Add tree relationships:
+12. Add tree relationships:
    ```bash
    bundle exec rake db:add_relationships
    ```
-12. Generate system prompts:
+13. Generate system prompts:
    ```bash
    bundle exec rake db:system_prompts
    ```
    This task now calls the configured LLM to craft a unique personality prompt for each tree based on its name and relationships.
-13. Run the test suite:
+14. Run the test suite:
    ```bash
    ruby test/run_tests.rb
    ```
@@ -78,12 +85,12 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    bundle exec brakeman -q
    ```
 
-14. Build css:
+15. Build css:
    ```bash
    yarn build:css
    ```
 
-15. Start the Rails server:
+16. Start the Rails server:
    ```bash
    ./bin/dev
    ```
@@ -165,7 +172,8 @@ must configure this value manually.
 [x] update system prompt generation to align with rating guidance
 [x] add rake task to download Victorian suburb shapefiles from data.gov.au
 [x] create a suburbs table with a geometry boundary column using SpatiaLite
-[ ] populate the suburbs table with data from the downloaded shapefiles
+[x] populate the suburbs table with data from the downloaded shapefiles
+[ ] update rack to resolve bundler-audit warning GHSA-47m2-26rw-j2jw
 [ ] when naming trees we should use lat/long data to lookup suburb and relative location in it. also save those details to the db for later use
 [ ] when naming trees we should use lat/long data to lookup nearby landmarks. also save those details to the db for later use
 [ ] when naming trees we should use lat/long data to lookup nearby streets. also save those details to the db for later use

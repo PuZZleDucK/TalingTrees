@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.config.after_initialize do
+  next unless ActiveRecord::Base.connected?
+
   adapter = ActiveRecord::Base.connection.adapter_name.downcase
   next unless adapter.include?('sqlite')
 
