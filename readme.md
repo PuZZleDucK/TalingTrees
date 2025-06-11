@@ -16,12 +16,16 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    ```bash
    bundle install
    ```
-2. Install Node.js 20 or later (example for Ubuntu):
+2. Install GEOS (required for suburb shapefile import):
+   ```bash
+   sudo apt-get install -y libgeos-dev
+   ```
+3. Install Node.js 20 or later (example for Ubuntu):
    ```bash
    curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
    sudo apt-get install -y nodejs
    ```
-3. Install Node packages (requires Yarn 1 via corepack):
+4. Install Node packages (requires Yarn 1 via corepack):
    ```bash
    corepack enable
    corepack prepare yarn@1.22.19 --activate
@@ -62,6 +66,12 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    bundle exec rake db:import_trees
    ```
    The prompts and models used when naming trees are configured in `config/llm.yml`.
+10. Import the Victorian suburbs dataset:
+   ```bash
+  bundle exec rake db:import_suburbs
+  ```
+  Suburb boundaries will appear on the map when this dataset is loaded.
+  Each suburb stores a `tree_count` of trees within its boundary.
 11. Name the trees:
    ```bash
    bundle exec rake db:name_trees
@@ -173,7 +183,10 @@ must configure this value manually.
 [x] add rake task to download Victorian suburb shapefiles from data.gov.au
 [x] create a suburbs table with a geometry boundary column using SpatiaLite
 [x] populate the suburbs table with data from the downloaded shapefiles
-[ ] update rack to resolve bundler-audit warning GHSA-47m2-26rw-j2jw
+[ ] osm overpass
+[ ] Victorian Heritage Register
+[ ] Public Transport Victoria (PTV) provides open data for all train stations, tram stops, and bus stops. The static GTFS (General Transit Feed Specification) dataset
+[ ] wikipedia lookup table, scan and summarize
 [ ] when naming trees we should use lat/long data to lookup suburb and relative location in it. also save those details to the db for later use
 [ ] when naming trees we should use lat/long data to lookup nearby landmarks. also save those details to the db for later use
 [ ] when naming trees we should use lat/long data to lookup nearby streets. also save those details to the db for later use

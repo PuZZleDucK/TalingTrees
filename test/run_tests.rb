@@ -27,7 +27,7 @@ Minitest.after_run do
     f.puts "TOTAL: #{total_percent}% (#{total_covered}/#{total_lines})"
   end
 
-  rubocop_output = `bundle exec rubocop 2>&1`
+  rubocop_output = `bundle exec rubocop --config .rubocop.yml 2>&1`
   File.write('rubocop_report.txt', rubocop_output)
 
   bundler_audit_output = `bundle exec bundler-audit check 2>&1`

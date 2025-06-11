@@ -2,6 +2,40 @@
 
 This log summarizes notable updates based on commit history and completed TODO items.
 
+## 2025-06-19
+- Added API endpoint and frontend support to display suburb boundaries on the map
+
+## 2025-06-20
+- Ensured `RGeo` is loaded in `Suburb#polygons` so tests pass after removing the constant
+
+## 2025-06-21
+- Added `tree_count` column to suburbs
+- Import task now counts trees within each suburb and removes empty suburbs
+
+## 2025-06-22
+- ImportSuburbs task prints progress messages during import
+
+## 2025-06-16
+- Truncated long RuboCop report in CI comments to avoid exceeding GitHub limits
+
+## 2025-06-17
+- Force RuboCop to ignore any global configs during test runs
+
+## 2025-06-18
+- Fixed remaining RuboCop warnings
+
+## 2025-05-29
+- Refactored `TreesController` to reduce RuboCop offenses
+- Removed temporary rubocop directives from controller and test helper
+
+## 2025-06-14
+- Added rake task to import Victorian suburb shapefile data
+- Added `rgeo` and `rgeo-shapefile` gems
+
+## 2025-06-15
+- Documented GEOS requirement for suburb import
+- Improved suburb import task error handling
+
 ## 2025-06-13
 - Added `Suburb` model and migration for storing suburb boundaries
 - Application attempts to load `mod_spatialite` when available

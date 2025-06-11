@@ -19,7 +19,7 @@
 
     <div id="map" class="h-96 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg shadow-md mb-4"></div>
   </div>
-  <div class="flex-1 flex flex-col bg-white rounded-lg shadow-md p-4">
+  <div class="flex-1 flex flex-col bg-white dark:bg-gray-700 rounded-lg shadow-md p-4">
     <button id="back-button" class="hidden mb-2 bg-gray-200 rounded px-2 py-1 text-sm self-start"></button>
     <div class="flex items-center mb-2 relative">
       <span class="text-2xl mr-2">💬</span>
@@ -165,6 +165,15 @@
         userMarker = L.marker([initLat, initLon], {icon: userIcon}).addTo(map);
       }
     }
+
+    var suburbLayers = [];
+    fetch('/suburbs.json').then(function(resp){ return resp.json(); }).then(function(data){
+      data.forEach(function(sub){
+        (sub.polygons || []).forEach(function(poly){
+          suburbLayers.push(L.polygon(poly, {color:'#888', weight:1, fillOpacity:0.05}).addTo(map));
+        });
+      });
+    });
 
     function distanceMeters(lat1, lon1, lat2, lon2) {
       var rad = Math.PI / 180;
