@@ -13,6 +13,7 @@ RUN apt-get update -qq && \
       zlib1g-dev \
       libffi-dev \
       libyaml-dev \
+      libgeos-dev \
       git \
       curl \
       libpq-dev && \
