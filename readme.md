@@ -16,57 +16,62 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    ```bash
    bundle install
    ```
-2. Install Node.js 20 or later (example for Ubuntu):
+2. Install libspatialite for geospatial support (example for Ubuntu):
+   ```bash
+   sudo apt-get update
+   sudo apt-get install -y libsqlite3-mod-spatialite
+   ```
+3. Install Node.js 20 or later (example for Ubuntu):
    ```bash
    curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
    sudo apt-get install -y nodejs
    ```
-3. Install Node packages (requires Yarn 1 via corepack):
+4. Install Node packages (requires Yarn 1 via corepack):
    ```bash
    corepack enable
    corepack prepare yarn@1.22.19 --activate
    yarn install --frozen-lockfile
    ```
-4. Install or update Ollama and download the models:
+5. Install or update Ollama and download the models:
    ```bash
    bundle exec rake ollama:setup
    ```
-5. Create and migrate the database:
+6. Create and migrate the database:
    ```bash
    bundle exec rails db:create
    bundle exec rails db:migrate
    ```
-6. Seed initial users:
+7. Seed initial users:
    ```bash
    bundle exec rails db:seed
    ```
-7. Download tree data:
+8. Download tree data:
    ```bash
    bundle exec rake db:download_trees
    ```
-8. Download the Victorian suburbs dataset:
+9. Download the Victorian suburbs dataset:
    ```bash
    bundle exec rake db:download_vic_suburbs
    ```
-9. Import the downloaded tree data (clears existing trees):
+10. Import the downloaded tree data (clears existing trees):
    ```bash
    bundle exec rake db:import_trees
    ```
    The prompts and models used when naming trees are configured in `config/llm.yml`.
-10. Name the trees:
+11. Name the trees:
    ```bash
    bundle exec rake db:name_trees
    ```
-11. Add tree relationships:
+12. Add tree relationships:
    ```bash
    bundle exec rake db:add_relationships
    ```
-12. Generate system prompts:
+13. Generate system prompts:
    ```bash
    bundle exec rake db:system_prompts
    ```
    This task now calls the configured LLM to craft a unique personality prompt for each tree based on its name and relationships.
-13. Run the test suite:
+14. Run the test suite:
    ```bash
    ruby test/run_tests.rb
    ```
@@ -76,12 +81,12 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    bundle exec brakeman -q
    ```
 
-14. Build css:
+15. Build css:
    ```bash
    yarn build:css
    ```
 
-15. Start the Rails server:
+16. Start the Rails server:
    ```bash
    ./bin/dev
    ```
@@ -172,5 +177,6 @@ must configure this value manually.
 [ ] new tree mission: find the only... tree of a species, tree planted on x date, ... (must be unique in db)
 [ ] new tree mission: find all the ... trees named bob, trees of a species, trees on x road, trees in x park, ... (must be less than 6 in db)
 [ ] custom tree images - trees have images that start as the default logo, but users with the right tags could take a selfie of the tree and update it's image
+[ ] configure geospatial columns using SpatiaLite
 [x] get test coverage up
 [x] address remaining RuboCop warnings

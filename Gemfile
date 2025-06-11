@@ -11,6 +11,7 @@ gem 'ollama-ai'
 gem 'puma', '~> 6.0'
 gem 'sprockets-rails'
 gem 'sqlite3', '~> 1.4'
+gem 'activerecord-spatialite-adapter'
 gem 'tailwindcss-ruby', '~> 4.1'
 gem 'tzinfo-data'
 

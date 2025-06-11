@@ -1,4 +1,6 @@
 # Changelog
+## 2025-06-13
+- Switched database adapter to SpatiaLite using activerecord-spatialite-adapter
 
 This log summarizes notable updates based on commit history and completed TODO items.
 

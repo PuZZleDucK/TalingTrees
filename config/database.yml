@@ -1,5 +1,5 @@
 default: &default
-  adapter: sqlite3
+  adapter: spatialite
   pool: 5
   timeout: 5000
 
