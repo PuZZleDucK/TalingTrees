@@ -151,7 +151,7 @@ must configure this value manually.
 [x] create a suburbs table with a geometry boundary column using SpatiaLite
 [x] populate the suburbs table with data from the downloaded shapefiles
 [x] when populating suburbs add a count of how many trees would be in the suburb and do not add suburbs with a tree count of 0
-[ ] add suburb information as additional data to the tree naming prompt
+[x] add suburb information as additional data to the tree naming prompt
 [ ] Victorian Heritage Register
 [ ] Public Transport Victoria (PTV) provides open data for all train stations, tram stops, and bus stops. The static GTFS (General Transit Feed Specification) dataset
 [ ] wikipedia lookup table, scan and summarize

@@ -30,6 +30,48 @@ class Suburb < ApplicationRecord
     end
   end
 
+  # Returns true if the given lat/long pair falls within the suburb boundary.
+  def contains_point?(lat, lon)
+    return false if lat.nil? || lon.nil?
+
+    unless defined?(::RGeo)
+      $LOADED_FEATURES.delete_if { |p| p.end_with?('/rgeo.rb') }
+      require 'rgeo'
+    end
+
+    geom = boundary
+    factory = if geom.respond_to?(:factory)
+                geom.factory
+              else
+                ::RGeo::Geographic.spherical_factory(srid: 4326)
+              end
+    unless geom.respond_to?(:geometry_type)
+      begin
+        geom = ::RGeo::WKRep::WKTParser.new(factory, support_ewkt: true).parse(boundary.to_s)
+      rescue ::RGeo::Error::ParseError
+        return false
+      end
+    end
+
+    point = factory.point(lon, lat)
+    geom.contains?(point)
+  end
+
+  # Finds the suburb that contains the given coordinates.
+  def self.find_containing(lat, lon)
+    return nil if lat.nil? || lon.nil?
+
+    scope = if respond_to?(:where)
+              all
+            elsif respond_to?(:records)
+              Array(records)
+            else
+              []
+            end
+    scope = scope.to_a if scope.respond_to?(:to_a)
+    scope.find { |s| s.contains_point?(lat, lon) }
+  end
+
   private
 
   def ring_coords(ring)

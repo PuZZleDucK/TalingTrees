@@ -269,6 +269,36 @@ class NameTreesTaskTest < Minitest::Test
     assert_includes user_content, 'Nearby tree names to avoid: Oak'
   end
 
+  def test_prompt_includes_suburb_name
+    Suburb.singleton_class.class_eval do
+      attr_accessor :records
+
+      def all = records
+
+      def find_containing(_lat, _lon)
+        records.first
+      end
+    end
+    Suburb.records = [Suburb.new(name: 'Alpha', boundary: 'POLYGON((0 0,1 0,1 1,0 1,0 0))')]
+
+    @tree.define_singleton_method(:treedb_lat) { 0.5 }
+    @tree.define_singleton_method(:treedb_long) { 0.5 }
+    @tree.define_singleton_method(:neighbors_within) { |_radius| [] }
+
+    self.class.response_data = [
+      { 'message' => { 'content' => 'Spruce' } },
+      { 'message' => { 'content' => 8 } }
+    ]
+
+    Rake.application['db:name_trees'].reenable
+    Rake.application['db:name_trees'].invoke
+
+    user_content = Ollama.params_list.first[:messages][1]['content']
+    assert_includes user_content, 'suburb: Alpha'
+  ensure
+    Suburb.records = nil
+  end
+
   def test_verify_prompt_includes_tree_details
     @tree.define_singleton_method(:treedb_common_name) { 'Blue Gum' }
     @tree.define_singleton_method(:treedb_genus) { 'Eucalyptus' }
