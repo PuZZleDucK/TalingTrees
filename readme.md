@@ -1,6 +1,7 @@
 # Talk to Trees
 
 See [CHANGELOG.md](CHANGELOG.md) for recent updates.
+![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/PuZZleDucK/TalingTrees?utm_source=oss&utm_medium=github&utm_campaign=PuZZleDucK%2FTalingTrees&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
 
 ## Dataset:
 https://data.melbourne.vic.gov.au/explore/dataset/trees-with-species-and-dimensions-urban-forest/api/
