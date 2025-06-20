@@ -115,7 +115,7 @@ module Tasks
     private_constant :BANNED_WORDS_REGEX
 
     def valid_format?(name, tree, reasons)
-      if name =~ /[^\w\s,-]/
+      if name =~ /[^\w\s-]/
         puts "Rejected name due to punctuation: #{name.inspect}"
         reasons << 'invalid punctuation'
         false
