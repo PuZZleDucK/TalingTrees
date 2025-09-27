@@ -9,6 +9,9 @@ const path = require('path');
   const waitSelector = process.env.SCREENSHOT_WAIT_SELECTOR;
   const delayMs = parseInt(process.env.SCREENSHOT_DELAY_MS || '2000', 10);
   const postScript = process.env.SCREENSHOT_POST_JS;
+  const selectUserId = process.env.SCREENSHOT_SELECT_USER_ID;
+  const targetUrl = process.env.SCREENSHOT_TARGET_URL;
+  const targetWaitSelector = process.env.SCREENSHOT_TARGET_WAIT_SELECTOR;
 
   const outputDir = path.dirname(output);
   if (!fs.existsSync(outputDir)) {
@@ -27,6 +30,28 @@ const path = require('path');
     await page.goto(url, { waitUntil: 'networkidle0', timeout: 60000 });
     if (waitSelector) {
       await page.waitForSelector(waitSelector, { timeout: 60000 }).catch(() => {});
+    }
+    if (selectUserId) {
+      await page.evaluate(async (userId) => {
+        const tokenEl = document.querySelector('meta[name="csrf-token"]');
+        if (!tokenEl) return;
+        const body = new URLSearchParams({ user_id: userId }).toString();
+        await fetch('/select_user', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            'X-CSRF-Token': tokenEl.content
+          },
+          credentials: 'same-origin',
+          body
+        });
+      }, selectUserId);
+    }
+    if (targetUrl) {
+      await page.goto(targetUrl, { waitUntil: 'networkidle0', timeout: 60000 });
+      if (targetWaitSelector) {
+        await page.waitForSelector(targetWaitSelector, { timeout: 60000 }).catch(() => {});
+      }
     }
     if (postScript) {
       await page.evaluate((code) => {

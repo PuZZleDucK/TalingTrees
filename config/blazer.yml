@@ -2,7 +2,7 @@
 
 data_sources:
   main:
-    url: <%= ENV["BLAZER_DATABASE_URL"] %>
+    url: <%= ENV["BLAZER_DATABASE_URL"] || ENV["DATABASE_URL"] || "sqlite3:///#{Rails.root.join('db', "#{Rails.env}.sqlite3")}" %>
 
     # statement timeout, in seconds
     # none by default

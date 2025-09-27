@@ -6,7 +6,7 @@ require 'fileutils'
 require 'timeout'
 require 'socket'
 
-def capture_app_screenshot(root, filename:, seed_script: nil, path: '/', wait_selector: nil, delay_ms: 2000, post_script: nil)
+def capture_app_screenshot(root, filename:, seed_script: nil, path: '/', wait_selector: nil, delay_ms: 2000, post_script: nil, select_user_id: nil, target_path: nil, target_wait_selector: nil)
   screenshots_dir = File.join(root, 'screenshots')
   FileUtils.mkdir_p(screenshots_dir)
 
@@ -79,6 +79,13 @@ def capture_app_screenshot(root, filename:, seed_script: nil, path: '/', wait_se
     )
     screenshot_env['SCREENSHOT_WAIT_SELECTOR'] = wait_selector if wait_selector
     screenshot_env['SCREENSHOT_POST_JS'] = post_script if post_script
+    if select_user_id
+      screenshot_env['SCREENSHOT_SELECT_USER_ID'] = select_user_id
+      if target_path
+        screenshot_env['SCREENSHOT_TARGET_URL'] = "http://127.0.0.1:#{port}#{target_path}"
+        screenshot_env['SCREENSHOT_TARGET_WAIT_SELECTOR'] = target_wait_selector if target_wait_selector
+      end
+    end
     unless system(screenshot_env, 'yarn', 'screenshot:homepage', chdir: root)
       warn 'Screenshot capture command failed.'
     end
@@ -147,6 +154,11 @@ Minitest.after_run do
 
   populated_seed = <<~RUBY
     ApplicationRecord.transaction do
+      admin = User.create!(
+        name: 'Admin',
+        email: 'admin@example.com',
+        blurb: 'Analytics admin'
+      )
       user = User.create!(
         name: 'Explorer Alice',
         email: 'alice@example.com',
@@ -222,6 +234,68 @@ Minitest.after_run do
       chat = Chat.create!(user: user, tree: starwood)
       Message.create!(chat: chat, role: 'user', content: 'Hello Sentinel, how are the neighbors today?')
       Message.create!(chat: chat, role: 'assistant', content: 'Moonlit Whisper is humming with golden light, and Harborlight Cedar sends breezy greetings.')
+
+      Ahoy::Event.delete_all
+      Ahoy::Visit.delete_all
+      now = Time.current
+      5.times do |i|
+        visit = Ahoy::Visit.create!(
+          visit_token: SecureRandom.uuid,
+          visitor_token: SecureRandom.uuid,
+          started_at: now - i.days,
+          user: admin
+        )
+        Ahoy::Event.create!(
+          visit: visit,
+          name: 'Page view',
+          properties: { path: '/' },
+          time: visit.started_at + 5.minutes,
+          user: admin
+        )
+      end
+
+      if defined?(Blazer::Query)
+        visits_query = Blazer::Query.find_or_initialize_by(name: 'Ahoy visits per day')
+        visits_query.creator = admin
+        visits_query.data_source = 'main'
+        visits_query.description = 'Count of Ahoy visits grouped by day (last 30 days).'
+        visits_query.statement = <<~SQL
+          SELECT date(started_at) AS day,
+                 COUNT(*) AS visits
+          FROM ahoy_visits
+          WHERE started_at IS NOT NULL
+          GROUP BY day
+          ORDER BY day DESC
+          LIMIT 30
+        SQL
+        visits_query.save!
+
+        events_query = Blazer::Query.find_or_initialize_by(name: 'Ahoy events by name')
+        events_query.creator = admin
+        events_query.data_source = 'main'
+        events_query.description = 'Event volume grouped by event name (top 20).'
+        events_query.statement = <<~SQL
+          SELECT name,
+                 COUNT(*) AS events
+          FROM ahoy_events
+          GROUP BY name
+          ORDER BY events DESC
+          LIMIT 20
+        SQL
+        events_query.save!
+
+        dashboard = Blazer::Dashboard.find_or_initialize_by(name: 'Starter analytics')
+        dashboard.creator = admin
+        dashboard.save!
+
+        Blazer::DashboardQuery.find_or_create_by!(dashboard: dashboard, query: visits_query) do |dq|
+          dq.position = 0
+        end
+
+        Blazer::DashboardQuery.find_or_create_by!(dashboard: dashboard, query: events_query) do |dq|
+          dq.position = 1
+        end
+      end
     end
   RUBY
 
@@ -245,7 +319,8 @@ Minitest.after_run do
     seed_script: populated_seed,
     path: '/admin',
     wait_selector: 'body.rails_admin',
-    delay_ms: 3000
+    delay_ms: 3000,
+    select_user_id: '1'
   )
   maybe_generate_screenshot_diff(root, 'screenshots/admin-dashboard.png')
 
@@ -255,7 +330,58 @@ Minitest.after_run do
     seed_script: populated_seed,
     path: '/admin/tree',
     wait_selector: 'body.rails_admin',
-    delay_ms: 3000
+    delay_ms: 3000,
+    select_user_id: '1'
   )
   maybe_generate_screenshot_diff(root, 'screenshots/admin-trees.png')
+
+  capture_app_screenshot(
+    root,
+    filename: 'analytics-visits.png',
+    seed_script: populated_seed,
+    path: '/',
+    wait_selector: 'body',
+    select_user_id: '1',
+    target_path: '/blazer/queries/1-ahoy-visits-per-day',
+    target_wait_selector: '#bind',
+    delay_ms: 4000,
+    post_script: <<~JS
+      (async () => {
+        const form = document.querySelector('#bind');
+        if (form) {
+          const button = form.querySelector('input[type="submit"]');
+          if (button) {
+            button.click();
+            await new Promise(resolve => setTimeout(resolve, 2500));
+          }
+        }
+      })();
+    JS
+  )
+  maybe_generate_screenshot_diff(root, 'screenshots/analytics-visits.png')
+
+  capture_app_screenshot(
+    root,
+    filename: 'analytics-events.png',
+    seed_script: populated_seed,
+    path: '/',
+    wait_selector: 'body',
+    select_user_id: '1',
+    target_path: '/blazer/queries/2-ahoy-events-by-name',
+    target_wait_selector: '#bind',
+    delay_ms: 4000,
+    post_script: <<~JS
+      (async () => {
+        const form = document.querySelector('#bind');
+        if (form) {
+          const button = form.querySelector('input[type="submit"]');
+          if (button) {
+            button.click();
+            await new Promise(resolve => setTimeout(resolve, 2500));
+          }
+        }
+      })();
+    JS
+  )
+  maybe_generate_screenshot_diff(root, 'screenshots/analytics-events.png')
 end

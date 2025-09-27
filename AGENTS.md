@@ -23,6 +23,12 @@ Several Rake tasks exist to manage tree data:
 
 These tasks clear and repopulate the tree records, so run them with care.
 
+## Workflow Rules
+- You may stage changes to share diffs, but never commit or push without explicit user approval.
+- Do **not** mark TODO items as complete unless the user confirms the work is accepted.
+- Follow this loop for every task: implement changes → stage as needed for review → present the work (tests, docs, screenshots) → wait for user approval → only then commit/push.
+- When changes affect the Docker image or runtime environment, rebuild the image and restart the container before presenting results so reviewers see current behavior.
+
 ## Development
 - Groom and keep `readme.md`, `AGENTS.md`, and any other documentation up to date with your changes.
 - Follow the workflow: implement changes, present them for user review, and only commit/push after approval.
