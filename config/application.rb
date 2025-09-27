@@ -12,11 +12,8 @@ module TalingTrees
   class Application < Rails::Application
     config.load_defaults 7.1
 
-    # remove session/cookie stack
-    config.middleware.delete ActionDispatch::Cookies
-    config.middleware.delete ActionDispatch::Session::CookieStore
+    # remove flash to keep middleware slim
     config.middleware.delete ActionDispatch::Flash
-
     # remove exception rendering
     config.middleware.delete ActionDispatch::ShowExceptions
     config.middleware.delete ActionDispatch::DebugExceptions
