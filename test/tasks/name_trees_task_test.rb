@@ -14,6 +14,10 @@ class NameTreesTaskTest < Minitest::Test
           def find_each(&block)
             (instances || []).each(&block)
           end
+
+          def all
+            instances || []
+          end
         end
       end
     end
@@ -31,6 +35,10 @@ class NameTreesTaskTest < Minitest::Test
     @tree.define_singleton_method(:update!) do |attrs|
       attributes.merge!(attrs.transform_keys(&:to_s))
     end
+    @tree.define_singleton_method(:treedb_common_name) { 'Blue Gum' }
+    @tree.define_singleton_method(:treedb_lat) { 0.5 }
+    @tree.define_singleton_method(:treedb_long) { 0.5 }
+    @tree.define_singleton_method(:id) { 1 }
     Tree.instances = [@tree]
     self.class.response_data = [
       { 'message' => { 'content' => 'Fancy Name' } },
@@ -271,12 +279,20 @@ class NameTreesTaskTest < Minitest::Test
 
   def test_prompt_includes_suburb_name
     suburb = Suburb.new(name: 'Alpha', boundary: 'POLYGON((0 0,1 0,1 1,0 1,0 0))')
+    suburb.define_singleton_method(:tree_count) { 3 }
+    suburb.define_singleton_method(:contains_point?) do |lat, lon|
+      lat.to_f == 0.5 && lon.to_f == 0.5
+    end
     original_find = Suburb.method(:find_containing) if Suburb.respond_to?(:find_containing)
     Suburb.define_singleton_method(:find_containing) { |_lat, _lon| suburb }
 
-    @tree.define_singleton_method(:treedb_lat) { 0.5 }
-    @tree.define_singleton_method(:treedb_long) { 0.5 }
-    @tree.define_singleton_method(:neighbors_within) { |_radius| [] }
+    Tree.singleton_class.attr_accessor :records unless Tree.respond_to?(:records)
+    other_tree = Tree.new
+    other_tree.define_singleton_method(:treedb_common_name) { 'Blue Gum' }
+    other_tree.define_singleton_method(:treedb_lat) { 0.5 }
+    other_tree.define_singleton_method(:treedb_long) { 0.5 }
+    other_tree.define_singleton_method(:id) { 42 }
+    Tree.records = [@tree, other_tree]
 
     self.class.response_data = [
       { 'message' => { 'content' => 'Spruce' } },
@@ -288,7 +304,10 @@ class NameTreesTaskTest < Minitest::Test
 
     user_content = Ollama.params_list.first[:messages][1]['content']
     assert_includes user_content, 'suburb: Alpha'
+    assert_includes user_content, 'other_trees_in_suburb: 2'
+    assert_includes user_content, 'same_species_in_suburb: 1'
   ensure
+    Tree.records = nil if Tree.respond_to?(:records=)
     if original_find
       Suburb.define_singleton_method(:find_containing, original_find)
     else

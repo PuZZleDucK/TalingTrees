@@ -76,10 +76,65 @@ module Tasks
                end
       if suburb&.respond_to?(:name)
         name = suburb.name.to_s.strip
-        base += "\nsuburb: #{name}" unless name.empty?
+        unless name.empty?
+          base += "\nsuburb: #{name}"
+          if suburb.respond_to?(:tree_count) && suburb.tree_count
+            other = [suburb.tree_count.to_i - 1, 0].max
+            base += "\nother_trees_in_suburb: #{other}"
+          end
+          same_species = same_species_in_suburb(suburb)
+          base += "\nsame_species_in_suburb: #{same_species}" if same_species
+        end
       end
 
       base
+    end
+
+    private
+
+    def same_species_in_suburb(suburb)
+      return unless @tree.respond_to?(:treedb_common_name)
+
+      species = @tree.treedb_common_name.to_s.strip
+      return if species.empty?
+
+      trees = if Tree.respond_to?(:where)
+                relation = Tree.where(treedb_common_name: species).where.not(treedb_lat: nil, treedb_long: nil)
+                relation = relation.where.not(id: @tree.id) if @tree.respond_to?(:id)
+                relation
+              elsif Tree.respond_to?(:records)
+                Array(Tree.records)
+              else
+                []
+              end
+      trees = trees.to_a if trees.respond_to?(:to_a)
+
+      count = 0
+      trees.each do |candidate|
+        candidate_species = candidate.respond_to?(:treedb_common_name) ? candidate.treedb_common_name : candidate[:treedb_common_name]
+        next unless candidate_species.to_s.strip.casecmp?(species)
+
+        lat = candidate.respond_to?(:treedb_lat) ? candidate.treedb_lat : candidate[:treedb_lat]
+        lon = candidate.respond_to?(:treedb_long) ? candidate.treedb_long : candidate[:treedb_long]
+        next if lat.nil? || lon.nil?
+        next if same_tree?(candidate)
+
+        begin
+          count += 1 if suburb.contains_point?(lat.to_f, lon.to_f)
+        rescue StandardError
+          next
+        end
+      end
+
+      count
+    end
+
+    def same_tree?(candidate)
+      return true if candidate.equal?(@tree)
+
+      candidate_id = candidate.respond_to?(:id) ? candidate.id : candidate[:id]
+      tree_id = @tree.respond_to?(:id) ? @tree.id : @tree.attributes&.dig('id')
+      candidate_id && tree_id && candidate_id == tree_id
     end
   end
 
@@ -113,7 +168,7 @@ module Tasks
       end
     end
 
-    private
+  private
 
     def clean_name(content)
       content.gsub(%r{<think(ing)?[^>]*>.*?</think(ing)?>}mi, '')
