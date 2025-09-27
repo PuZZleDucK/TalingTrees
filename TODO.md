@@ -1,5 +1,27 @@
 # Project TODOs
 
+## Incomplete
+
+[ ] update rack gem to '>= 3.1.16' to resolve CVE-2025-49007
+[ ] raise test coverage above 50%
+[ ] when naming trees we should use lat/long data to lookup suburb and relative location in it. also save those details to the db for later use
+[ ] when naming trees we should use lat/long data to lookup nearby landmarks. also save those details to the db for later use
+[ ] when naming trees we should use lat/long data to lookup nearby streets. also save those details to the db for later use
+[ ] create 'landmark' table and import Victorian Heritage Register from data/heritage/HERITAGE_REGISTER.shp
+[ ] show landmarks on map
+[ ] add landmarks to as additional data to the tree naming prompt if within 50m of the tree
+[ ] Public Transport Victoria (PTV) provides open data for all train stations, tram stops, and bus stops. The static GTFS (General Transit Feed Specification) dataset
+[ ] wikipedia lookup table, scan and summarize
+[ ] import osm overpass data
+[ ] replace the map pin icons with discs with a tree icon inside the disc (use the tree from the navbar for now)
+[ ] trees should have missions/objectives that users can help with... find my enemy, find my lost friend, ... (tree must have relation)
+[ ] update system prompt generation to incorporate missions
+[ ] new tree mission: find the only... tree of a species, tree planted on x date, ... (must be unique in db)
+[ ] new tree mission: find all the ... trees named bob, trees of a species, trees on x road, trees in x park, ... (must be less than 6 in db)
+[ ] custom tree images - trees have images that start as the default logo, but users with the right tags could take a selfie of the tree and update it's image
+
+## Completed
+
 [x] add tailwind and style tree list page
 [x] tree names should be blank when importing
 [x] naming script should not pass in the treedb id and don't debug the raw response and add a linebreak between trees
@@ -49,14 +71,12 @@
 [x] address brakeman issues
 [x] add bundler-audit report to github action as another new comment
 [x] address bundler-audit issues
-[ ] update rack gem to '>= 3.1.16' to resolve CVE-2025-49007
 [x] add rubocop report to github action as another new comment
 [x] address rubocop issues
 [x] build docker image in CI
 [x] create new github action to trigger deploy to Keyob on merge to master
 [x] review agents-advice.md and create AGENTS.md for project
 [x] get test coverage up to 50%
-[ ] raise test coverage above 50%
 [x] add a dark mode toggle to the nav bar and allow users to toggle the mode
 [x] when showing tree relations in the title bar, we should still have the three counts in the title, but the popup should list all trees along with the relation type if the user knows of the trees in the list (i.e. not unknown)
 [x] update tree name rating scale for llm
@@ -72,20 +92,5 @@
 [x] populate the suburbs table with data from the downloaded shapefiles
 [x] when populating suburbs add a count of how many trees would be in the suburb and do not add suburbs with a tree count of 0
 [x] add suburb information as additional data to the tree naming prompt
-[ ] create 'landmark' table and import Victorian Heritage Register from data/heritage/HERITAGE_REGISTER.shp
-[ ] show landmarks on map
-[ ] add landmarks to as additional data to the tree naming prompt if within 50m of the tree
-[ ] Public Transport Victoria (PTV) provides open data for all train stations, tram stops, and bus stops. The static GTFS (General Transit Feed Specification) dataset
-[ ] wikipedia lookup table, scan and summarize
-[ ] import osm overpass data
-[ ] when naming trees we should use lat/long data to lookup suburb and relative location in it. also save those details to the db for later use
-[ ] when naming trees we should use lat/long data to lookup nearby landmarks. also save those details to the db for later use
-[ ] when naming trees we should use lat/long data to lookup nearby streets. also save those details to the db for later use
-[ ] replace the map pin icons with discs with a tree icon inside the disc (use the tree from the navbar for now)
-[ ] trees should have missions/objectives that users can help with... find my enemy, find my lost friend, ... (tree must have relation)
-[ ] update system prompt generation to incorporate missions
-[ ] new tree mission: find the only... tree of a species, tree planted on x date, ... (must be unique in db)
-[ ] new tree mission: find all the ... trees named bob, trees of a species, trees on x road, trees in x park, ... (must be less than 6 in db)
-[ ] custom tree images - trees have images that start as the default logo, but users with the right tags could take a selfie of the tree and update it's image
 [x] get test coverage up
 [x] address remaining RuboCop warnings

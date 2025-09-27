@@ -25,6 +25,7 @@ These tasks clear and repopulate the tree records, so run them with care.
 
 ## Development
 - Groom and keep `readme.md`, `AGENTS.md`, and any other documentation up to date with your changes.
+- Follow the workflow: implement changes, present them for user review, and only commit/push after approval.
 - Treat all warnings as errors and address them or add them to the TODO list in `TODO.md`.
 - Update `TODO.md` as tasks are completed or discovered.
 - Document any unusual directories or files or variations from the Rails standard directory structure in the `readme.md`.
