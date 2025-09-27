@@ -27,7 +27,21 @@ def capture_app_screenshot(root, filename:, seed_script: nil, path: '/', wait_se
     return
   end
 
-  cleanup_script = 'Message.delete_all; Chat.delete_all; TreeTag.delete_all; UserTag.delete_all; TreeRelationship.delete_all; UserTree.delete_all; Tree.delete_all; User.delete_all; Suburb.delete_all'
+  cleanup_script = <<~RUBY
+    Message.delete_all
+    Chat.delete_all
+    TreeTag.delete_all
+    UserTag.delete_all
+    TreeRelationship.delete_all
+    UserTree.delete_all
+    Tree.delete_all
+    User.delete_all
+    Suburb.delete_all
+
+    if ActiveRecord::Base.connection.adapter_name.downcase.include?('sqlite')
+      ActiveRecord::Base.connection.execute('DELETE FROM sqlite_sequence')
+    end
+  RUBY
   unless system(env, 'bundle', 'exec', 'rails', 'runner', cleanup_script, chdir: root)
     warn 'Skipping screenshot capture: database cleanup failed.'
     return
@@ -78,6 +92,23 @@ rescue StandardError => e
   warn "Screenshot capture encountered an error: #{e.message}"
 end
 
+def maybe_generate_screenshot_diff(root, relative_path)
+  return unless system('git', 'rev-parse', '--is-inside-work-tree', out: File::NULL, err: File::NULL)
+
+  full_path = File.join(root, relative_path)
+  return unless File.exist?(full_path)
+
+  diff_status = system('git', 'diff', '--quiet', '--', relative_path)
+  return if diff_status # no diff detected
+
+  script = File.join(root, 'scripts', 'image_diff.sh')
+  return unless File.executable?(script)
+
+  system('bash', script, relative_path)
+rescue StandardError => e
+  warn "Screenshot diff generation failed for #{relative_path}: #{e.message}"
+end
+
 Dir[File.join(__dir__, '**/*_test.rb')].each { |f| require_relative f }
 
 Minitest.after_run do
@@ -112,6 +143,7 @@ Minitest.after_run do
   File.write('brakeman_report.txt', brakeman_output)
 
   capture_app_screenshot(root, filename: 'home-empty.png', path: '/', wait_selector: 'body')
+  maybe_generate_screenshot_diff(root, 'screenshots/home-empty.png')
 
   populated_seed = <<~RUBY
     ApplicationRecord.transaction do
@@ -194,6 +226,7 @@ Minitest.after_run do
   RUBY
 
   capture_app_screenshot(root, filename: 'home-demo.png', seed_script: populated_seed, path: '/', wait_selector: '#tree-list')
+  maybe_generate_screenshot_diff(root, 'screenshots/home-demo.png')
 
   capture_app_screenshot(
     root,
@@ -204,6 +237,7 @@ Minitest.after_run do
     delay_ms: 3000,
     post_script: "localStorage.setItem('theme', 'dark'); document.documentElement.classList.add('dark'); const t = document.getElementById('theme-toggle'); if (t) { t.textContent = '☀️'; }"
   )
+  maybe_generate_screenshot_diff(root, 'screenshots/home-demo-dark.png')
 
   capture_app_screenshot(
     root,
@@ -213,6 +247,7 @@ Minitest.after_run do
     wait_selector: 'body.rails_admin',
     delay_ms: 3000
   )
+  maybe_generate_screenshot_diff(root, 'screenshots/admin-dashboard.png')
 
   capture_app_screenshot(
     root,
@@ -222,4 +257,5 @@ Minitest.after_run do
     wait_selector: 'body.rails_admin',
     delay_ms: 3000
   )
+  maybe_generate_screenshot_diff(root, 'screenshots/admin-trees.png')
 end

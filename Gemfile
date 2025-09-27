@@ -21,6 +21,7 @@ gem 'sprockets-rails'
 gem 'sqlite3', '~> 1.4'
 gem 'tailwindcss-ruby', '~> 4.1'
 gem 'tzinfo-data'
+gem 'ahoy_matey'
 
 group :development do
   gem 'brakeman', require: false

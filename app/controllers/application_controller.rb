@@ -3,8 +3,11 @@
 # Base controller providing common helpers and callbacks for the
 # application's controllers.
 class ApplicationController < ActionController::Base
+  include Ahoy::Controller if defined?(Ahoy::Controller)
+
   before_action :set_current_user
   helper_method :current_user
+  after_action :track_page_view if respond_to?(:after_action)
 
   def select_user
     session[:user_id] = params[:user_id]
@@ -25,6 +28,22 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def track_page_view
+    return unless request.get?
+    return unless request.format.html?
+
+    tracker = defined?(ahoy) ? ahoy : nil
+    return unless tracker
+
+    tracker.track 'Page view',
+                  path: request.fullpath,
+                  controller: controller_name,
+                  action: action_name,
+                  user_id: @current_user&.id
+  rescue StandardError => e
+    Rails.logger.warn("[Ahoy] Failed to track page view: #{e.message}")
+  end
 
   def set_current_user
     current_user
