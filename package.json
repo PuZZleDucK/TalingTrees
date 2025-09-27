@@ -4,9 +4,11 @@
   "packageManager": "yarn@1.22.19",
   "dependencies": {
     "@tailwindcss/cli": "^4.1.7",
-    "tailwindcss": "^4.1.7"
+    "tailwindcss": "^4.1.7",
+    "puppeteer": "^24.10.2"
   },
   "scripts": {
-    "build:css": "npx @tailwindcss/cli -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify"
+    "build:css": "npx @tailwindcss/cli -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify",
+    "screenshot:homepage": "node scripts/capture_homepage_screenshot.js"
   }
 }

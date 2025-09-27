@@ -1,13 +1,13 @@
 # Project TODOs
 
 ## Incomplete
-[ ] add screenshots to specs for visual validation
-[ ] when naming trees we should use lat/long data to lookup suburb and relative location in it. also save those details to the db for later use
+[x] when naming trees we should use lat/long data to lookup suburb and relative location in it. also save those details to the db for later use
 [ ] when naming trees we should use lat/long data to lookup nearby landmarks. also save those details to the db for later use
 [ ] when naming trees we should use lat/long data to lookup nearby streets. also save those details to the db for later use
 [ ] create 'landmark' table and import Victorian Heritage Register from data/heritage/HERITAGE_REGISTER.shp
 [ ] show landmarks on map
 [ ] add landmarks to as additional data to the tree naming prompt if within 50m of the tree
+[ ] investigate yarn warnings about bare-* engine requirements when installing puppeteer
 [ ] Public Transport Victoria (PTV) provides open data for all train stations, tram stops, and bus stops. The static GTFS (General Transit Feed Specification) dataset
 [ ] wikipedia lookup table, scan and summarize
 [ ] import osm overpass data
@@ -19,6 +19,7 @@
 [ ] custom tree images - trees have images that start as the default logo, but users with the right tags could take a selfie of the tree and update it's image
 
 ## Completed
+[x] add screenshots to specs for visual validation
 [x] add tailwind and style tree list page
 [x] tree names should be blank when importing
 [x] naming script should not pass in the treedb id and don't debug the raw response and add a linebreak between trees

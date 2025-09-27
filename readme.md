@@ -83,6 +83,7 @@ Only follow these steps if you need to run the app outside Docker.
    bundle exec bundler-audit check
    bundle exec brakeman -q
    ```
+   The test runner also provisions a headless browser to capture `screenshots/home-empty.png` (empty state), `screenshots/home-demo.png` (sample data with relations), `screenshots/home-demo-dark.png` (same sample data in dark mode), plus RailsAdmin views `screenshots/admin-dashboard.png` and `screenshots/admin-trees.png` for visual regression reference.
 
 6. Build css and frontend assets:
    ```bash

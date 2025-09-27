@@ -2,6 +2,81 @@
 
 require_relative 'test_helper'
 require 'minitest/autorun'
+require 'fileutils'
+require 'timeout'
+require 'socket'
+
+def capture_app_screenshot(root, filename:, seed_script: nil, path: '/', wait_selector: nil, delay_ms: 2000, post_script: nil)
+  screenshots_dir = File.join(root, 'screenshots')
+  FileUtils.mkdir_p(screenshots_dir)
+
+  env = {
+    'RAILS_ENV' => 'test',
+    'SECRET_KEY_BASE' => ENV.fetch('SECRET_KEY_BASE', 'screenshot-secret'),
+    'RAILS_LOG_TO_STDOUT' => 'false'
+  }
+
+  yarn_args = ['yarn', 'install', '--frozen-lockfile']
+  unless system(env, *yarn_args, chdir: root)
+    warn 'Skipping screenshot capture: yarn install failed.'
+    return
+  end
+
+  unless system(env, 'bundle', 'exec', 'rails', 'db:prepare', chdir: root, out: File::NULL, err: File::NULL)
+    warn 'Skipping screenshot capture: database prepare failed.'
+    return
+  end
+
+  cleanup_script = 'Message.delete_all; Chat.delete_all; TreeTag.delete_all; UserTag.delete_all; TreeRelationship.delete_all; UserTree.delete_all; Tree.delete_all; User.delete_all; Suburb.delete_all'
+  unless system(env, 'bundle', 'exec', 'rails', 'runner', cleanup_script, chdir: root)
+    warn 'Skipping screenshot capture: database cleanup failed.'
+    return
+  end
+
+  if seed_script
+    unless system(env, 'bundle', 'exec', 'rails', 'runner', seed_script, chdir: root)
+      warn 'Skipping screenshot capture: sample data setup failed.'
+      return
+    end
+  end
+
+  port = ENV.fetch('SCREENSHOT_PORT', '4001')
+  server_log = File.join(root, 'log', 'screenshot_server.log')
+  FileUtils.mkdir_p(File.dirname(server_log))
+  server_cmd = ['bundle', 'exec', 'rails', 'server', '-p', port, '-e', 'test']
+  server_pid = spawn(env, *server_cmd, chdir: root, out: server_log, err: server_log)
+
+  begin
+    Timeout.timeout(60) do
+      loop do
+        begin
+          TCPSocket.new('127.0.0.1', port.to_i).close
+          break
+        rescue Errno::ECONNREFUSED, Errno::EHOSTUNREACH
+          sleep 1
+        end
+      end
+    end
+
+    screenshot_env = env.merge(
+      'SCREENSHOT_URL' => "http://127.0.0.1:#{port}#{path}",
+      'SCREENSHOT_PATH' => File.join(root, 'screenshots', filename),
+      'SCREENSHOT_DELAY_MS' => delay_ms.to_s
+    )
+    screenshot_env['SCREENSHOT_WAIT_SELECTOR'] = wait_selector if wait_selector
+    screenshot_env['SCREENSHOT_POST_JS'] = post_script if post_script
+    unless system(screenshot_env, 'yarn', 'screenshot:homepage', chdir: root)
+      warn 'Screenshot capture command failed.'
+    end
+  ensure
+    if server_pid
+      Process.kill('TERM', server_pid) rescue nil
+      Process.wait(server_pid) rescue nil
+    end
+  end
+rescue StandardError => e
+  warn "Screenshot capture encountered an error: #{e.message}"
+end
 
 Dir[File.join(__dir__, '**/*_test.rb')].each { |f| require_relative f }
 
@@ -35,4 +110,116 @@ Minitest.after_run do
 
   brakeman_output = `bundle exec brakeman -q 2>&1`
   File.write('brakeman_report.txt', brakeman_output)
+
+  capture_app_screenshot(root, filename: 'home-empty.png', path: '/', wait_selector: 'body')
+
+  populated_seed = <<~RUBY
+    ApplicationRecord.transaction do
+      user = User.create!(
+        name: 'Explorer Alice',
+        email: 'alice@example.com',
+        lat: -37.8105,
+        long: 144.9631
+      )
+
+      guide = User.create!(
+        name: 'Guide Bob',
+        email: 'bob@example.com',
+        lat: -37.8112,
+        long: 144.9644
+      )
+
+      starwood = Tree.create!(
+        name: 'Starwood Sentinel',
+        treedb_common_name: 'River Red Gum',
+        treedb_genus: 'Eucalyptus',
+        treedb_family: 'Myrtaceae',
+        treedb_lat: -37.8108,
+        treedb_long: 144.9632,
+        llm_model: 'demo-model',
+        llm_system_prompt: 'Guard the park paths with kindness.'
+      )
+
+      moonlit = Tree.create!(
+        name: 'Moonlit Whisper',
+        treedb_common_name: 'Golden Elm',
+        treedb_genus: 'Ulmus',
+        treedb_family: 'Ulmaceae',
+        treedb_lat: -37.8116,
+        treedb_long: 144.9650,
+        llm_model: 'demo-model',
+        llm_system_prompt: 'Speak softly to evening wanderers.'
+      )
+
+      harbor = Tree.create!(
+        name: 'Harborlight Cedar',
+        treedb_common_name: 'Cedar',
+        treedb_genus: 'Cedrus',
+        treedb_family: 'Pinaceae',
+        treedb_lat: -37.8099,
+        treedb_long: 144.9614,
+        llm_model: 'demo-model',
+        llm_system_prompt: 'Share glowstone tales with distant friends.'
+      )
+
+      [starwood, moonlit, harbor].each do |tree|
+        UserTree.create!(user: user, tree: tree)
+      end
+      UserTree.create!(user: guide, tree: starwood)
+      UserTree.create!(user: guide, tree: moonlit)
+
+      TreeRelationship.create!(tree: starwood, related_tree: moonlit, kind: 'neighbor', tag: 'best-friend')
+      TreeRelationship.create!(tree: starwood, related_tree: harbor, kind: 'long_distance', tag: 'secret-friend')
+      TreeRelationship.create!(tree: moonlit, related_tree: starwood, kind: 'neighbor', tag: 'best-friend')
+      TreeRelationship.create!(tree: harbor, related_tree: starwood, kind: 'long_distance', tag: 'secret-friend')
+      TreeRelationship.create!(tree: starwood, related_tree: harbor, kind: 'same_species', tag: 'ally')
+
+      TreeTag.create!(user: user, tree: starwood, tag: 'friendly')
+      TreeTag.create!(user: user, tree: moonlit, tag: 'unique')
+      TreeTag.create!(user: guide, tree: starwood, tag: 'good')
+
+      UserTag.create!(tree: starwood, user: user, tag: 'helpful')
+      UserTag.create!(tree: moonlit, user: user, tag: 'friendly')
+
+      Suburb.create!(
+        name: 'Demo Grove',
+        boundary: 'POLYGON ((144.9610 -37.8120, 144.9655 -37.8120, 144.9655 -37.8080, 144.9610 -37.8080, 144.9610 -37.8120))',
+        tree_count: 3
+      )
+
+      chat = Chat.create!(user: user, tree: starwood)
+      Message.create!(chat: chat, role: 'user', content: 'Hello Sentinel, how are the neighbors today?')
+      Message.create!(chat: chat, role: 'assistant', content: 'Moonlit Whisper is humming with golden light, and Harborlight Cedar sends breezy greetings.')
+    end
+  RUBY
+
+  capture_app_screenshot(root, filename: 'home-demo.png', seed_script: populated_seed, path: '/', wait_selector: '#tree-list')
+
+  capture_app_screenshot(
+    root,
+    filename: 'home-demo-dark.png',
+    seed_script: populated_seed,
+    path: '/',
+    wait_selector: '#tree-list',
+    delay_ms: 3000,
+    post_script: "localStorage.setItem('theme', 'dark'); document.documentElement.classList.add('dark'); const t = document.getElementById('theme-toggle'); if (t) { t.textContent = '☀️'; }"
+  )
+
+  capture_app_screenshot(
+    root,
+    filename: 'admin-dashboard.png',
+    seed_script: populated_seed,
+    path: '/admin',
+    wait_selector: 'body.rails_admin',
+    delay_ms: 3000
+  )
+
+  capture_app_screenshot(
+    root,
+    filename: 'admin-trees.png',
+    seed_script: populated_seed,
+    path: '/admin/tree',
+    wait_selector: 'body.rails_admin',
+    delay_ms: 3000
+  )
 end
