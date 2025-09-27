@@ -40,6 +40,9 @@ These tasks clear and repopulate the tree records, so run them with care.
 - Inspect the auto-generated diff montages in `screenshots/diffs/` to understand visual changes before submitting work.
 - Do **not** commit the comparison images in `screenshots/diffs/`; they are temporary review artifacts.
 
+### Analytics
+- Blazer dashboards live at `/blazer` and reuse the primary database connection. Access is restricted to admin users—be sure to keep admin authentication working when making changes to sessions or users.
+
 ## Testing
 Run `ruby test/run_tests.rb` to execute the full test suite. This script also generates:
 - RuboCop report (`rubocop_report.txt`)
