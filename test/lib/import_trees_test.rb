@@ -1,5 +1,6 @@
 require_relative '../test_helper'
 require 'minitest/autorun'
+require_relative '../../lib/import_trees'
 
 class ImportTreesTest < Minitest::Test
   def test_remaining_without_count_returns_default

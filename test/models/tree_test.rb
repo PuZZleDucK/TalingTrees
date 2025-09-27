@@ -8,6 +8,11 @@ class TreeTest < Minitest::Test
     assert defined?(Tree)
   end
 
+  def test_neighbors_within_returns_empty_when_coordinates_missing
+    tree = Tree.new
+    assert_equal [], tree.neighbors_within(10)
+  end
+
   def test_neighbors_within_returns_close_trees
     Tree.singleton_class.class_eval do
       attr_accessor :records
