@@ -1,7 +1,7 @@
 # Project TODOs
 
 ## Incomplete
-[ ] add Ahoy for analytics tracking
+[x] add Ahoy for analytics tracking
 [ ] add Blazer dashboards to graph Ahoy data
 [ ] when naming trees we should use lat/long data to lookup nearby landmarks. also save those details to the db for later use
 [ ] when naming trees we should use lat/long data to lookup nearby streets. also save those details to the db for later use
