@@ -33,7 +33,12 @@ These tasks clear and repopulate the tree records, so run them with care.
   - Run `ruby test/run_tests.rb` and verify all tests pass.
   - Ensure RuboCop, bundler-audit, and Brakeman show no warnings or errors and treat all warnings as errors.
   - Confirm documentation has been updated.
-  - Update `TODO.md` and the changelog to record your work.
+- Update `TODO.md` and the changelog to record your work.
+
+### Screenshots
+- `ruby test/run_tests.rb` regenerates all reference screenshots under `screenshots/` each run. Always commit the updated images so visual baselines stay current.
+- Inspect the auto-generated diff montages in `screenshots/diffs/` to understand visual changes before submitting work.
+- Do **not** commit the comparison images in `screenshots/diffs/`; they are temporary review artifacts.
 
 ## Testing
 Run `ruby test/run_tests.rb` to execute the full test suite. This script also generates:
