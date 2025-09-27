@@ -96,7 +96,7 @@ class NameTreesTaskTest < Minitest::Test
   def test_rake_task_updates_tree_name
     Rake.application['db:name_trees'].invoke
     assert_equal 'Fancy Name', @tree.attributes['name']
-    assert_equal 'Qwen3:0.6b', @tree.attributes['llm_model']
+    assert_equal 'qwen3:0.6b', @tree.attributes['llm_model']
   end
 
   def test_does_not_assign_system_prompt

@@ -5,6 +5,7 @@ This repository contains a Rails 7 application built with Ruby 3.2.3. Follow the
 ## Setup
 - Install dependencies with `bundle install`.
 - To work with local LLM models run `bundle exec rake ollama:setup`.
+  - If Ollama is already installed, ensure the default model is present with `ollama pull qwen3:0.6b`.
 - Prepare the database with `bundle exec rails db:create` and `bundle exec rails db:migrate`.
 
 ## Data Tasks
@@ -19,14 +20,14 @@ These tasks clear and repopulate the tree records, so run them with care.
 
 ## Development
 - Groom and keep `readme.md`, `AGENTS.md`, and any other documentation up to date with your changes.
-- Treat all warnings as errors and address them or add them to the TODO list.
-- Update the TODO list in `readme.md` as tasks are completed or discovered.
+- Treat all warnings as errors and address them or add them to the TODO list in `TODO.md`.
+- Update `TODO.md` as tasks are completed or discovered.
 - Document any unusual directories or files or variations from the Rails standard directory structure in the `readme.md`.
 - Before considering a task complete:
   - Run `ruby test/run_tests.rb` and verify all tests pass.
   - Ensure RuboCop, bundler-audit, and Brakeman show no warnings or errors and treat all warnings as errors.
   - Confirm documentation has been updated.
-  - Update the todo list and changlog to record your work.
+  - Update `TODO.md` and the changelog to record your work.
 
 ## Testing
 Run `ruby test/run_tests.rb` to execute the full test suite. This script also generates:
@@ -56,5 +57,5 @@ The CI workflow runs the same script and posts these reports to pull requests.
 - Code coverage must not decrease if overall coverage is below 75%; aim to improve it.
 - When total coverage falls below 50% you should add new tests to raise it.
 - Document code thoroughly so new developers can understand the system.
-- Add unrelated issues found during development to the TODO list.
+- Add unrelated issues found during development to `TODO.md`.
 - If you find yourself making the same mistake more than once, you should update the documentation to reduce the chance of agents making the same mistake in the future.

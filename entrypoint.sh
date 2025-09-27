@@ -8,7 +8,7 @@ ollama serve &
 echo "⏳ Waiting for Ollama to spin up…"
 sleep 5
 
-# ollama pull Qwen3:0.6b
+# ollama pull qwen3:0.6b
 
 # 3) Now run all your Rails/Rake setup
 # bundle exec rails db:migrate
