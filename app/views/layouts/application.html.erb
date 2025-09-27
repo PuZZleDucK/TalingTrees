@@ -48,6 +48,9 @@
             onchange: 'this.form.submit();',
             class: 'border rounded p-1' %>
       <% end %>
+      <% if @current_user&.respond_to?(:admin?) && @current_user.admin? %>
+        <%= link_to 'Admin', rails_admin_path, class: 'ml-4 underline text-sm text-white hover:text-gray-200' %>
+      <% end %>
       <span id="theme-toggle" class="cursor-pointer ml-2" title="Toggle dark mode">🌙</span>
     </div>
   </nav>

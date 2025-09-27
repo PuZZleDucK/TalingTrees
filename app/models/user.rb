@@ -92,5 +92,9 @@ class User < ApplicationRecord
     "\nOther trees have said this user is: #{parts.join(', ')}."
   end
 
+  def admin?
+    name.to_s.strip.casecmp?('admin')
+  end
+
   private :grouped_records, :extract_tree_names, :tree_user_tags, :tag_value
 end

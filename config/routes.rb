@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+
   root 'trees#index'
   resources :trees, only: %i[index show]
   post 'trees/:id/chat', to: 'chats#create', as: 'tree_chat'

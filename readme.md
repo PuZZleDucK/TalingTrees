@@ -29,6 +29,7 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    docker rm talingtrees
    ```
 
+   The administrative dashboard is available at `http://localhost:3000/admin` and is powered by RailsAdmin.
 ### Local development (optional)
 Only follow these steps if you need to run the app outside Docker.
 

@@ -12,8 +12,7 @@ module TalingTrees
   class Application < Rails::Application
     config.load_defaults 7.1
 
-    # remove flash to keep middleware slim
-    config.middleware.delete ActionDispatch::Flash
+    config.middleware.use ActionDispatch::Flash
     # remove exception rendering
     config.middleware.delete ActionDispatch::ShowExceptions
     config.middleware.delete ActionDispatch::DebugExceptions

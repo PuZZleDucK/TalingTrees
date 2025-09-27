@@ -1,9 +1,7 @@
 # Project TODOs
 
 ## Incomplete
-[ ] add Rails Admin dashboard for data management
 [ ] add screenshots to specs for visual validation
-
 [ ] when naming trees we should use lat/long data to lookup suburb and relative location in it. also save those details to the db for later use
 [ ] when naming trees we should use lat/long data to lookup nearby landmarks. also save those details to the db for later use
 [ ] when naming trees we should use lat/long data to lookup nearby streets. also save those details to the db for later use
@@ -21,7 +19,6 @@
 [ ] custom tree images - trees have images that start as the default logo, but users with the right tags could take a selfie of the tree and update it's image
 
 ## Completed
-
 [x] add tailwind and style tree list page
 [x] tree names should be blank when importing
 [x] naming script should not pass in the treedb id and don't debug the raw response and add a linebreak between trees
@@ -96,3 +93,4 @@
 [x] address remaining RuboCop warnings
 [x] update rack gem to '>= 3.1.16' to resolve CVE-2025-49007
 [x] raise test coverage above 50%
+[x] add Rails Admin dashboard for data management
