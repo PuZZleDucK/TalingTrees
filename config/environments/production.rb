@@ -15,4 +15,6 @@ Rails.application.configure do
 
   # koyeb deployment
   config.hosts << 'visiting-raynell-puzzleduck-f206ac43.koyeb.app'
+  config.hosts << 'localhost'
+  config.hosts << '127.0.0.1'
 end
