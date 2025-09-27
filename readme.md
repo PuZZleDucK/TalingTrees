@@ -13,6 +13,25 @@ https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-chat-completio
 https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-completion
 
 ## Setup
+
+### Docker (recommended)
+1. Build the image:
+   ```bash
+   docker build -t talingtrees:latest .
+   ```
+2. Run the container and expose the app on port 3000:
+   ```bash
+   docker run -p 3000:3000 --name talingtrees talingtrees:latest
+   ```
+3. Open `http://localhost:3000` in your browser. When finished, stop and remove the container:
+   ```bash
+   docker stop talingtrees
+   docker rm talingtrees
+   ```
+
+### Local development (optional)
+Only follow these steps if you need to run the app outside Docker.
+
 1. Install dependencies:
    ```bash
    asdf plugin add ruby
@@ -47,13 +66,11 @@ https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-c
    bundle exec rake db:import_trees
    bundle exec rake db:import_suburbs
 
-   # Suburbs with no trees are skipped during import and each suburb stores how
-   # many trees fall within its boundary.
-
    bundle exec rake db:name_trees
    bundle exec rake db:add_relationships
    bundle exec rake db:system_prompts
    ```
+   *Suburbs with no trees are skipped during import and each suburb stores how many trees fall within its boundary.*
 
 5. Testing:
    ```bash

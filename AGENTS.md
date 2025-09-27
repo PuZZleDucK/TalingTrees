@@ -3,10 +3,15 @@
 This repository contains a Rails 7 application built with Ruby 3.2.3. Follow these instructions when contributing with an AI agent.
 
 ## Setup
-- Install dependencies with `bundle install`.
-- To work with local LLM models run `bundle exec rake ollama:setup`.
-  - If Ollama is already installed, ensure the default model is present with `ollama pull qwen3:0.6b`.
-- Prepare the database with `bundle exec rails db:create` and `bundle exec rails db:migrate`.
+- Prefer Docker for day-to-day work:
+  - `docker build -t talingtrees:latest .`
+  - `docker run -p 3000:3000 --name talingtrees talingtrees:latest`
+  - When finished: `docker stop talingtrees` and `docker rm talingtrees`.
+- Local setup (only when required):
+  - Install dependencies with `bundle install`.
+  - To work with local LLM models run `bundle exec rake ollama:setup`.
+    - If Ollama is already installed, ensure the default model is present with `ollama pull qwen3:0.6b`.
+  - Prepare the database with `bundle exec rails db:create` and `bundle exec rails db:migrate`.
 
 ## Data Tasks
 Several Rake tasks exist to manage tree data:
