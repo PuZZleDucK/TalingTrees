@@ -6,6 +6,8 @@ ruby '3.2.3'
 
 gem 'rails', '~> 7.1'
 
+gem 'rack', '>= 3.1.16'
+
 gem 'cssbundling-rails'
 gem 'ffi-geos'
 gem 'ollama-ai'

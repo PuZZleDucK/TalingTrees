@@ -2,7 +2,6 @@
 
 ## Incomplete
 
-[ ] update rack gem to '>= 3.1.16' to resolve CVE-2025-49007
 [ ] raise test coverage above 50%
 [ ] when naming trees we should use lat/long data to lookup suburb and relative location in it. also save those details to the db for later use
 [ ] when naming trees we should use lat/long data to lookup nearby landmarks. also save those details to the db for later use
@@ -19,6 +18,7 @@
 [ ] new tree mission: find the only... tree of a species, tree planted on x date, ... (must be unique in db)
 [ ] new tree mission: find all the ... trees named bob, trees of a species, trees on x road, trees in x park, ... (must be less than 6 in db)
 [ ] custom tree images - trees have images that start as the default logo, but users with the right tags could take a selfie of the tree and update it's image
+
 
 ## Completed
 
@@ -94,3 +94,4 @@
 [x] add suburb information as additional data to the tree naming prompt
 [x] get test coverage up
 [x] address remaining RuboCop warnings
+[x] update rack gem to '>= 3.1.16' to resolve CVE-2025-49007
