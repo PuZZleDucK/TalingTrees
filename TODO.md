@@ -1,7 +1,7 @@
 # Project TODOs
 
 ## Incomplete
-[ ] add Blazer dashboards to graph Ahoy data
+[x] add Blazer dashboards to graph Ahoy data
 [ ] when naming trees we should use lat/long data to lookup nearby landmarks. also save those details to the db for later use
 [ ] when naming trees we should use lat/long data to lookup nearby streets. also save those details to the db for later use
 [ ] create 'landmark' table and import Victorian Heritage Register from data/heritage/HERITAGE_REGISTER.shp
@@ -18,8 +18,10 @@
 [ ] custom tree images - trees have images that start as the default logo, but users with the right tags could take a selfie of the tree and update it's image
 
 ## Completed
+[x] add Blazer dashboards to graph Ahoy data
 [x] investigate yarn warnings about bare-* engine requirements when installing puppeteer
 [x] add Ahoy for analytics tracking
+[x] add back navigation from Blazer to the main app
 [x] when naming trees we should use lat/long data to lookup suburb and relative location in it. also save those details to the db for later use
 [x] add screenshots to specs for visual validation
 [x] add tailwind and style tree list page

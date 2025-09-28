@@ -28,6 +28,7 @@ These tasks clear and repopulate the tree records, so run them with care.
 - Do **not** mark TODO items as complete unless the user confirms the work is accepted.
 - Follow this loop for every task: implement changes → stage as needed for review → present the work (tests, docs, screenshots) → wait for user approval → only then commit/push.
 - When changes affect the Docker image or runtime environment, rebuild the image and restart the container before presenting results so reviewers see current behavior.
+- Keep the Docker container in sync while iterating: rebuild after code or asset updates and verify features inside the running container so screenshots, manual QA, and test results reflect the shipping image.
 
 ## Development
 - Groom and keep `readme.md`, `AGENTS.md`, and any other documentation up to date with your changes.

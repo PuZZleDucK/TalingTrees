@@ -1,20 +1,24 @@
-<div class="btn-group" style="vertical-align: top; margin-right: 5px;">
-  <%= link_to "Home", root_path, class: "btn btn-primary" %>
-  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <span class="caret"></span>
-    <span class="sr-only">Toggle Dropdown</span>
-  </button>
-  <ul class="dropdown-menu">
-    <li><%= link_to "Checks", checks_path %></li>
-    <% if Blazer.uploads? %>
-      <li><%= link_to "Uploads", uploads_path %></li>
-    <% end %>
-    <li role="separator" class="divider"></li>
-    <li><%= link_to "New Query", new_query_path %></li>
-    <li><%= link_to "New Dashboard", new_dashboard_path %></li>
-    <% check_params = @query ? {query_id: @query.id} : {} %>
-    <li><%= link_to "New Check", new_check_path(check_params) %></li>
-  </ul>
-</div>
+<div class="btn-toolbar" role="toolbar" aria-label="Blazer navigation" style="display: flex; flex-wrap: wrap; gap: 6px;">
+  <div class="btn-group" role="group">
+    <%= link_to "Home", root_path, class: "btn btn-primary" %>
+    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <span class="caret"></span>
+      <span class="sr-only">Toggle Dropdown</span>
+    </button>
+    <ul class="dropdown-menu">
+      <li><%= link_to "Checks", checks_path %></li>
+      <% if Blazer.uploads? %>
+        <li><%= link_to "Uploads", uploads_path %></li>
+      <% end %>
+      <li role="separator" class="divider"></li>
+      <li><%= link_to "New Query", new_query_path %></li>
+      <li><%= link_to "New Dashboard", new_dashboard_path %></li>
+      <% check_params = @query ? {query_id: @query.id} : {} %>
+      <li><%= link_to "New Check", new_check_path(check_params) %></li>
+    </ul>
+  </div>
 
-<%= link_to 'Back to App', main_app.root_path, class: 'btn btn-default', style: 'margin-right: 10px;' %>
+  <div class="btn-group" role="group">
+    <%= link_to raw('&larr; Back to Trees'), main_app.root_path, class: 'btn btn-default blazer-back-link' %>
+  </div>
+</div>

@@ -4,6 +4,8 @@ This log summarizes notable updates based on commit history and completed TODO i
 
 ## 2025-06-25
 - Locked tests and screenshot tooling to a fixed datetime and suppressed Puppeteer bare-engine warnings
+- Added in-app navigation button on Blazer screens to return to the main tree view
+- Added controller specs to push overall coverage above 50%
 
 ## 2025-06-24
 - Added suburb name to tree naming facts so prompts include location context
