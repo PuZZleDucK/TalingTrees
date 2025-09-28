@@ -3,8 +3,9 @@
 See [CHANGELOG.md](CHANGELOG.md) for recent updates.
 ![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/PuZZleDucK/TalingTrees?utm_source=oss&utm_medium=github&utm_campaign=PuZZleDucK%2FTalingTrees&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
 
-## Dataset:
-https://data.melbourne.vic.gov.au/explore/dataset/trees-with-species-and-dimensions-urban-forest/api/
+## Datasets
+- https://data.melbourne.vic.gov.au/explore/dataset/trees-with-species-and-dimensions-urban-forest/api/
+- https://www.heritage.vic.gov.au/register for the Victorian Heritage Register shapefile (see `data/heritage/`)
 
 ## Ollama:
 https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-chat-completion
@@ -65,8 +66,9 @@ Only follow these steps if you need to run the app outside Docker.
    bundle exec rails db:create
    bundle exec rails db:migrate
    bundle exec rails db:seed
-   bundle exec rake db:import_trees
+   bundle exec rake db:import_trees            # pass a number like db:import_trees[30] for a smaller sample
    bundle exec rake db:import_suburbs
+   bundle exec rake db:import_points_of_interest
 
    bundle exec rake db:name_trees
    bundle exec rake db:add_relationships

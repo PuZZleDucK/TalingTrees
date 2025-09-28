@@ -167,11 +167,44 @@
     }
 
     var suburbLayers = [];
+    var poiMarkers = [];
     fetch('/suburbs.json').then(function(resp){ return resp.json(); }).then(function(data){
       data.forEach(function(sub){
         (sub.polygons || []).forEach(function(poly){
           suburbLayers.push(L.polygon(poly, {color:'#888', weight:1, fillOpacity:0.05}).addTo(map));
         });
+      });
+    });
+
+    fetch('/points_of_interest.json').then(function(resp){ return resp.json(); }).then(function(points){
+      points.forEach(function(point){
+        var lat = parseFloat(point.centroid_lat);
+        var lon = parseFloat(point.centroid_long);
+        if (isNaN(lat) || isNaN(lon)) { return; }
+
+        var marker = L.circleMarker([lat, lon], {
+          radius: 6,
+          color: '#b45309',
+          weight: 1,
+          fillColor: '#f59e0b',
+          fillOpacity: 0.9
+        }).addTo(map);
+
+        var popupHtml = '<div class="space-y-1">' +
+          '<div class="font-semibold">' + escapeHtml(point.site_name || 'Point of interest') + '</div>';
+        if (point.vhr_number) {
+          popupHtml += '<div>VHR: ' + escapeHtml(point.vhr_number) + '</div>';
+        }
+        if (point.hermes_number) {
+          popupHtml += '<div>HERMES: ' + escapeHtml(point.hermes_number) + '</div>';
+        }
+        if (point.herit_obj) {
+          popupHtml += '<div>Heritage Object: ' + escapeHtml(point.herit_obj) + '</div>';
+        }
+        popupHtml += '</div>';
+
+        marker.bindPopup(popupHtml);
+        poiMarkers.push(marker);
       });
     });
 

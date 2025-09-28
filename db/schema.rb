@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_09_27_133800) do
+ActiveRecord::Schema[7.2].define(version: 2025_09_27_140000) do
   create_table "ahoy_events", force: :cascade do |t|
     t.integer "visit_id"
     t.integer "user_id"
@@ -125,6 +125,25 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_27_133800) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["chat_id"], name: "index_messages_on_chat_id"
+  end
+
+  create_table "points_of_interest", force: :cascade do |t|
+    t.string "site_name", null: false
+    t.string "vhr_number"
+    t.string "vhi_number"
+    t.string "herit_obj"
+    t.string "hermes_number"
+    t.bigint "ufi"
+    t.integer "external_id"
+    t.datetime "ufi_created_at"
+    t.float "centroid_lat"
+    t.float "centroid_long"
+    t.text "boundary"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["site_name"], name: "index_points_of_interest_on_site_name"
+    t.index ["ufi"], name: "index_points_of_interest_on_ufi", unique: true
+    t.index ["vhr_number"], name: "index_points_of_interest_on_vhr_number"
   end
 
   create_table "suburbs", force: :cascade do |t|

@@ -16,7 +16,8 @@ This repository contains a Rails 7 application built with Ruby 3.2.3. Follow the
 ## Data Tasks
 Several Rake tasks exist to manage tree data:
 - `bundle exec rake db:download_trees` – download raw data.
-- `bundle exec rake db:import_trees` – import the downloaded files.
+- `bundle exec rake db:import_trees[<count>]` – import the downloaded files; pass a number to limit trees (e.g. `db:import_trees[30]`).
+- `bundle exec rake db:import_points_of_interest` – import the Victorian Heritage Register points.
 - `bundle exec rake db:name_trees` – assign names via the configured LLM.
 - `bundle exec rake db:add_relationships` – generate tree relationships.
 - `bundle exec rake db:system_prompts` – assign system prompts to trees.

@@ -15,4 +15,5 @@ Rails.application.routes.draw do
   post 'update_location', to: 'application#update_location'
   post 'know_tree/:id', to: 'application#know_tree'
   resources :suburbs, only: [:index]
+  resources :points_of_interest, only: [:index]
 end

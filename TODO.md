@@ -1,10 +1,9 @@
 # Project TODOs
 
 ## Incomplete
-[x] add Blazer dashboards to graph Ahoy data
 [ ] when naming trees we should use lat/long data to lookup nearby landmarks. also save those details to the db for later use
 [ ] when naming trees we should use lat/long data to lookup nearby streets. also save those details to the db for later use
-[ ] create 'landmark' table and import Victorian Heritage Register from data/heritage/HERITAGE_REGISTER.shp
+[x] create points of interest table and import Victorian Heritage Register from data/heritage/HERITAGE_REGISTER.shp
 [ ] show landmarks on map
 [ ] add landmarks to as additional data to the tree naming prompt if within 50m of the tree
 [ ] Public Transport Victoria (PTV) provides open data for all train stations, tram stops, and bus stops. The static GTFS (General Transit Feed Specification) dataset
