@@ -47,7 +47,8 @@ class PointsOfInterestController < ApplicationController
       hermes_number: attribute_for(poi, :hermes_number),
       herit_obj: attribute_for(poi, :herit_obj),
       centroid_lat: attribute_for(poi, :centroid_lat).to_f,
-      centroid_long: attribute_for(poi, :centroid_long).to_f
+      centroid_long: attribute_for(poi, :centroid_long).to_f,
+      polygons: polygons_for(poi)
     }
   end
 
@@ -57,5 +58,48 @@ class PointsOfInterestController < ApplicationController
     else
       obj[attr]
     end
+  end
+
+  def polygons_for(poi)
+    boundary = attribute_for(poi, :boundary)
+    return [] if boundary.nil? || boundary.empty?
+
+    geometry = parse_wkt(boundary)
+    return [] unless geometry
+
+    case geometry
+    when RGeo::Feature::MultiPolygon
+      geometry.map { |poly| polygon_to_coordinates(poly) }.compact
+    when RGeo::Feature::Polygon
+      coords = polygon_to_coordinates(geometry)
+      coords ? [coords] : []
+    else
+      []
+    end
+  rescue StandardError
+    []
+  end
+
+  def polygon_to_coordinates(polygon)
+    exterior = polygon.exterior_ring
+    return nil unless exterior
+
+    exterior.points.map { |point| [point.y, point.x] }
+  end
+
+  def parse_wkt(text)
+    return nil if text.blank?
+
+    wkt_parser.parse(text)
+  rescue RGeo::Error::ParseError
+    nil
+  end
+
+  def wkt_factory
+    @wkt_factory ||= RGeo::Geographic.spherical_factory(srid: 4326)
+  end
+
+  def wkt_parser
+    @wkt_parser ||= RGeo::WKRep::WKTParser.new(wkt_factory, support_ewkt: true)
   end
 end

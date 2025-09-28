@@ -10,6 +10,12 @@ See [CHANGELOG.md](CHANGELOG.md) for recent updates.
 ## Ollama:
 https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-chat-completion
 
+The app expects the `qwen:0.6b` model to be available. After installing Ollama, run:
+```bash
+ollama pull qwen:0.6b
+```
+The Docker image installs Ollama but does **not** bundle the weights, so pull the model on the host before starting the container.
+
 ## Ollama Gem:
 https://github.com/gbaptista/ollama-ai?tab=readme-ov-file#chat-generate-a-chat-completion
 

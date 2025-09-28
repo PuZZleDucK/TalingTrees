@@ -30,7 +30,8 @@ class PointsOfInterestControllerTest < Minitest::Test
       hermes_number: '999',
       herit_obj: 'Y',
       centroid_lat: -37.8,
-      centroid_long: 145.0
+      centroid_long: 145.0,
+      boundary: 'POLYGON((145  -37.8, 145.1 -37.8, 145.1 -37.7, 145 -37.7, 145 -37.8))'
     )
     PointOfInterest.records = [poi]
 
@@ -44,7 +45,16 @@ class PointsOfInterestControllerTest < Minitest::Test
       hermes_number: '999',
       herit_obj: 'Y',
       centroid_lat: -37.8,
-      centroid_long: 145.0
+      centroid_long: 145.0,
+      polygons: [
+        [
+          [-37.8, 145.0],
+          [-37.8, 145.1],
+          [-37.7, 145.1],
+          [-37.7, 145.0],
+          [-37.8, 145.0]
+        ]
+      ]
     }]
 
     assert_equal expected, controller.rendered

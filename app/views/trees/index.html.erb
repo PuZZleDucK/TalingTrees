@@ -178,18 +178,6 @@
 
     fetch('/points_of_interest.json').then(function(resp){ return resp.json(); }).then(function(points){
       points.forEach(function(point){
-        var lat = parseFloat(point.centroid_lat);
-        var lon = parseFloat(point.centroid_long);
-        if (isNaN(lat) || isNaN(lon)) { return; }
-
-        var marker = L.circleMarker([lat, lon], {
-          radius: 6,
-          color: '#b45309',
-          weight: 1,
-          fillColor: '#f59e0b',
-          fillOpacity: 0.9
-        }).addTo(map);
-
         var popupHtml = '<div class="space-y-1">' +
           '<div class="font-semibold">' + escapeHtml(point.site_name || 'Point of interest') + '</div>';
         if (point.vhr_number) {
@@ -203,8 +191,36 @@
         }
         popupHtml += '</div>';
 
-        marker.bindPopup(popupHtml);
-        poiMarkers.push(marker);
+        var polygonStyle = {
+          color: '#b45309',
+          weight: 1,
+          fillColor: '#f59e0b',
+          fillOpacity: 0.35
+        };
+
+        var polygons = Array.isArray(point.polygons) ? point.polygons : [];
+        if (polygons.length > 0) {
+          polygons.forEach(function(coords){
+            if (!Array.isArray(coords) || coords.length < 3) { return; }
+            var polygon = L.polygon(coords, polygonStyle).addTo(map);
+            polygon.bindPopup(popupHtml);
+            poiMarkers.push(polygon);
+          });
+        } else {
+          var lat = parseFloat(point.centroid_lat);
+          var lon = parseFloat(point.centroid_long);
+          if (isNaN(lat) || isNaN(lon)) { return; }
+
+          var marker = L.circleMarker([lat, lon], {
+            radius: 6,
+            color: polygonStyle.color,
+            weight: polygonStyle.weight,
+            fillColor: polygonStyle.fillColor,
+            fillOpacity: 0.9
+          }).addTo(map);
+          marker.bindPopup(popupHtml);
+          poiMarkers.push(marker);
+        }
       });
     });
 
