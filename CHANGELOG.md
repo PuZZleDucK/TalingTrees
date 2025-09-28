@@ -2,6 +2,9 @@
 
 This log summarizes notable updates based on commit history and completed TODO items.
 
+## 2025-06-25
+- Locked tests and screenshot tooling to a fixed datetime and suppressed Puppeteer bare-engine warnings
+
 ## 2025-06-24
 - Added suburb name to tree naming facts so prompts include location context
 

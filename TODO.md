@@ -1,7 +1,6 @@
 # Project TODOs
 
 ## Incomplete
-[ ] investigate yarn warnings about bare-* engine requirements when installing puppeteer
 [ ] add Blazer dashboards to graph Ahoy data
 [ ] when naming trees we should use lat/long data to lookup nearby landmarks. also save those details to the db for later use
 [ ] when naming trees we should use lat/long data to lookup nearby streets. also save those details to the db for later use
@@ -19,6 +18,7 @@
 [ ] custom tree images - trees have images that start as the default logo, but users with the right tags could take a selfie of the tree and update it's image
 
 ## Completed
+[x] investigate yarn warnings about bare-* engine requirements when installing puppeteer
 [x] add Ahoy for analytics tracking
 [x] when naming trees we should use lat/long data to lookup suburb and relative location in it. also save those details to the db for later use
 [x] add screenshots to specs for visual validation

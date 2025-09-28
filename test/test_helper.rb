@@ -6,7 +6,63 @@ Coverage.start
 require 'ostruct'
 require 'pathname'
 require 'logger'
+require 'time'
+require 'date'
 require 'active_support/core_ext/object/blank'
+
+ENV['TEST_FIXED_TIME'] ||= '2025-01-15 12:00:00 UTC'
+
+module FixedTestTime
+  module_function
+
+  DEFAULT_TIME = Time.utc(2025, 1, 15, 12, 0, 0)
+
+  def value
+    @value ||= parse_time(ENV.fetch('TEST_FIXED_TIME', DEFAULT_TIME.iso8601))
+  end
+
+  def parse_time(timestamp)
+    DateTime.parse(timestamp).to_time.utc
+  rescue ArgumentError
+    DEFAULT_TIME
+  end
+end
+
+class << Time
+  unless method_defined?(:now_without_fixed_test_time)
+    alias_method :now_without_fixed_test_time, :now
+  end
+
+  def now
+    FixedTestTime.value
+  end
+
+  def current
+    FixedTestTime.value
+  end
+end
+
+class << Date
+  unless method_defined?(:today_without_fixed_test_time)
+    alias_method :today_without_fixed_test_time, :today
+  end
+
+  def today
+    FixedTestTime.value.to_date
+  end
+end
+
+class << DateTime
+  unless method_defined?(:now_without_fixed_test_time)
+    alias_method :now_without_fixed_test_time, :now
+  end
+
+  def now
+    FixedTestTime.value.to_datetime
+  end
+
+  alias_method :current, :now
+end
 
 module ActiveRecord
   class Base

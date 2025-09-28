@@ -10,10 +10,13 @@ def capture_app_screenshot(root, filename:, seed_script: nil, path: '/', wait_se
   screenshots_dir = File.join(root, 'screenshots')
   FileUtils.mkdir_p(screenshots_dir)
 
+  fixed_time = ENV.fetch('TEST_FIXED_TIME', '2025-01-15 12:00:00 UTC')
+
   env = {
     'RAILS_ENV' => 'test',
     'SECRET_KEY_BASE' => ENV.fetch('SECRET_KEY_BASE', 'screenshot-secret'),
-    'RAILS_LOG_TO_STDOUT' => 'false'
+    'RAILS_LOG_TO_STDOUT' => 'false',
+    'TEST_FIXED_TIME' => fixed_time
   }
 
   yarn_args = ['yarn', 'install', '--frozen-lockfile']
