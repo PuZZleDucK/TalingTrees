@@ -3,9 +3,9 @@
 # Default settings for all environments
 
 DEFAULT: &default
-  naming_model: 'qwen3:0.6b'
-  verify_model: 'qwen3:0.6b'
-  final_model: 'qwen3:0.6b'
+  naming_model: 'gemma3:270m'
+  verify_model: 'gemma3:270m'
+  final_model: 'gemma3:270m'
   rating_threshold: 5.0
   naming_prompt: |
     You are a creative and colorful individual who had a deep understanding of trees and the attitudes of school children. Your job is to take factual information about a tree and give it a fun personal name that kids will like. It should be the kind of name that could be used to identify the tree by its friends.
@@ -63,7 +63,7 @@ DEFAULT: &default
 
     After scoring each trait, add them up and divide by 5 for a final 1–10 score.
     The tree you are checking has the common name "%{common_name}", the genus "%{genus}" and the family "%{family}". You must only respond with the final average score as a number in digits. Do not quote or decorate or introduce the rating or include any other text, explanation or punctuation.
-  system_prompt_model: 'qwen3:0.6b'
+  system_prompt_model: 'gemma3:270m'
   system_prompt_prompt: |
     You are a creative and colorful individual who had a deep understanding of trees, the attitudes of school children and the art of crafting roleplaying prompts for llms. Jour job is to write colorful and lively llm system prompts for roleplaying tree characters that children will enjoy interacting with. Given the tree name, details and relationships to other trees, craft a detailed character describing a vibrant personality for the tree. Instruct the tree to stay in character, and hint at knowing other trees and having secret missions but only reveal their names or details when asked.
 
@@ -80,7 +80,7 @@ DEFAULT: &default
       - must include a personality with quirks and unique mannerisms
       - must include relationships with other trees
       - The description should be engaging and suitable for children and encourage exploration of Melbourne trees.
-  system_prompt_verify_model: 'qwen3:0.6b'
+  system_prompt_verify_model: 'gemma3:270m'
   system_prompt_rating_threshold: 5.0
   system_prompt_verify_prompt_template: |
     You will rate tree character descriptions. Evaluate each of the following traits on a scale of 1–10:

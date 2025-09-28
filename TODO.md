@@ -1,12 +1,8 @@
 # Project TODOs
 
 ## Incomplete
-[ ] when naming trees we should use lat/long data to lookup nearby landmarks. also save those details to the db for later use
-[ ] when naming trees we should use lat/long data to lookup nearby streets. also save those details to the db for later use
-[x] create points of interest table and import Victorian Heritage Register from data/heritage/HERITAGE_REGISTER.shp
-[ ] show landmarks on map
-[ ] add landmarks to as additional data to the tree naming prompt if within 50m of the tree
 [ ] Public Transport Victoria (PTV) provides open data for all train stations, tram stops, and bus stops. The static GTFS (General Transit Feed Specification) dataset
+[ ] when naming trees we should use lat/long data to lookup nearby streets. also save those details to the db for later use
 [ ] wikipedia lookup table, scan and summarize
 [ ] import osm overpass data
 [ ] replace the map pin icons with discs with a tree icon inside the disc (use the tree from the navbar for now)
@@ -17,6 +13,10 @@
 [ ] custom tree images - trees have images that start as the default logo, but users with the right tags could take a selfie of the tree and update it's image
 
 ## Completed
+[x] when naming trees we should use lat/long data to lookup nearby landmarks. also save those details to the db for later use
+[x] create points of interest table and import Victorian Heritage Register from data/heritage/HERITAGE_REGISTER.shp
+[x] show landmarks on map
+[x] add landmarks to as additional data to the tree naming prompt if within 50m of the tree
 [x] add Blazer dashboards to graph Ahoy data
 [x] investigate yarn warnings about bare-* engine requirements when installing puppeteer
 [x] add Ahoy for analytics tracking

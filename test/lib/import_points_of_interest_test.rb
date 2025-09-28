@@ -12,6 +12,12 @@ module RGeo
   end
 end unless defined?(RGeo::Shapefile::Reader)
 
+module RGeo
+  module Error
+    class InvalidGeometry < StandardError; end
+  end
+end unless defined?(RGeo::Error::InvalidGeometry)
+
 class ImportPointsOfInterestTest < Minitest::Test
   FakeCentroid = Struct.new(:x, :y)
 
@@ -130,6 +136,108 @@ class ImportPointsOfInterestTest < Minitest::Test
     assert_empty PointOfInterest.created_records
   end
 
+  def test_run_sets_nil_for_invalid_temporal_and_blank_values
+    geometry = FakeGeometry.new(text: 'MULTIPOLYGON(...)', centroid: FakeCentroid.new(0, 0))
+    attrs = {
+      'SITE_NAME' => ' Sample Heritage ',
+      'VHR_NUM' => nil,
+      'VHI_NUM' => '  ',
+      'HERIT_OBJ' => 'N',
+      'HERMES_NUM' => '  ',
+      'UFI' => '',
+      'ID' => '42',
+      'UFI_CR' => 'invalid timestamp'
+    }
+    record = FakeRecord.new(attrs, geometry)
+
+    stub_reader_with([record]) do
+      File.stub(:exist?, true) do
+        importer = Tasks::ImportPointsOfInterest.new(path: 'dummy.shp')
+        importer.stub(:require, nil) { importer.run }
+      end
+    end
+
+    poi = PointOfInterest.created_records.first
+    assert_nil poi[:hermes_number]
+    assert_nil poi[:vhi_number]
+    assert_equal 0, poi[:ufi]
+    assert_nil poi[:ufi_created_at]
+  end
+
+  def test_run_returns_geometry_object_when_boundary_column_not_text
+    geometry = FakeGeometry.new(text: 'IGNORED', centroid: FakeCentroid.new(0, 0))
+    attrs = { 'SITE_NAME' => 'Boundary Keeper' }
+    PointOfInterest.boundary_type = :geometry
+    record = FakeRecord.new(attrs, geometry)
+
+    stub_reader_with([record]) do
+      File.stub(:exist?, true) do
+        importer = Tasks::ImportPointsOfInterest.new(path: 'dummy.shp')
+        importer.stub(:require, nil) { importer.run }
+      end
+    end
+
+    boundary = PointOfInterest.created_records.first[:boundary]
+    assert_same geometry, boundary
+  ensure
+    PointOfInterest.boundary_type = :text
+  end
+
+  def test_run_continues_when_reader_returns_invalid_geometry
+    geometry = FakeGeometry.new(text: 'MULTIPOLYGON(...)', centroid: FakeCentroid.new(0, 0))
+    good_record = FakeRecord.new({ 'SITE_NAME' => 'Valid Site' }, geometry)
+    sequence = [RGeo::Error::InvalidGeometry.new('bad polygon'), good_record]
+
+    stub_reader_with(sequence) do
+      File.stub(:exist?, true) do
+        importer = Tasks::ImportPointsOfInterest.new(path: 'dummy.shp')
+        importer.stub(:require, nil) { importer.run }
+      end
+    end
+
+    assert_equal 1, PointOfInterest.created_records.size
+    assert_equal 'Valid Site', PointOfInterest.created_records.first[:site_name]
+  end
+
+  def test_run_stops_when_reader_raises_unexpected_error
+    error = StandardError.new('catastrophic failure')
+
+    stub_reader_with([error, FakeRecord.new({ 'SITE_NAME' => 'Ignored' }, FakeGeometry.new(text: '', centroid: FakeCentroid.new(0, 0)))]) do
+      File.stub(:exist?, true) do
+        importer = Tasks::ImportPointsOfInterest.new(path: 'dummy.shp')
+        importer.stub(:require, nil) { importer.run }
+      end
+    end
+
+    assert_empty PointOfInterest.created_records
+  end
+
+  def test_run_skips_record_when_create_raises_error
+    geometry = FakeGeometry.new(text: 'MULTIPOLYGON(...)', centroid: FakeCentroid.new(0, 0))
+    first = FakeRecord.new({ 'SITE_NAME' => 'Unlucky Site' }, geometry)
+    second = FakeRecord.new({ 'SITE_NAME' => 'Lucky Site' }, geometry)
+
+    call_count = 0
+    stub_reader_with([first, second]) do
+      File.stub(:exist?, true) do
+        importer = Tasks::ImportPointsOfInterest.new(path: 'dummy.shp')
+        importer.stub(:require, nil) do
+          PointOfInterest.stub(:create!, proc do |attrs|
+                                   call_count += 1
+                                   raise StandardError, 'boom' if call_count == 1
+
+                                   PointOfInterest.created_records << attrs
+                                 end) do
+            importer.run
+          end
+        end
+      end
+    end
+
+    assert_equal 1, PointOfInterest.created_records.size
+    assert_equal 'Lucky Site', PointOfInterest.created_records.first[:site_name]
+  end
+
   private
 
   def stub_reader_with(records)
@@ -148,6 +256,7 @@ class ImportPointsOfInterestTest < Minitest::Test
 
         value = @records[@index]
         @index += 1
+        raise value if value.is_a?(Exception)
         value
       end
 

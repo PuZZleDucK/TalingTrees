@@ -3,6 +3,7 @@
 require_relative '../test_helper'
 require 'rake'
 require 'minitest/autorun'
+require_relative '../../app/models/point_of_interest'
 
 class NameTreesTaskTest < Minitest::Test
   class << self
@@ -40,6 +41,16 @@ class NameTreesTaskTest < Minitest::Test
     @tree.define_singleton_method(:treedb_long) { 0.5 }
     @tree.define_singleton_method(:id) { 1 }
     Tree.instances = [@tree]
+    if defined?(PointOfInterest)
+      PointOfInterest.singleton_class.class_eval do
+        attr_accessor :records unless method_defined?(:records)
+
+        def all
+          records || []
+        end
+      end
+      PointOfInterest.records = []
+    end
     self.class.response_data = [
       { 'message' => { 'content' => 'Fancy Name' } },
       { 'message' => { 'content' => 8 } }
@@ -99,12 +110,13 @@ class NameTreesTaskTest < Minitest::Test
       end
     end
     Tree.instances = nil
+    PointOfInterest.records = nil if defined?(PointOfInterest) && PointOfInterest.respond_to?(:records=)
   end
 
   def test_rake_task_updates_tree_name
     Rake.application['db:name_trees'].invoke
     assert_equal 'Fancy Name', @tree.attributes['name']
-    assert_equal 'qwen3:0.6b', @tree.attributes['llm_model']
+    assert_equal 'gemma3:270m', @tree.attributes['llm_model']
   end
 
   def test_does_not_assign_system_prompt
@@ -275,6 +287,26 @@ class NameTreesTaskTest < Minitest::Test
     messages = Ollama.params_list.first[:messages]
     user_content = messages[1]['content']
     assert_includes user_content, 'Nearby tree names to avoid: Oak'
+  end
+
+  def test_prompt_includes_landmark_details
+    close = Struct.new(:site_name, :centroid_lat, :centroid_long).new('Heritage Hall', 0.5, 0.5)
+    within_range = Struct.new(:site_name, :centroid_lat, :centroid_long).new('Neighbourhood Library', 0.5003, 0.5003)
+    far = Struct.new(:site_name, :centroid_lat, :centroid_long).new('Distant Museum', 0.51, 0.5)
+
+    PointOfInterest.records = [close, within_range, far]
+    self.class.response_data = [
+      { 'message' => { 'content' => 'Spruce' } },
+      { 'message' => { 'content' => 8 } }
+    ]
+
+    Rake.application['db:name_trees'].reenable
+    Rake.application['db:name_trees'].invoke
+
+    user_content = Ollama.params_list.first[:messages][1]['content']
+    assert_includes user_content, 'closest_landmark: Heritage Hall (~0m)'
+    assert_includes user_content, 'landmarks_within_50m: Heritage Hall (~0m), Neighbourhood Library (~47m)'
+    refute_includes user_content, 'Distant Museum'
   end
 
   def test_prompt_includes_suburb_name

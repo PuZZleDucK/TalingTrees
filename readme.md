@@ -10,9 +10,9 @@ See [CHANGELOG.md](CHANGELOG.md) for recent updates.
 ## Ollama:
 https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-chat-completion
 
-The app expects the `qwen:0.6b` model to be available. After installing Ollama, run:
+The app expects the `gemma3:270m` model to be available. After installing Ollama, run:
 ```bash
-ollama pull qwen:0.6b
+ollama pull gemma3:270m
 ```
 The Docker image installs Ollama but does **not** bundle the weights, so pull the model on the host before starting the container.
 
@@ -52,7 +52,7 @@ Only follow these steps if you need to run the app outside Docker.
    bundle install
    bundle exec rake ollama:setup
    ```
-   *If Ollama is already installed locally, ensure the default model is available with* `ollama pull qwen3:0.6b`.
+   *If Ollama is already installed locally, ensure the default model is available with* `ollama pull gemma3:270m` (or another compatible smaller model).
 
 2. Install Node packages (requires Yarn 1 via corepack):
    ```bash

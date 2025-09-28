@@ -10,14 +10,14 @@ This repository contains a Rails 7 application built with Ruby 3.2.3. Follow the
 - Local setup (only when required):
   - Install dependencies with `bundle install`.
   - To work with local LLM models run `bundle exec rake ollama:setup`.
-    - If Ollama is already installed, ensure the default model is present with `ollama pull qwen3:0.6b`.
+    - If Ollama is already installed, ensure the default model is present with `ollama pull gemma3:270m`.
   - Prepare the database with `bundle exec rails db:create` and `bundle exec rails db:migrate`.
 
 ## Data Tasks
 Several Rake tasks exist to manage tree data:
 - `bundle exec rake db:download_trees` – download raw data.
 - `bundle exec rake db:import_trees[<count>]` – import the downloaded files; pass a number to limit trees (e.g. `db:import_trees[30]`).
-- Ensure the Ollama model is available **before** running `db:name_trees` or `db:system_prompts`: `ollama pull qwen:0.6b` (weights are not packaged in Docker).
+- Ensure the Ollama model is available **before** running `db:name_trees` or `db:system_prompts`: `ollama pull gemma3:270m` (weights are not packaged in Docker).
 - `bundle exec rake db:import_points_of_interest` – import the Victorian Heritage Register points.
 - `bundle exec rake db:name_trees` – assign names via the configured LLM.
 - `bundle exec rake db:add_relationships` – generate tree relationships.
@@ -30,7 +30,7 @@ These tasks clear and repopulate the tree records, so run them with care.
 - Do **not** mark TODO items as complete unless the user confirms the work is accepted.
 - Follow this loop for every task: implement changes → stage as needed for review → present the work (tests, docs, screenshots) → wait for user approval → only then commit/push.
 - When changes affect the Docker image or runtime environment, rebuild the image and restart the container before presenting results so reviewers see current behavior.
-- Keep the Docker container in sync while iterating: rebuild after code or asset updates and verify features inside the running container so screenshots, manual QA, and test results reflect the shipping image.
+- Keep the Docker container in sync while iterating: rebuild after code or asset updates and verify features inside the running container so screenshots, manual QA, and test results reflect the shipping image. **Never copy individual files into the container manually; rebuild instead.**
 
 ## Development
 - Groom and keep `readme.md`, `AGENTS.md`, and any other documentation up to date with your changes.

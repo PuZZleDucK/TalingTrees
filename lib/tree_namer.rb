@@ -87,6 +87,18 @@ module Tasks
         end
       end
 
+      landmark_details = landmarks_with_distances
+      if landmark_details.any?
+        nearest = landmark_details.min_by { |entry| entry[:distance] }
+        base += "\nclosest_landmark: #{nearest[:name]} (~#{nearest[:distance].round}m)"
+
+        close_landmarks = landmark_details.select { |entry| entry[:distance] <= 50 }
+        if close_landmarks.any?
+          summary = close_landmarks.map { |entry| "#{entry[:name]} (~#{entry[:distance].round}m)" }.join(', ')
+          base += "\nlandmarks_within_50m: #{summary}"
+        end
+      end
+
       base
     end
 
@@ -135,6 +147,61 @@ module Tasks
       candidate_id = candidate.respond_to?(:id) ? candidate.id : candidate[:id]
       tree_id = @tree.respond_to?(:id) ? @tree.id : @tree.attributes&.dig('id')
       candidate_id && tree_id && candidate_id == tree_id
+    end
+
+    def landmarks_with_distances
+      lat = coordinate_for(@tree, :treedb_lat)
+      lon = coordinate_for(@tree, :treedb_long)
+      return [] unless lat && lon
+
+      points = points_of_interest
+      return [] if points.empty?
+
+      points.filter_map do |poi|
+        poi_lat = coordinate_for(poi, :centroid_lat)
+        poi_lon = coordinate_for(poi, :centroid_long)
+        next unless poi_lat && poi_lon
+
+        distance = Tree.haversine_distance(lat, lon, poi_lat, poi_lon)
+        name = value_for(poi, :site_name).to_s.strip
+        next if name.empty?
+
+        { name: name, distance: distance }
+      end
+    end
+
+    def points_of_interest
+      return [] unless defined?(PointOfInterest)
+
+      scope = if PointOfInterest.respond_to?(:all)
+                PointOfInterest.all
+              elsif PointOfInterest.respond_to?(:records)
+                PointOfInterest.records
+              else
+                []
+              end
+
+      scope = scope.to_a if scope.respond_to?(:to_a)
+      Array(scope)
+    rescue StandardError
+      []
+    end
+
+    def coordinate_for(record, attr)
+      value = value_for(record, attr)
+      return unless value
+
+      Float(value)
+    rescue ArgumentError, TypeError
+      nil
+    end
+
+    def value_for(record, attr)
+      if record.respond_to?(attr)
+        record.public_send(attr)
+      elsif record.respond_to?(:[])
+        record[attr] || record[attr.to_s]
+      end
     end
   end
 
