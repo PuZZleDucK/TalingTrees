@@ -114,10 +114,10 @@ variable is set. The provided Dockerfile sets a default, but other environments
 must configure this value manually. Update host allow-lists and deployment
 targets as needed for your infrastructure.
 
-When running on Render with SQLite, attach a persistent disk mounted at `/data`.
-`config/database.yml` points production to `/data/production.sqlite3`, and the
-`config/initializers/persistent_sqlite.rb` initializer ensures the directory
-exists at boot.
+When running on Render with SQLite, attach a persistent disk mounted at `/data`
+and point `production` in `config/database.yml` to `/data/production.sqlite3`.
+Update your Render start command to create the directory (for example,
+`mkdir -p /data && bundle exec rails db:migrate && bundle exec rails server -p $PORT -b 0.0.0.0`).
 
 ## Todos
 
