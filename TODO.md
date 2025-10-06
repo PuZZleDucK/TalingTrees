@@ -1,7 +1,8 @@
 # Project TODOs
 
 ## Incomplete
-[ ] Investigate production deployment failures (collect logs, verify build setup, document required secrets)
+[ ] Add Tailwind CLI commands to deployment process
+[ ] Update production environment variables documentation (Render dashboard values)
 [ ] Add a production smoke test to verify LLM prompts/responses after each deploy
 [ ] Public Transport Victoria (PTV) provides open data for all train stations, tram stops, and bus stops. The static GTFS (General Transit Feed Specification) dataset
 [ ] when naming trees we should use lat/long data to lookup nearby streets. also save those details to the db for later use
@@ -17,6 +18,7 @@
 ## Completed
 [x] Allow configuring the Ollama endpoint via env vars so deployments can point to a remote service
 [x] Filter imported PTV stops to only include points near existing trees
+[x] Deploy Rails app to Render with SQLite persistent disk
 [x] Improve chat panel to auto-expand and scroll with streamed messages
 [x] Add debug logging for LLM tasks and suburb imports (models, endpoints, counts)
 [x] when naming trees we should use lat/long data to lookup nearby landmarks. also save those details to the db for later use

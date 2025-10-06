@@ -2,6 +2,15 @@
 
 This repository contains a Rails 7 application built with Ruby 3.2.3. Follow these instructions when contributing with an AI agent.
 
+## Deployment
+- Production runs on Render at <https://talingtrees-382v.onrender.com/>.
+- Render configuration:
+  - Runtime: native Ruby with a persistent disk mounted at `/data` for SQLite.
+  - Build command: `./bin/render-build.sh` (installs bundle, yarn, precompiles assets).
+  - Start command: `mkdir -p /data && bundle exec rails db:migrate && bundle exec rails server -p $PORT -b 0.0.0.0`.
+  - Environment variables: `RAILS_MASTER_KEY`, `RAILS_ENV=production`, `WEB_CONCURRENCY=2`, `OLLAMA_URL`, `LLM_NAMING_MODEL`, `LLM_NAMING_VERIFY_MODEL`, `LLM_CHAT_MODEL`, `LLM_SYSTEM_PROMPT_MODEL`, `LLM_SYSTEM_PROMPT_VERIFY_MODEL`.
+- Auto-deploy is enabled on pushes to `main`; monitor builds via the Render dashboard.
+
 ## Setup
 - Prefer Docker for day-to-day work:
   - `docker build -t talingtrees:latest .`
