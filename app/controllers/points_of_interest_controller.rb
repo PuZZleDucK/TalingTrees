@@ -46,6 +46,9 @@ class PointsOfInterestController < ApplicationController
       vhr_number: attribute_for(poi, :vhr_number),
       hermes_number: attribute_for(poi, :hermes_number),
       herit_obj: attribute_for(poi, :herit_obj),
+      category: attribute_for(poi, :category),
+      category_label: PointOfInterestPresenter.label_for(attribute_for(poi, :category)),
+      category_style: PointOfInterestPresenter.style_for(attribute_for(poi, :category)),
       centroid_lat: attribute_for(poi, :centroid_lat).to_f,
       centroid_long: attribute_for(poi, :centroid_long).to_f,
       polygons: polygons_for(poi)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_09_27_140000) do
+ActiveRecord::Schema[7.2].define(version: 2025_09_29_100000) do
   create_table "ahoy_events", force: :cascade do |t|
     t.integer "visit_id"
     t.integer "user_id"
@@ -141,6 +141,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_27_140000) do
     t.text "boundary"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "category"
+    t.index ["category"], name: "index_points_of_interest_on_category"
     t.index ["site_name"], name: "index_points_of_interest_on_site_name"
     t.index ["ufi"], name: "index_points_of_interest_on_ufi", unique: true
     t.index ["vhr_number"], name: "index_points_of_interest_on_vhr_number"

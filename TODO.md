@@ -1,6 +1,8 @@
 # Project TODOs
 
 ## Incomplete
+[ ] Investigate Koyeb deployment failures (collect logs, verify build setup, document required secrets)
+[ ] Add a production smoke test to verify LLM prompts/responses after each deploy
 [ ] Public Transport Victoria (PTV) provides open data for all train stations, tram stops, and bus stops. The static GTFS (General Transit Feed Specification) dataset
 [ ] when naming trees we should use lat/long data to lookup nearby streets. also save those details to the db for later use
 [ ] wikipedia lookup table, scan and summarize
@@ -13,6 +15,10 @@
 [ ] custom tree images - trees have images that start as the default logo, but users with the right tags could take a selfie of the tree and update it's image
 
 ## Completed
+[x] Allow configuring the Ollama endpoint via env vars so deployments can point to a remote service
+[x] Filter imported PTV stops to only include points near existing trees
+[x] Improve chat panel to auto-expand and scroll with streamed messages
+[x] Add debug logging for LLM tasks and suburb imports (models, endpoints, counts)
 [x] when naming trees we should use lat/long data to lookup nearby landmarks. also save those details to the db for later use
 [x] create points of interest table and import Victorian Heritage Register from data/heritage/HERITAGE_REGISTER.shp
 [x] show landmarks on map

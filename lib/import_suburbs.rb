@@ -15,8 +15,13 @@ module Tasks
 
       Suburb.delete_all
 
+      total = 0
+      kept = 0
+
       RGeo::Shapefile::Reader.open(@path) do |file|
         file.each do |record|
+          total += 1
+
           attrs = record.attributes
           name = attrs['NAME'] || attrs['LOC_NAME'] || attrs['LOCALITY'] || attrs['suburb_name']
           polygon = record.geometry
@@ -25,6 +30,9 @@ module Tasks
 
           next if count.zero?
 
+          kept += 1
+          puts "Keeping suburb #{name} with #{count} trees"
+
           if Suburb.columns_hash['boundary'].type == :text
             Suburb.create!(name: name, boundary: polygon.as_text, tree_count: count)
           else
@@ -32,6 +40,8 @@ module Tasks
           end
         end
       end
+
+      puts "Processed #{total} suburbs; kept #{kept} with trees"
     end
 
     private

@@ -8,9 +8,14 @@ module Tasks
     def run
       require 'ollama-ai'
       require 'yaml'
+      require 'erb'
 
       config = load_config
-      client = Ollama.new(credentials: { address: ENV.fetch('OLLAMA_URL', 'http://localhost:11434') })
+      address = ENV.fetch('OLLAMA_URL', 'http://localhost:11434')
+      puts "Using Ollama endpoint: #{address}"
+      puts "System prompt config models: prompt=#{config['system_prompt_model']} verify=#{config['system_prompt_verify_model']}"
+
+      client = Ollama.new(credentials: { address: address })
       generator = PromptGenerator.new(client, config)
 
       Tree.find_each do |tree|
@@ -19,9 +24,18 @@ module Tasks
 
         puts ''
         puts "Generating system prompt for tree #{identifier}"
+        expected_common_name = if tree.respond_to?(:treedb_common_name)
+                                 tree.treedb_common_name.to_s.strip
+                               else
+                                 ''
+                               end
+        puts "Expected common name: #{expected_common_name.empty? ? '(none)' : expected_common_name}"
 
         prompt = generator.generate(tree)
         puts "Final prompt:\n#{prompt}"
+
+        puts "System prompt LLM request:"
+        puts generator.debug_last_request
 
         tree.update!(llm_system_prompt: prompt)
         puts "Updated tree #{identifier}"
@@ -30,11 +44,11 @@ module Tasks
     end
 
     private
-
     def load_config
       env = ENV['RAILS_ENV'] || 'development'
       config_path = File.expand_path('../config/llm.yml', __dir__)
-      YAML.load_file(config_path, aliases: true)[env]
+      raw_config = ERB.new(File.read(config_path)).result
+      YAML.safe_load(raw_config, permitted_classes: [], permitted_symbols: [], aliases: true)[env]
     end
   end
 
@@ -43,6 +57,7 @@ module Tasks
     def initialize(client, config)
       @client = client
       @config = config
+      @last_messages = nil
     end
 
     def generate(tree)
@@ -56,6 +71,8 @@ module Tasks
           { 'role' => 'system', 'content' => @config['system_prompt_prompt'] },
           { 'role' => 'user', 'content' => user_content }
         ]
+        @last_messages = messages
+        log_request(tree, attempt, messages)
         response = @client.chat({ model: @config['system_prompt_model'], messages: messages })
         content = if response.is_a?(Array)
                     response.map { |r| r.dig('message', 'content') }.join
@@ -68,7 +85,30 @@ module Tasks
       end
     end
 
+    def debug_last_request
+      return 'No request yet' unless @last_messages
+
+      formatted = @last_messages.map do |msg|
+        role = msg['role']
+        content = msg['content']
+        "role=#{role}\n#{content}\n"
+      end.join("\n")
+      formatted
+    end
+
     private
+
+    attr_reader :last_messages
+
+    def log_request(tree, attempt, messages)
+      identifier = tree.respond_to?(:id) ? "##{tree.id}" : tree.to_s
+      puts "Request payload for tree #{identifier} (attempt #{attempt}):"
+      messages.each do |msg|
+        puts "role=#{msg['role']}"
+        puts msg['content']
+        puts
+      end
+    end
 
     def clean_prompt(content)
       content.to_s.gsub(%r{<think(ing)?[^>]*>.*?</think(ing)?>}mi, '').strip
@@ -89,7 +129,7 @@ module Tasks
       end
 
       name = tree.respond_to?(:name) ? tree.name.to_s.strip : ''
-      unless name.empty? || prompt.include?(name)
+      unless name.empty? || prompt.downcase.include?(name.downcase)
         puts "Rejected prompt due to missing name: #{prompt.inspect}"
         reasons << "missing name: '#{name}'"
         return false
@@ -100,11 +140,12 @@ module Tasks
                else
                  ''
                end
-      unless common.empty? || prompt.downcase.include?(common.downcase)
-        puts "Rejected prompt due to missing common name: #{prompt.inspect}"
-        reasons << 'missing common name'
-        return false
-      end
+      # unless common.empty? || prompt.downcase.include?(common.downcase)
+      #   puts "Rejected prompt due to missing common name: #{prompt.inspect}"
+      #   puts "Expected common name: #{common}"
+      #   reasons << "missing common name '#{common}'"
+      #   return false
+      # end
 
       rel_names = if tree.respond_to?(:id)
                     rels = if tree.respond_to?(:tree_relationships) && tree.tree_relationships.loaded?

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 # Handles chat interactions between users and trees using server sent events.
+require 'erb'
+require 'yaml'
 class ChatsController < ApplicationController
   include ActionController::Live
 
@@ -97,7 +99,9 @@ class ChatsController < ApplicationController
 
   def default_llm_model
     env = Rails.env || 'development'
-    config = YAML.load_file(Rails.root.join('config', 'llm.yml'), aliases: true)
+    config_path = Rails.root.join('config', 'llm.yml')
+    raw_config = ERB.new(File.read(config_path)).result
+    config = YAML.safe_load(raw_config, permitted_classes: [], permitted_symbols: [], aliases: true)
     config.fetch(env, {})['final_model']
   rescue StandardError => e
     Rails.logger.error("[Chat] Failed to load default model: #{e}")

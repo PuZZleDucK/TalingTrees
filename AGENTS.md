@@ -10,15 +10,16 @@ This repository contains a Rails 7 application built with Ruby 3.2.3. Follow the
 - Local setup (only when required):
   - Install dependencies with `bundle install`.
   - To work with local LLM models run `bundle exec rake ollama:setup`.
-    - If Ollama is already installed, ensure the default model is present with `ollama pull gemma3:270m`.
+    - If Ollama is already installed, ensure the default model is present with `ollama pull gemma3:4b`.
   - Prepare the database with `bundle exec rails db:create` and `bundle exec rails db:migrate`.
 
 ## Data Tasks
 Several Rake tasks exist to manage tree data:
 - `bundle exec rake db:download_trees` – download raw data.
 - `bundle exec rake db:import_trees[<count>]` – import the downloaded files; pass a number to limit trees (e.g. `db:import_trees[30]`).
-- Ensure the Ollama model is available **before** running `db:name_trees` or `db:system_prompts`: `ollama pull gemma3:270m` (weights are not packaged in Docker).
+- Ensure the Ollama model is available **before** running `db:name_trees` or `db:system_prompts`: `ollama pull gemma3:4b` (weights are not packaged in Docker).
 - `bundle exec rake db:import_points_of_interest` – import the Victorian Heritage Register points.
+- `bundle exec rake db:import_ptv_points_of_interest` – import PTV train, tram, bus, interstate, and SkyBus stops.
 - `bundle exec rake db:name_trees` – assign names via the configured LLM.
 - `bundle exec rake db:add_relationships` – generate tree relationships.
 - `bundle exec rake db:system_prompts` – assign system prompts to trees.

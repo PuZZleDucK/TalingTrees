@@ -53,6 +53,24 @@ class ImportPointsOfInterestTest < Minitest::Test
         self.created_records = []
       end
 
+      def where(conditions)
+        Struct.new(:records_owner, :conditions) do
+          def delete_all
+            existing = Array(records_owner.created_records)
+            records_owner.created_records = existing.reject do |record|
+              conditions.all? do |key, expected|
+                value = if record.respond_to?(key)
+                          record.public_send(key)
+                        else
+                          record[key] || record[key.to_s]
+                        end
+                value == expected
+              end
+            end
+          end
+        end.new(self, conditions)
+      end
+
       def columns_hash
         type = @boundary_type || :text
         { 'boundary' => OpenStruct.new(type: type) }
@@ -70,6 +88,24 @@ class ImportPointsOfInterestTest < Minitest::Test
 
     PointOfInterest.created_records = []
     PointOfInterest.boundary_type = :text
+    @near_filter = Class.new do
+      attr_reader :calls
+
+      def initialize(results: nil)
+        @results = Array(results || true)
+        @calls = []
+      end
+
+      def near?(lat, lon)
+        @calls << [lat, lon]
+        value = if @results.length > 1
+                  @results.shift
+                else
+                  @results.first
+                end
+        !!value
+      end
+    end
   end
 
   def teardown
@@ -103,7 +139,7 @@ class ImportPointsOfInterestTest < Minitest::Test
 
     stub_reader_with([record]) do
       File.stub(:exist?, true) do
-        importer = Tasks::ImportPointsOfInterest.new(path: 'dummy.shp')
+        importer = Tasks::ImportPointsOfInterest.new(path: 'dummy.shp', tree_filter: @near_filter.new)
         importer.stub(:require, nil) { importer.run }
       end
     end
@@ -120,6 +156,7 @@ class ImportPointsOfInterestTest < Minitest::Test
     assert_in_delta(-37.8, poi[:centroid_lat])
     assert_in_delta(145.0, poi[:centroid_long])
     assert_equal 'MULTIPOLYGON(...)', poi[:boundary]
+    assert_equal 'heritage', poi[:category]
   end
 
   def test_run_skips_blank_site_name
@@ -128,7 +165,7 @@ class ImportPointsOfInterestTest < Minitest::Test
 
     stub_reader_with([blank_record]) do
       File.stub(:exist?, true) do
-        importer = Tasks::ImportPointsOfInterest.new(path: 'dummy.shp')
+        importer = Tasks::ImportPointsOfInterest.new(path: 'dummy.shp', tree_filter: @near_filter.new)
         importer.stub(:require, nil) { importer.run }
       end
     end
@@ -152,7 +189,7 @@ class ImportPointsOfInterestTest < Minitest::Test
 
     stub_reader_with([record]) do
       File.stub(:exist?, true) do
-        importer = Tasks::ImportPointsOfInterest.new(path: 'dummy.shp')
+        importer = Tasks::ImportPointsOfInterest.new(path: 'dummy.shp', tree_filter: @near_filter.new)
         importer.stub(:require, nil) { importer.run }
       end
     end
@@ -172,7 +209,7 @@ class ImportPointsOfInterestTest < Minitest::Test
 
     stub_reader_with([record]) do
       File.stub(:exist?, true) do
-        importer = Tasks::ImportPointsOfInterest.new(path: 'dummy.shp')
+        importer = Tasks::ImportPointsOfInterest.new(path: 'dummy.shp', tree_filter: @near_filter.new)
         importer.stub(:require, nil) { importer.run }
       end
     end
@@ -190,7 +227,8 @@ class ImportPointsOfInterestTest < Minitest::Test
 
     stub_reader_with(sequence) do
       File.stub(:exist?, true) do
-        importer = Tasks::ImportPointsOfInterest.new(path: 'dummy.shp')
+        filter = @near_filter.new(results: [true])
+        importer = Tasks::ImportPointsOfInterest.new(path: 'dummy.shp', tree_filter: filter)
         importer.stub(:require, nil) { importer.run }
       end
     end
@@ -204,7 +242,8 @@ class ImportPointsOfInterestTest < Minitest::Test
 
     stub_reader_with([error, FakeRecord.new({ 'SITE_NAME' => 'Ignored' }, FakeGeometry.new(text: '', centroid: FakeCentroid.new(0, 0)))]) do
       File.stub(:exist?, true) do
-        importer = Tasks::ImportPointsOfInterest.new(path: 'dummy.shp')
+        filter = @near_filter.new
+        importer = Tasks::ImportPointsOfInterest.new(path: 'dummy.shp', tree_filter: filter)
         importer.stub(:require, nil) { importer.run }
       end
     end
@@ -220,7 +259,7 @@ class ImportPointsOfInterestTest < Minitest::Test
     call_count = 0
     stub_reader_with([first, second]) do
       File.stub(:exist?, true) do
-        importer = Tasks::ImportPointsOfInterest.new(path: 'dummy.shp')
+        importer = Tasks::ImportPointsOfInterest.new(path: 'dummy.shp', tree_filter: @near_filter.new)
         importer.stub(:require, nil) do
           PointOfInterest.stub(:create!, proc do |attrs|
                                    call_count += 1
@@ -236,6 +275,46 @@ class ImportPointsOfInterestTest < Minitest::Test
 
     assert_equal 1, PointOfInterest.created_records.size
     assert_equal 'Lucky Site', PointOfInterest.created_records.first[:site_name]
+  end
+
+  def test_clear_existing_records_uses_delete_all_without_where
+    importer = Tasks::ImportPointsOfInterest.new(path: 'dummy.shp')
+      delete_calls = 0
+
+    PointOfInterest.singleton_class.class_eval do
+      if method_defined?(:where)
+        alias_method :original_where, :where
+        remove_method :where
+      end
+
+      define_method(:delete_all) do
+        delete_calls += 1
+      end
+    end
+
+    importer.send(:clear_existing_records)
+    assert_equal 1, delete_calls
+  ensure
+    PointOfInterest.singleton_class.class_eval do
+      remove_method :delete_all if method_defined?(:delete_all)
+      if method_defined?(:original_where)
+        alias_method :where, :original_where
+        remove_method :original_where
+      end
+    end
+  end
+
+  def test_parse_time_handles_invalid_string
+    importer = Tasks::ImportPointsOfInterest.new(path: 'dummy.shp', tree_filter: @near_filter.new)
+    assert_nil importer.send(:parse_time, 'not-a-time')
+    assert_nil importer.send(:parse_time, nil)
+    assert_nil importer.send(:parse_time, '   ')
+  end
+
+  def test_blank_to_nil_trims_values
+    importer = Tasks::ImportPointsOfInterest.new(path: 'dummy.shp')
+    assert_nil importer.send(:blank_to_nil, '   ')
+    assert_equal 'value', importer.send(:blank_to_nil, ' value ')
   end
 
   private

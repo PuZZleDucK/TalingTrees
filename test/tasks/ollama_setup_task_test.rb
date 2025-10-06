@@ -21,17 +21,16 @@ class OllamaSetupTaskTest < Minitest::Test
     end
     @system_patched = true
 
-    YAML.singleton_class.class_eval do
-      alias_method :orig_load_file, :load_file
-      def load_file(_path, **_opts)
-        { 'development' => {
-          'naming_model' => 'model1',
-          'verify_model' => 'model1',
-          'final_model' => 'model2'
-        } }
-      end
-    end
-    @yaml_patched = true
+    @previous_env = {
+      'LLM_NAMING_MODEL' => ENV['LLM_NAMING_MODEL'],
+      'LLM_NAMING_VERIFY_MODEL' => ENV['LLM_NAMING_VERIFY_MODEL'],
+      'LLM_CHAT_MODEL' => ENV['LLM_CHAT_MODEL'],
+      'RAILS_ENV' => ENV['RAILS_ENV']
+    }
+    ENV['RAILS_ENV'] = 'test'
+    ENV['LLM_NAMING_MODEL'] = 'model1'
+    ENV['LLM_NAMING_VERIFY_MODEL'] = 'model3'
+    ENV['LLM_CHAT_MODEL'] = 'model2'
 
     Rake.application = Rake::Application.new
     Rake::Task.define_task(:environment)
@@ -39,19 +38,19 @@ class OllamaSetupTaskTest < Minitest::Test
   end
 
   def teardown
+    @previous_env.each do |key, value|
+      if value.nil?
+        ENV.delete(key)
+      else
+        ENV[key] = value
+      end
+    end
+
     if @system_patched
       Kernel.module_eval do
         alias_method :system, :orig_system
         remove_method :orig_system
       end
-    end
-
-    return unless @yaml_patched
-
-    YAML.singleton_class.class_eval do
-      remove_method :load_file
-      alias_method :load_file, :orig_load_file
-      remove_method :orig_load_file
     end
   end
 
@@ -61,6 +60,7 @@ class OllamaSetupTaskTest < Minitest::Test
     assert_includes self.class.system_calls, ['bash', '-c', 'curl -fsSL https://ollama.ai/install.sh | sh']
     assert_includes self.class.system_calls, %w[ollama pull model1]
     assert_includes self.class.system_calls, %w[ollama pull model2]
-    assert_equal 3, self.class.system_calls.length
+    assert_includes self.class.system_calls, %w[ollama pull model3]
+    assert_equal 4, self.class.system_calls.length
   end
 end

@@ -41,7 +41,7 @@ class Tree < ApplicationRecord
     parts = relationship_parts
     return '' if parts.empty?
 
-    "\n#{parts.join(' ')} Feel free to mention them casually by their FULL personal names."
+    "\n#{parts.join(' ')} You MUST mention them all by their FULL personal names in the system prompt."
   end
 
   def relationship_parts

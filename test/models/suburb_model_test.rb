@@ -39,10 +39,40 @@ class SuburbModelTest < Minitest::Test
     assert_includes first_polygon, [-37.0, 145.0]
   end
 
+  def test_polygons_handles_multi_polygon
+    factory = @factory
+    polygon = @polygon
+    multi = factory.multi_polygon([polygon, polygon])
+    suburb = Suburb.new
+    suburb.define_singleton_method(:boundary) { multi }
+
+    polygons = suburb.polygons
+    assert_equal 2, polygons.length
+  end
+
   def test_contains_point_handles_invalid_wkt
     invalid = Suburb.new
     invalid.define_singleton_method(:boundary) { 'INVALID' }
     refute invalid.contains_point?(0, 0)
     assert_equal [], invalid.polygons
   end
+
+  def test_find_containing_uses_records_fallback
+    Suburb.singleton_class.class_eval do
+      attr_accessor :records unless respond_to?(:records)
+    end
+
+    inside = Suburb.new
+    inside.define_singleton_method(:contains_point?) { |lat, lon| lat == 1.0 && lon == 2.0 }
+    outside = Suburb.new
+    outside.define_singleton_method(:contains_point?) { |_lat, _lon| false }
+
+    Suburb.records = [outside, inside]
+
+    assert_nil Suburb.find_containing(nil, 2.0)
+    assert_equal inside, Suburb.find_containing(1.0, 2.0)
+  ensure
+    Suburb.records = nil if Suburb.respond_to?(:records=)
+  end
+
 end

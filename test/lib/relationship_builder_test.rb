@@ -43,6 +43,20 @@ class RelationshipBuilderTest < Minitest::Test
         self.delete_called = true
       end
 
+      def where(conditions)
+        selected = Array(records).select { |rec| rec.tree_id == conditions[:tree_id] }
+        Struct.new(:rows) do
+          def group(key)
+            grouped = rows.group_by { |r| r.public_send(key) }
+            Struct.new(:grouped) do
+              def count
+                grouped.transform_values(&:size)
+              end
+            end.new(grouped)
+          end
+        end.new(selected)
+      end
+
       def find_or_create_by!(tree_id:, related_tree_id:, kind:)
         self.records ||= []
         record = records.find do |rec|

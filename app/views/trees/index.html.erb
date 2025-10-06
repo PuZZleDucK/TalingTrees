@@ -42,7 +42,7 @@
         </div>
       </div>
     </div>
-    <div id="chat-history" class="bg-gray-50 dark:bg-gray-800 rounded-lg shadow-inner p-4 mb-4 min-h-32">
+    <div id="chat-history" class="bg-gray-50 dark:bg-gray-800 rounded-lg shadow-inner p-4 mb-4 min-h-32 flex-1 overflow-y-auto">
       <!-- Chat messages will appear here -->
     </div>
     <div class="flex">
@@ -60,7 +60,6 @@
   #tag-dropdown { min-width: 6rem; }
   #chat-history {
     min-height: 8rem;
-    max-height: 50vh;
   }
   #chat-history .user-message {
     background-color: #e0ffe0;
@@ -168,6 +167,23 @@
 
     var suburbLayers = [];
     var poiMarkers = [];
+    var poiStyles = {
+      heritage: { color: '#b45309', fillColor: '#f59e0b', radius: 6, polygonFillOpacity: 0.35 },
+      ptv_train: { color: '#1d4ed8', fillColor: '#60a5fa', radius: 5, polygonFillOpacity: 0.25 },
+      ptv_tram: { color: '#15803d', fillColor: '#4ade80', radius: 5, polygonFillOpacity: 0.25 },
+      ptv_bus: { color: '#7c3aed', fillColor: '#a855f7', radius: 5, polygonFillOpacity: 0.25 },
+      ptv_interstate: { color: '#b91c1c', fillColor: '#f87171', radius: 5, polygonFillOpacity: 0.25 },
+      ptv_skybus: { color: '#0f766e', fillColor: '#2dd4bf', radius: 5, polygonFillOpacity: 0.25 }
+    };
+
+    var poiLabels = {
+      heritage: 'Heritage Site',
+      ptv_train: 'Train Station',
+      ptv_tram: 'Tram Stop',
+      ptv_bus: 'Bus Stop',
+      ptv_interstate: 'Interstate Coach Stop',
+      ptv_skybus: 'SkyBus Stop'
+    };
     fetch('/suburbs.json').then(function(resp){ return resp.json(); }).then(function(data){
       data.forEach(function(sub){
         (sub.polygons || []).forEach(function(poly){
@@ -178,24 +194,40 @@
 
     fetch('/points_of_interest.json').then(function(resp){ return resp.json(); }).then(function(points){
       points.forEach(function(point){
+        var categoryKey = point.category || 'heritage';
+        var fallbackStyle = poiStyles[categoryKey] || poiStyles.heritage;
+        var serverStyle = point.category_style || {};
+        var style = {
+          color: serverStyle.color || fallbackStyle.color,
+          fillColor: serverStyle.fill_color || fallbackStyle.fillColor,
+          radius: serverStyle.radius || fallbackStyle.radius,
+          polygonFillOpacity: fallbackStyle.polygonFillOpacity || 0.35,
+          pointFillOpacity: fallbackStyle.pointFillOpacity || 0.9
+        };
+        var categoryLabel = point.category_label || poiLabels[categoryKey];
         var popupHtml = '<div class="space-y-1">' +
           '<div class="font-semibold">' + escapeHtml(point.site_name || 'Point of interest') + '</div>';
-        if (point.vhr_number) {
-          popupHtml += '<div>VHR: ' + escapeHtml(point.vhr_number) + '</div>';
-        }
-        if (point.hermes_number) {
-          popupHtml += '<div>HERMES: ' + escapeHtml(point.hermes_number) + '</div>';
-        }
-        if (point.herit_obj) {
-          popupHtml += '<div>Heritage Object: ' + escapeHtml(point.herit_obj) + '</div>';
+
+        if (categoryKey === 'heritage') {
+          if (point.vhr_number) {
+            popupHtml += '<div>VHR: ' + escapeHtml(point.vhr_number) + '</div>';
+          }
+          if (point.hermes_number) {
+            popupHtml += '<div>HERMES: ' + escapeHtml(point.hermes_number) + '</div>';
+          }
+          if (point.herit_obj) {
+            popupHtml += '<div>Heritage Object: ' + escapeHtml(point.herit_obj) + '</div>';
+          }
+        } else if (categoryLabel) {
+          popupHtml += '<div class="text-sm text-slate-600">' + escapeHtml(categoryLabel) + '</div>';
         }
         popupHtml += '</div>';
 
         var polygonStyle = {
-          color: '#b45309',
+          color: style.color,
           weight: 1,
-          fillColor: '#f59e0b',
-          fillOpacity: 0.35
+          fillColor: style.fillColor,
+          fillOpacity: style.polygonFillOpacity
         };
 
         var polygons = Array.isArray(point.polygons) ? point.polygons : [];
@@ -212,11 +244,11 @@
           if (isNaN(lat) || isNaN(lon)) { return; }
 
           var marker = L.circleMarker([lat, lon], {
-            radius: 6,
+            radius: style.radius,
             color: polygonStyle.color,
             weight: polygonStyle.weight,
             fillColor: polygonStyle.fillColor,
-            fillOpacity: 0.9
+            fillOpacity: style.pointFillOpacity
           }).addTo(map);
           marker.bindPopup(popupHtml);
           poiMarkers.push(marker);

@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
+require_relative 'near_tree_filter'
+
 module Tasks
   # Imports heritage register polygons as points of interest records.
   class ImportPointsOfInterest
     DEFAULT_PATH = File.expand_path('../data/heritage/HERITAGE_REGISTER.shp', __dir__)
 
-    def initialize(path: DEFAULT_PATH)
+    def initialize(path: DEFAULT_PATH, tree_filter: Tasks::NearTreeFilter.new)
       @path = path.nil? || path.to_s.empty? ? DEFAULT_PATH : path
+      @tree_filter = tree_filter
     end
 
     def run
@@ -16,7 +19,7 @@ module Tasks
       require 'time'
       raise "Shapefile not found at #{@path}" unless File.exist?(@path)
 
-      PointOfInterest.delete_all
+      clear_existing_records
 
       factory = RGeo::Geos.factory(
         srid: 4326,
@@ -52,6 +55,10 @@ module Tasks
             next unless geometry
 
             centroid = geometry.respond_to?(:centroid) ? geometry.centroid : nil
+            lat = centroid&.y
+            lon = centroid&.x
+            next unless near_tree?(lat, lon)
+
             boundary_value = boundary_for(geometry)
 
             hermes = blank_to_nil(attrs['HERMES_NUM'])
@@ -64,9 +71,10 @@ module Tasks
               ufi: attrs['UFI']&.to_i,
               external_id: attrs['ID']&.to_i,
               ufi_created_at: parse_time(attrs['UFI_CR']),
-              centroid_lat: centroid&.y,
-              centroid_long: centroid&.x,
-              boundary: boundary_value
+              centroid_lat: lat,
+              centroid_long: lon,
+              boundary: boundary_value,
+              category: 'heritage'
             )
           rescue RGeo::Error::InvalidGeometry => e
             warn "Skipping point of interest \"#{site_name}\": #{e.message}"
@@ -79,7 +87,21 @@ module Tasks
       end
     end
 
-    private
+  private
+
+    def clear_existing_records
+      if PointOfInterest.respond_to?(:where)
+        PointOfInterest.where(category: 'heritage').delete_all
+      else
+        PointOfInterest.delete_all
+      end
+    end
+
+    def near_tree?(lat, lon)
+      return true unless @tree_filter
+
+      @tree_filter.near?(lat, lon)
+    end
 
     def parse_time(raw)
       return if raw.nil? || raw.to_s.strip.empty?
