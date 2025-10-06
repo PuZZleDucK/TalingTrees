@@ -13,8 +13,6 @@ Rails.application.configure do
   config.secret_key_base = ENV['SECRET_KEY_BASE'] if ENV['SECRET_KEY_BASE']
   config.active_storage.service = :local
 
-  # koyeb deployment
-  config.hosts << 'visiting-raynell-puzzleduck-f206ac43.koyeb.app'
   config.hosts << 'localhost'
   config.hosts << '127.0.0.1'
 end

@@ -107,10 +107,10 @@ Only follow these steps if you need to run the app outside Docker.
    ```
 
 ## Deployment
-Deployed to Koyeb: https://visiting-raynell-puzzleduck-f206ac43.koyeb.app/
 When deploying or running in production, ensure the `SECRET_KEY_BASE` environment
 variable is set. The provided Dockerfile sets a default, but other environments
-must configure this value manually.
+must configure this value manually. Update host allow-lists and deployment
+targets as needed for your infrastructure.
 
 ## Todos
 

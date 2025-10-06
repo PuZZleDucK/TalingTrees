@@ -1,7 +1,7 @@
 # Project TODOs
 
 ## Incomplete
-[ ] Investigate Koyeb deployment failures (collect logs, verify build setup, document required secrets)
+[ ] Investigate production deployment failures (collect logs, verify build setup, document required secrets)
 [ ] Add a production smoke test to verify LLM prompts/responses after each deploy
 [ ] Public Transport Victoria (PTV) provides open data for all train stations, tram stops, and bus stops. The static GTFS (General Transit Feed Specification) dataset
 [ ] when naming trees we should use lat/long data to lookup nearby streets. also save those details to the db for later use
@@ -81,7 +81,7 @@
 [x] add rubocop report to github action as another new comment
 [x] address rubocop issues
 [x] build docker image in CI
-[x] create new github action to trigger deploy to Keyob on merge to master
+[x] create new github action to trigger deploy on merge to master
 [x] review agents-advice.md and create AGENTS.md for project
 [x] get test coverage up to 50%
 [x] add a dark mode toggle to the nav bar and allow users to toggle the mode
