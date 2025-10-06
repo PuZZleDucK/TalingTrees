@@ -7,6 +7,8 @@ See [CHANGELOG.md](CHANGELOG.md) for recent updates.
 - https://data.melbourne.vic.gov.au/explore/dataset/trees-with-species-and-dimensions-urban-forest/api/
 - https://www.heritage.vic.gov.au/register for the Victorian Heritage Register shapefile (see `data/heritage/`)
 
+> **Note:** Import scripts that process shapefiles depend on GEOS (`ffi-geos`). We install GEOS locally but exclude it from the production bundle. Run data imports on a development machine (or another environment where GEOS is available) and commit the resulting SQLite database.
+
 ## Ollama:
 https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-chat-completion
 

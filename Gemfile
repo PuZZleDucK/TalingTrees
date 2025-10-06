@@ -9,7 +9,6 @@ gem 'rails', '~> 7.1'
 gem 'rack', '>= 3.1.16'
 
 gem 'cssbundling-rails'
-gem 'ffi-geos'
 gem 'ollama-ai'
 gem 'puma', '~> 6.0'
 gem 'rails_admin', '~> 3.3'
@@ -23,6 +22,10 @@ gem 'tailwindcss-ruby', '~> 4.1'
 gem 'tzinfo-data'
 gem 'ahoy_matey'
 gem 'blazer'
+
+group :development, :test do
+  gem 'ffi-geos'
+end
 
 group :development do
   gem 'brakeman', require: false
