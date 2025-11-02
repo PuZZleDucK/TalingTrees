@@ -1,7 +1,7 @@
 # Project TODOs
 
 ## Incomplete
-[ ] Add Tailwind CLI commands to deployment process
+[ ] Add tailscale to deployment
 [ ] Update production environment variables documentation (Render dashboard values)
 [ ] Add a production smoke test to verify LLM prompts/responses after each deploy
 [ ] Public Transport Victoria (PTV) provides open data for all train stations, tram stops, and bus stops. The static GTFS (General Transit Feed Specification) dataset
@@ -14,6 +14,7 @@
 [ ] new tree mission: find the only... tree of a species, tree planted on x date, ... (must be unique in db)
 [ ] new tree mission: find all the ... trees named bob, trees of a species, trees on x road, trees in x park, ... (must be less than 6 in db)
 [ ] custom tree images - trees have images that start as the default logo, but users with the right tags could take a selfie of the tree and update it's image
+[ ] Add Tailwind CLI commands to deployment process
 
 ## Completed
 [x] Allow configuring the Ollama endpoint via env vars so deployments can point to a remote service
