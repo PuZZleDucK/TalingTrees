@@ -5,12 +5,14 @@ set -euo pipefail
 
 export PATH="$PWD/bin/tailscale:$PATH"
 mkdir -p /data || true
-mkdir -p tmp/tailscaled
+mkdir -p tmp/tailscaled /tmp/tailscale
+export XDG_STATE_HOME=/data/tailscale
+export TS_SOCKET=/tmp/tailscale/tailscaled.sock
 
 # 1) Run tailscaled in userspace, expose a local SOCKS5 proxy
-tailscaled --tun=userspace-networking --socks5-server=localhost:1055 --state=/data/tailscaled.state &
+tailscaled --tun=userspace-networking --socks5-server=localhost:1055 --statedir=/data/tailscale --state=/data/tailscale/tailscaled.state --socket="$TS_SOCKET" &
 
-sleep 2
+sleep 4
 
 # 2) Join tailnet - Advertise the Render service so peers can find us.
 TAILSCALE_HOSTNAME="srv-d3hq6i49c44c73c9k1rg-68db68f786-cdgsn"
@@ -18,7 +20,7 @@ tailscale up --authkey "$TS_AUTHKEY" --hostname "$TAILSCALE_HOSTNAME" --accept-d
 
 # 3a) If your outbound deps are HTTP/HTTPS: route them via SOCKS
 export ALL_PROXY="socks5://localhost:1055"
-export HTTPS_PROXY="$ALL_PROXY" HTTP_PROXY="$ALL_PROXY"
+export HTTPS_PROXY="$ALL_PROXY" HTTP_PROXY="$ALL_PROXY" NO_PROXY="127.0.0.1,localhost"
 
 # 4) Rails
 bundle exec rails db:migrate
